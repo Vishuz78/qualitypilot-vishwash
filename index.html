@@ -296,6 +296,26 @@ var cImg = "";
 var partImg = "";
 var rejectCount = 0;
 
+// Plant Audio Alarm Generator (Web Audio API)
+function playAlarmSound() {
+  try {
+    var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(440, audioCtx.currentTime); // Beep Frequency
+    osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.15);
+    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.4);
+  } catch(e) {
+    console.log("Audio not supported");
+  }
+}
+
 window.calc = function(saveLog) {
   var p = document.getElementById('pn').value;
   var dt = document.getElementById('dt').value;
@@ -336,6 +356,7 @@ window.calc = function(saveLog) {
     var badge = document.getElementById('alarmBadge');
     badge.innerText = rejectCount;
     badge.style.display = 'inline-block';
+    playAlarmSound(); // Trigger Audio Alert
   }
 
   var c = "Progressive Tool Wear (" + diff + " mm)";
