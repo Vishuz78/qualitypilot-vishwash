@@ -10,11 +10,11 @@ body.dark{--bg:#090d16;--card:#111827;--text:#f1f5f9;--sub:#94a3b8;--border:#1f2
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,sans-serif}
 body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overflow-x:hidden}
 #splash{position:fixed;inset:0;background:radial-gradient(circle at center,#16243d,#090d16);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;animation:slideRTL .85s cubic-bezier(.77,0,.175,1) 3.4s forwards}
-.arc-box{position:relative;width:340px;height:195px;display:flex;align-items:center;justify-content:center}
-.c-svg{position:absolute;top:-10px;left:0;width:340px;height:200px;overflow:visible}
-.c-ring{fill:none;stroke:#38bdf8;stroke-width:2.5;stroke-linecap:round;stroke-dasharray:420;stroke-dashoffset:420;filter:drop-shadow(0 0 8px #38bdf8);animation:drawArc 2.2s cubic-bezier(.4,0,.2,1) forwards}
-.c-txt{font-size:13.2px;font-weight:700;letter-spacing:2.2px;fill:#e0f2fe;opacity:0;filter:drop-shadow(0 0 8px rgba(56,189,248,.95));animation:fadeArcTxt 1.4s ease .7s forwards}
-.gear-wrap{position:relative;top:26px;display:flex;align-items:center;justify-content:center;animation:popIn .7s ease both}
+.arc-box{position:relative;width:360px;height:210px;display:flex;align-items:center;justify-content:center}
+.c-svg{position:absolute;top:-18px;left:0;width:360px;height:215px;overflow:visible}
+.c-ring{fill:none;stroke:#38bdf8;stroke-width:2.5;stroke-linecap:round;stroke-dasharray:470;stroke-dashoffset:470;filter:drop-shadow(0 0 8px #38bdf8);animation:drawArc 2.2s cubic-bezier(.4,0,.2,1) forwards}
+.c-txt{font-size:13px;font-weight:700;letter-spacing:2.2px;fill:#e0f2fe;opacity:0;filter:drop-shadow(0 0 8px rgba(56,189,248,.95));animation:fadeArcTxt 1.4s ease .7s forwards}
+.gear-wrap{position:relative;top:28px;display:flex;align-items:center;justify-content:center;animation:popIn .7s ease both}
 .g1{width:68px;height:68px;fill:none;stroke:#38bdf8;stroke-width:2.2;filter:drop-shadow(0 0 12px #38bdf8);animation:spinCw 3s linear infinite}
 .g2{width:38px;height:38px;fill:none;stroke:#818cf8;stroke-width:2.4;margin-left:-10px;margin-top:34px;filter:drop-shadow(0 0 10px #818cf8);animation:spinRev 2s linear infinite}
 .sp-title{font-size:27px;font-weight:700;margin-top:10px;background:linear-gradient(90deg,#fff,#38bdf8,#a5b4fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:fadeUp .7s ease .3s both}
@@ -55,6 +55,7 @@ table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
 th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 .fail{background:rgba(239,68,68,.12);color:#dc2626;padding:10px;border-radius:8px;font-weight:600;margin-bottom:10px}
 .pass{background:rgba(16,185,129,.12);color:#059669;padding:10px;border-radius:8px;font-weight:600;margin-bottom:10px}
+.toast{background:#10b981;color:#fff;padding:8px 12px;border-radius:7px;font-size:12.5px;font-weight:600;margin-bottom:10px;display:none}
 .rep-sheet{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:12px;background:var(--card)}
 .rep-head{background:linear-gradient(135deg,#0f172a,#1e3a8a);color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
 .rep-head h4{font-size:15px;letter-spacing:.5px}.rep-head small{color:#93c5fd;font-size:11px}
@@ -74,9 +75,9 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 <body>
 <div id="splash">
   <div class="arc-box">
-    <svg class="c-svg" viewBox="0 0 340 200">
-      <defs><path id="cArc" d="M 38,168 A 132,132 0 1,1 302,168"/></defs>
-      <path class="c-ring" d="M 28,176 A 142,142 0 1,1 312,176"/>
+    <svg class="c-svg" viewBox="0 0 360 215">
+      <defs><path id="cArc" d="M 52,178 A 128,128 0 1,1 308,178"/></defs>
+      <path class="c-ring" d="M 32,186 A 148,148 0 1,1 328,186"/>
       <text class="c-txt"><textPath href="#cArc" startOffset="50%" text-anchor="middle">WELCOME TO ULTRA-PRECISION ENGINEERING</textPath></text>
     </svg>
     <div class="gear-wrap">
@@ -115,11 +116,11 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
         <button type="button" class="ai-btn" onclick="askGemini()">✨ Generate Full 8D & 5-Why Investigation Report</button>
         <button type="button" class="run" onclick="calc(true)">✅ Log Entry & Save to Audit Table</button>
       </div>
-      <div class="box"><h3>📄 2. Live AI 8D Investigation Report</h3><div id="out"></div><div id="geminiOut"></div><button type="button" class="run no-print" style="background:#059669;margin-top:12px" onclick="printFull()">🖨️ Print / Save Corporate 8D PDF Report</button></div>
+      <div class="box"><h3>📄 2. Live AI 8D Investigation Report</h3><div id="toast" class="toast no-print">✅ Saved to Live Logs & Audit Table!</div><div id="out"></div><div id="geminiOut"></div><button type="button" class="run no-print" style="background:#059669;margin-top:12px" onclick="printFull()">🖨️ Print / Save Corporate 8D PDF Report</button></div>
     </div>
   </div>
   <div id="t2" class="tab"><div class="grid"><div class="box"><h3>⚡ Report Speed: Excel vs QualityPilot AI</h3><p style="font-size:13px">Manual Excel: 150 Mins</p><div class="bar"><div class="fill" style="width:95%;background:#ef4444">150 Mins</div></div><p style="font-size:13px">QualityPilot AI: 5 Mins</p><div class="bar"><div class="fill" style="width:20%;background:#10b981">5 Mins</div></div></div><div class="box"><h3>🏭 Live Machine OEE & Efficiency</h3><p style="font-size:13px">CNC Turning #04 (88% OEE)</p><div class="bar"><div class="fill" style="width:88%;background:#3b82f6">88% Healthy</div></div><p style="font-size:13px">VMC Milling #02 (74% OEE)</p><div class="bar"><div class="fill" style="width:74%;background:#f59e0b">74% Tool Wear</div></div></div></div></div>
-  <div id="t3" class="tab"><div class="box"><h3>📋 Shop-Floor Live Logs & Audit</h3><table><thead><tr><th>Part Name</th><th>Defect Type</th><th>Photo</th><th>Status</th></tr></thead><tbody id="lg"><tr><td>Steel Flange #CAB-805</td><td>Dimension</td><td>—</td><td style="color:#10b981">PASS</td></tr></tbody></table></div></div>
+  <div id="t3" class="tab"><div class="box"><h3>📋 Shop-Floor Live Logs & Audit</h3><table><thead><tr><th>Time</th><th>Part Name</th><th>Defect Type</th><th>Photo</th><th>Status</th></tr></thead><tbody id="lg"><tr><td>05:00 PM</td><td>Steel Flange #CAB-805</td><td>Dimension</td><td>—</td><td style="color:#10b981;font-weight:600">PASS</td></tr></tbody></table></div></div>
   <div id="t4" class="tab"><div class="grid"><div class="box"><h3>🎨 Design Your SaaS / Company Logo</h3><label>Brand / Company Name</label><input id="bName" value="QualityPilot AI" oninput="upLogo()"><label>Logo Initials</label><input id="bIcon" value="QP" maxlength="3" oninput="upLogo()"><label>Theme Color</label><input type="color" id="bColor" value="#2563eb" style="height:42px" oninput="upLogo()"><label>Or Upload Logo Image</label><input type="file" accept="image/*" onchange="loadImg(event)"><button type="button" class="run" onclick="setLogo()">Apply Logo Across App & Reports</button></div><div class="box"><h3>👁️ Live Logo Preview</h3><div class="logo-preview"><div class="p-badge" id="prevBadge" style="background:#2563eb">QP</div><h2 id="prevName">QualityPilot AI</h2><p style="font-size:12px;color:var(--sub);margin-top:6px;letter-spacing:1.5px">CO-POWERED BY VISHWASH</p></div></div></div></div>
 </div>
 <script>
@@ -133,13 +134,15 @@ function loadPartImg(e){var f=e.target.files;if(!f||!f.length)return;var r=new F
 function upLogo(){var n=document.getElementById('bName').value||"QualityPilot AI",ic=document.getElementById('bIcon').value||"QP",col=document.getElementById('bColor').value;document.getElementById('prevName').innerText=n;var pb=document.getElementById('prevBadge');pb.style.background=col;if(!cImg)pb.innerText=ic;}
 function loadImg(e){var f=e.target.files;if(!f||!f.length)return;var r=new FileReader();r.onload=function(ev){cImg=ev.target.result;document.getElementById('prevBadge').innerHTML="<img src='"+cImg+"'>";document.getElementById('sideIcon').innerHTML="<img src='"+cImg+"'>";};r.readAsDataURL(f.item(0));}
 function setLogo(){bName=document.getElementById('bName').value||"QualityPilot AI";var ic=document.getElementById('bIcon').value||"QP",col=document.getElementById('bColor').value;document.getElementById('sideTitle').innerText=bName;var si=document.getElementById('sideIcon');si.style.background=col;si.innerHTML=cImg?"<img src='"+cImg+"'>":ic;calc(false);alert("Brand Applied!");}
+function showToast(){var t=document.getElementById('toast');if(t){t.style.display='block';setTimeout(function(){t.style.display='none';},2500);}}
 function calc(saveLog){
   var p=document.getElementById('pn').value,dt=document.getElementById('dt').value,t=parseFloat(document.getElementById('tv').value)||0,tol=Math.abs(parseFloat(document.getElementById('tl').value)||0),a=parseFloat(document.getElementById('av').value)||0,pt=document.getElementById('pt').value,diff=(a-t).toFixed(3);
   var pass=(dt==='dim'||dt==='hardness')&&(Math.abs(diff)<=tol),out=document.getElementById('out'),lg=document.getElementById('lg');
   var imgTag=partImg?"<img src='"+partImg+"' class='part-img'><br>":"";
   var thumb=partImg?"<img src='"+partImg+"' style='width:36px;height:36px;object-fit:cover;border-radius:6px'>":"—";
-  if(saveLog){document.getElementById('bc').innerText=parseInt(document.getElementById('bc').innerText)+1;sh+=2.4;document.getElementById('ts').innerText=sh.toFixed(1)+" Hrs";}
-  if(pass){out.innerHTML="<div class='pass'>✅ PASS — Within Spec (±"+tol+", Dev: "+diff+")</div>"+imgTag;if(saveLog)lg.innerHTML="<tr><td>"+p+"</td><td>"+dt.toUpperCase()+"</td><td>"+thumb+"</td><td style='color:#10b981'>PASS</td></tr>"+lg.innerHTML;return;}
+  var tm=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  if(saveLog){document.getElementById('bc').innerText=parseInt(document.getElementById('bc').innerText)+1;sh+=2.4;document.getElementById('ts').innerText=sh.toFixed(1)+" Hrs";showToast();}
+  if(pass){out.innerHTML="<div class='pass'>✅ PASS — Within Spec (±"+tol+", Dev: "+diff+")</div>"+imgTag;if(saveLog)lg.innerHTML="<tr><td>"+tm+"</td><td>"+p+"</td><td>"+dt.toUpperCase()+"</td><td>"+thumb+"</td><td style='color:#10b981;font-weight:600'>PASS</td></tr>"+lg.innerHTML;return;}
   if(saveLog)document.getElementById('oc').innerText=parseInt(document.getElementById('oc').innerText)+1;
   var c="Progressive Tool Wear ("+diff+" mm)",act="Compensate CNC offset by "+(-diff)+" mm & verify 5 parts.";
   if(dt==='dim'&&pt!=='wear'){c="CNC Offset Entry Error ("+diff+" mm)";}
@@ -154,10 +157,11 @@ function calc(saveLog){
   var dLabel=dt==='custom'?(document.getElementById('custTxt').value||"Custom Defect"):dt.toUpperCase();
   if(dt==='custom'){c="5-Why Process Drift on "+dLabel;act="Quarantine batch & conduct 4M audit.";}
   out.innerHTML="<div class='fail'>🚨 REJECT — Out of Spec (Deviation: "+diff+")</div><table><tr><th>Organization</th><td>"+bName+"</td></tr><tr><th>Part & Batch</th><td>"+p+"</td></tr><tr><th>Defect</th><td>"+dLabel+"</td></tr><tr><th>D4 Cause</th><td>"+c+"</td></tr><tr><th>D5 CAPA</th><td>"+act+"</td></tr></table>"+imgTag;
-  if(saveLog)lg.innerHTML="<tr><td>"+p+"</td><td>"+dLabel+"</td><td>"+thumb+"</td><td style='color:#ef4444'>REJECT</td></tr>"+lg.innerHTML;
+  if(saveLog)lg.innerHTML="<tr><td>"+tm+"</td><td>"+p+"</td><td>"+dLabel+"</td><td>"+thumb+"</td><td style='color:#ef4444;font-weight:600'>REJECT</td></tr>"+lg.innerHTML;
 }
 function printFull(){if(!document.getElementById('geminiOut').innerHTML.trim())askGemini();setTimeout(function(){window.print();},200);}
 async function askGemini(){
+  calc(true);
   var key=document.getElementById('gKey').value.trim(),gOut=document.getElementById('geminiOut'),dtEl=document.getElementById('dt');
   var p=document.getElementById('pn').value,dt=dtEl.options.item(dtEl.selectedIndex).text,ct=document.getElementById('custTxt').value,tv=document.getElementById('tv').value,tl=document.getElementById('tl').value,av=document.getElementById('av').value,diff=(parseFloat(av)-parseFloat(tv)).toFixed(3),today=new Date().toLocaleDateString('en-GB'),repId="8D-"+Math.floor(1000+Math.random()*9000);
   var cardHtml="<div class='rep-sheet'><div class='rep-head'><div><h4>"+bName.toUpperCase()+" — IATF 16949 8D AUDIT CERTIFICATE</h4><small>CO-POWERED BY VISHWASH • GLOBAL QUALITY ASSURANCE</small></div><div style='text-align:right;font-size:11.5px'><b>ID: "+repId+"</b><br>Date: "+today+"</div></div>"+
