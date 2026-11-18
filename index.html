@@ -74,11 +74,8 @@ tr:last-child td{border-bottom:none}
 .logo-preview{border:1px dashed var(--border);border-radius:14px;padding:32px;text-align:center;background:var(--inp);margin-top:10px}
 .p-badge{width:72px;height:72px;border-radius:18px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff;overflow:hidden}
 .p-badge img{width:100%;height:100%;object-fit:cover}
-@media print{.side,.cards,#inputBox,.no-print,#splash{display:none!important}.main,.grid{display:block!important;padding:0!important;width:100%!important}.box{border:none!important;box-shadow:none!important}}
-@media(max-width:900px){body{flex-direction:column}.side{width:100%}.cards{grid-template-columns:1fr 1fr}.grid,.row3{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
+@page{size:A4;margin:12mm}
+@media print{body{display:block!important;background:#fff!important}.side,.cards,#inputBox,.no-print,#splash{display:none!important}.main,.grid{display:block!important;padding:0!important;margin:0<body>
 <div id="splash">
   <div class="gear-stage">
     <svg class="g-big" viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
@@ -163,6 +160,10 @@ tr:last-child td{border-bottom:none}
     </div>
   </div>
 </div>
+!important;width:100%!important}.box{border:1px solid #cbd5e1!important;box-shadow:none!important;margin:0!important;page-break-inside:avoid}}
+@media(max-width:900px){body{flex-direction:column}.side{width:100%}.cards{grid-template-columns:1fr 1fr}.grid,.row3{grid-template-columns:1fr}}
+</style>
+</head>
 <script>
 setTimeout(function(){var sp=document.getElementById('splash');if(sp)sp.style.display='none';},3300);
 var sh=7.5,bName="QualityPilot AI",cImg="",partImg="";
@@ -173,58 +174,11 @@ function chkCustom(){var dt=document.getElementById('dt').value;document.getElem
 function loadPartImg(e){var files=e.target.files;if(!files||!files.length)return;var r=new FileReader();r.onload=function(ev){partImg=ev.target.result;calc(false);};r.readAsDataURL(files.item(0));}
 function upLogo(){var n=document.getElementById('bName').value||"QualityPilot AI",ic=document.getElementById('bIcon').value||"QP",col=document.getElementById('bColor').value;document.getElementById('prevName').innerText=n;var pb=document.getElementById('prevBadge');pb.style.background=col;if(!cImg)pb.innerText=ic;}
 function loadImg(e){var files=e.target.files;if(!files||!files.length)return;var r=new FileReader();r.onload=function(ev){cImg=ev.target.result;document.getElementById('prevBadge').innerHTML="<img src='"+cImg+"'>";document.getElementById('sideIcon').innerHTML="<img src='"+cImg+"'>";};r.readAsDataURL(files.item(0));}
-function setLogo(){bName=document.getElementById('bName').value||"QualityPilot AI";var ic=document.getElementById('bIcon').value||"QP",col=document.getElementById('bColor').value;document.getElementById('sideTitle').innerText=bName;var si=document.getElementById('sideIcon');si.style.background=col;si.innerHTML=cImg?"<img src='"+cImg+"'>":ic;calc(false);alert("Logo Applied Successfully!");}
+function setLogo(){bName=document.getElementById('bName').value||"QualityPilot AI";var ic=document.getElementById('bIcon').value||"QP",col=document.getElementById('bColor').value;document.getElementById('sideTitle').innerText=bName;var si=document.getElementById('sideIcon');si.style.background=col;si.innerHTML=cImg?"<img src='"+cImg+"'>":ic;calc(false);alert("Brand Logo & Name Applied Successfully!");}
 function calc(saveLog){
   var p=document.getElementById('pn').value,dt=document.getElementById('dt').value;
   var t=parseFloat(document.getElementById('tv').value)||0,tol=Math.abs(parseFloat(document.getElementById('tl').value)||0),a=parseFloat(document.getElementById('av').value)||0;
   var pt=document.getElementById('pt').value,diff=(a-t).toFixed(3);
   var isNumeric=(dt==='dim'||dt==='hardness'),pass=isNumeric&&(Math.abs(diff)<=tol);
   var out=document.getElementById('out'),lg=document.getElementById('lg');
-  var imgTag=partImg?"<div><span style='font-size:12px;color:var(--sub)'>Damaged Part Photo Evidence:</span><img src='"+partImg+"' class='part-img'></div><br>":"";
-  var thumb=partImg?"<img src='"+partImg+"' style='width:38px;height:38px;object-fit:cover;border-radius:6px'>":"—";
-  if(saveLog){document.getElementById('bc').innerText=parseInt(document.getElementById('bc').innerText)+1;sh+=2.4;document.getElementById('ts').innerText=sh.toFixed(1)+" Hrs";}
-  if(pass){var unit=(dt==='hardness')?" HRC":" mm";out.innerHTML="<div class='pass'>✅ PASS — Within Spec (±"+tol+unit+", Deviation: "+diff+unit+")</div>"+imgTag+"<small style='color:var(--sub)'>"+bName+" • CO-POWERED BY VISHWASH</small>";if(saveLog)lg.innerHTML="<tr><td>"+p+"</td><td>"+dt.toUpperCase()+"</td><td>"+thumb+"</td><td style='color:#10b981'>PASS</td></tr>"+lg.innerHTML;return;}
-  if(saveLog)document.getElementById('oc').innerText=parseInt(document.getElementById('oc').innerText)+1;
-  var c="",act="",dLabel=dt.toUpperCase();
-  if(dt==='finish'){c="Worn Insert / Improper Coolant Flow (89%)";act="Replace cutting insert & verify coolant pressure.";}
-  else if(dt==='burr'){c="Dull Cutting Edge / High Feed Rate (91%)";act="Index tool edge & add deburring cycle check.";}
-  else if(dt==='thread'){c="Tap Wear / Pitch Diameter Shift (87%)";act="Replace thread tap & verify with Go/No-Go gauge.";}
-  else if(dt==='crack'){c="Die Stress / Forging Temp Drop (88%)";act="Run 100% MPI crack test & calibrate induction heater.";}
-  else if(dt==='blowhole'){c="Gas Entrapment / Low Pouring Temp (86%)";act="Clean die vents & verify molten metal degassing.";}
-  else if(dt==='weld'){c="Low Arc Current / Shielding Gas Leak (90%)";act="Set wire feed/ampere & check CO2/Argon flow rate.";}
-  else if(dt==='hardness'){c="Quenching Oil Temp / Tempering Drift (Deviation: "+diff+" HRC)";act="Quarantine lot, re-check furnace cycle & test HRC.";}
-  else if(dt==='rust'){c="Low Anti-Rust Oil Concentration / Humidity (85%)";act="Re-dip batch in rust-preventive oil & seal in VCI bag.";}
-  else if(dt==='custom'){var ct=document.getElementById('custTxt').value||"Custom Process Anomaly";dLabel=ct;c="AI 5-Why Analysis: Process Parameter Drift on "+ct+" (84%)";act="Contain suspect lot, audit 4M (Man/Machine/Material/Method).";}
-  else{c=(pt==='wear')?"Cutting Tool Wear (Deviation: "+diff+" mm)":"Tool Offset Entry Error (Deviation: "+diff+" mm)";act="Adjust CNC tool offset by "+(-diff)+" mm & inspect next 5 parts.";}
-  out.innerHTML="<div class='fail'>🚨 REJECT — Out of Spec (Deviation: "+diff+")</div><table><tr><th>Company</th><td>"+bName+"</td></tr><tr><th>Part & Batch</th><td>"+p+"</td></tr><tr><th>Defect</th><td>"+dLabel+"</td></tr><tr><th>D4 Root Cause</th><td>"+c+"</td></tr><tr><th>D5 CAPA Action</th><td>"+act+"</td></tr></table><br>"+imgTag+"<small style='color:var(--sub)'>"+bName+" • CO-POWERED BY VISHWASH</small><br><br><button class='run no-print' style='background:linear-gradient(135deg,#10b981,#059669)' onclick='window.print()'>🖨️ Print / Save 8D PDF</button>";
-  if(saveLog)lg.innerHTML="<tr><td>"+p+"</td><td>"+dLabel+"</td><td>"+thumb+"</td><td style='color:#ef4444'>REJECT</td></tr>"+lg.innerHTML;
-}
-async function askGemini(){
-  var key=document.getElementById('gKey').value.trim(),gOut=document.getElementById('geminiOut');
-  var dtEl=document.getElementById('dt');
-  var p=document.getElementById('pn').value,dt=dtEl.options.item(dtEl.selectedIndex).text;
-  var ct=document.getElementById('custTxt').value,tv=document.getElementById('tv').value,tl=document.getElementById('tl').value,av=document.getElementById('av').value;
-  if(!key){gOut.innerHTML="<div class='ai-resp no-print'>⚠️ Gemini API Key Missing: Left sidebar mein apni free Google Gemini API Key (://google.com se) paste karein.</div>";return;}
-  gOut.innerHTML="<div class='ai-resp no-print'>✨ Gemini AI is analyzing defect & part data...</div>";
-  var prompt="Act as a Senior Automotive Quality Engineer (IATF 16949). Generate a crisp 8D Investigation Report in bullet points for:\nPart: "+p+"\nDefect: "+dt+" "+ct+"\nTarget: "+tv+" (±"+tl+"), Measured: "+av+"\nProvide: 1) D3 Containment, 2) D4 5-Why Root Cause, 3) D5 CAPA, 4) D7 Prevention.";
-  var parts=[{text:prompt}];
-  if(partImg){
-    var mType=partImg.split(';').item(0).split(':').item(1);
-    var bData=partImg.split(',').item(1);
-    parts.push({inline_data:{mime_type:mType,data:bData}});
-  }
-  try{
-    var res=await fetch("https://googleapis.com"+encodeURIComponent(key),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:parts}]})});
-    var data=await res.json();
-    if(data.candidates&&data.candidates.length){
-      var ans=data.candidates.item(0).content.parts.item(0).text;
-      gOut.innerHTML="<div class='ai-resp'>✨ Google Gemini AI — Deep 8D & 5-Why Analysis:\n\n"+ans.replace(/\*\*/g,'')+"</div>";
-    }else{
-      gOut.innerHTML="<div class='ai-resp no-print'>Error: "+(data.error?data.error.message:"Invalid API Key.")+"</div>";
-    }
-  }catch(err){gOut.innerHTML="<div class='ai-resp no-print'>Network Error: Internet ya API key check karein.</div>";}
-}
-window.onload=function(){var savedKey=localStorage.getItem('qp_gkey');if(savedKey)document.getElementById('gKey').value=savedKey;calc(false);};
-</script>
-</body>
-</html>
+  var imgTag=partImg?"<div><span style='font-size:12px;color:var(--sub)'>Damaged Part Photo Evidence:</span><img src='"+partImg+"' class='part-img'></div><br>
