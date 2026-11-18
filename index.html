@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>QualityPilot AI — VISHWASH</title>
+<title>QualityPilot AI â€” VISHWASH</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
 body{display:flex;min-height:100vh;background:#f1f5f9;color:#0f172a}
@@ -75,7 +75,7 @@ th,td{border:1px solid #cbd5e1;padding:9px;text-align:left}
         </select>
         <div id="custBox" style="display:none"><label>Describe Custom Defect</label><input id="custTxt" placeholder="e.g. Hydraulic Oil Leakage"></div>
         <label>Target Spec (mm / HRC)</label><input type="number" id="tv" value="50.00" step="0.01">
-        <label>Tolerance (±)</label><input type="number" id="tl" value="0.05" step="0.01">
+        <label>Tolerance (Â±)</label><input type="number" id="tl" value="0.05" step="0.01">
         <label>Measured Value</label><input type="number" id="av" value="50.16" step="0.01">
         <label>Observed Pattern</label>
         <select id="pt"><option value="wear">Gradual Drift (Tool / Die Wear)</option><option value="off">Sudden Shift (Setup / Offset Error)</option><option value="batch">Raw Material / Batch Variation</option></select>
@@ -180,7 +180,7 @@ function calc(){
   sh+=2.4;document.getElementById('ts').innerText=sh.toFixed(1)+" Hrs";
   var out=document.getElementById('out'),lg=document.getElementById('lg');
   if(pass){
-    out.innerHTML="<div class='pass'>PASS (Within ±"+tol+" mm)</div><small><b>"+bName+" • CO-POWERED BY VISHWASH</b></small>";
+    out.innerHTML="<div class='pass'>PASS (Within Â±"+tol+" mm)</div><small><b>"+bName+" â€¢ CO-POWERED BY VISHWASH</b></small>";
     lg.innerHTML="<tr><td>"+p+"</td><td>Dimension</td><td style='color:green'>PASS</td></tr>"+lg.innerHTML;return;
   }
   document.getElementById('oc').innerText=parseInt(document.getElementById('oc').innerText)+1;
@@ -201,7 +201,7 @@ function calc(){
     c=(pt==='wear')?"Cutting Tool Wear (85%)":"Tool Offset Entry Error (90%)";
     act="Adjust CNC tool offset by "+(-diff)+" mm & inspect next 5 parts.";
   }
-  out.innerHTML="<div class='fail'>REJECT — 8D Report Ready</div><table><tr><th>Company</th><td>"+bName+"</td></tr><tr><th>Part & Batch</th><td>"+p+"</td></tr><tr><th>Defect</th><td>"+dLabel+"</td></tr><tr><th>D4 Root Cause</th><td>"+c+"</td></tr><tr><th>D5 CAPA Action</th><td>"+act+"</td></tr></table><br><small><b>"+bName+" • CO-POWERED BY VISHWASH</b></small><br><br><button class='run' style='background:#059669' onclick='window.print()'>Print / Save 8D PDF</button>";
+  out.innerHTML="<div class='fail'>REJECT â€” 8D Report Ready</div><table><tr><th>Company</th><td>"+bName+"</td></tr><tr><th>Part & Batch</th><td>"+p+"</td></tr><tr><th>Defect</th><td>"+dLabel+"</td></tr><tr><th>D4 Root Cause</th><td>"+c+"</td></tr><tr><th>D5 CAPA Action</th><td>"+act+"</td></tr></table><br><small><b>"+bName+" â€¢ CO-POWERED BY VISHWASH</b></small><br><br><button class='run' style='background:#059669' onclick='window.print()'>Print / Save 8D PDF</button>";
   lg.innerHTML="<tr><td>"+p+"</td><td>"+dLabel+"</td><td style='color:red;font-weight:bold'>REJECT</td></tr>"+lg.innerHTML;
 }
 </script>
