@@ -9,23 +9,23 @@
 body.dark{--bg:#090d16;--card:#111827;--text:#f1f5f9;--sub:#94a3b8;--border:#1f2937;--inp:#0f172a}
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,sans-serif}
 body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overflow-x:hidden}
-#splash{position:fixed;top:0;left:0;width:100vw;height:100vh;background:radial-gradient(circle at center,#16243d,#090d16);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;animation:slideRTL .8s ease 3.2s forwards}
+#splash{position:fixed;top:0;left:0;width:100vw;height:100vh;background:radial-gradient(circle at center,#0f172a 0%,#090d16 70%,#020617 100%);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;animation:slideRTL .8s ease 3.2s forwards}
 .splash-content{display:flex;flex-direction:column;align-items:center;justify-content:center;transform:translateY(-10px)}
 .arc-box{position:relative;width:480px;height:240px;display:flex;align-items:center;justify-content:center}
 .c-svg{position:absolute;top:-35px;left:0;width:480px;height:300px;overflow:visible}
 .c-ring{fill:none;stroke:#2dd4bf;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:470;stroke-dashoffset:470;animation:drawArc 2s ease forwards}
 .c-txt{font-size:14px;font-weight:700;letter-spacing:2.5px;fill:#99f6e4;opacity:0;animation:fadeArcTxt 1.2s ease .6s forwards}
-.gear-wrap{position:relative;top:20px;display:flex;align-items:center;justify-content:center;transform:scale(1.4)}
-.g1{width:64px;height:64px;fill:none;stroke:#2dd4bf;stroke-width:2.4;animation:spinCw 3s linear infinite}
-.g2{width:36px;height:36px;fill:none;stroke:#5eead4;stroke-width:2.6;margin-left:-10px;margin-top:32px;animation:spinRev 2s linear infinite}
-.sp-title{font-size:36px;font-weight:700;margin-top:10px;color:#2dd4bf;text-align:center;letter-spacing:1px}
+.gear-wrap{position:relative;top:20px;display:flex;align-items:center;justify-content:center;transform:scale(1.5);gap:4px}
+.g1{width:56px;height:56px;fill:none;stroke:#2dd4bf;stroke-width:2.2;animation:spinCw 4s linear infinite;transform-origin:center}
+.g2{width:36px;height:36px;fill:none;stroke:#5eead4;stroke-width:2.4;animation:spinRev 2.58s linear infinite;transform-origin:center;margin-left:-14px;margin-top:22px}
+.sp-title{font-size:36px;font-weight:700;margin-top:14px;color:#2dd4bf;text-align:center;letter-spacing:1px;text-shadow:0 0 20px rgba(45,212,191,0.3)}
 .sp-sub{font-size:13px;letter-spacing:6px;color:#94a3b8;margin-top:6px;font-weight:600;text-align:center}
-.sp-loader{width:320px;height:6px;background:#1e293b;border-radius:10px;overflow:hidden;margin-top:20px}
-.sp-bar{height:100%;width:0%;background:#2dd4bf;animation:loadBar 3s ease forwards}
+.sp-loader{width:320px;height:6px;background:#1e293b;border-radius:10px;overflow:hidden;margin-top:22px}
+.sp-bar{height:100%;width:0%;background:linear-gradient(90deg,#0f766e,#2dd4bf);animation:loadBar 3s ease forwards}
 @keyframes drawArc{to{stroke-dashoffset:0}}
 @keyframes fadeArcTxt{to{opacity:1}}
 @keyframes spinCw{to{transform:rotate(360deg)}}
-@keyframes spinRev{from{transform:rotate(360deg)}to{transform:rotate(0deg)}}
+@keyframes spinRev{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
 @keyframes loadBar{to{width:100%}}
 @keyframes slideRTL{to{transform:translateX(-100%);opacity:0;visibility:hidden;pointer-events:none}}
 .side{width:260px;background:#111827;color:#fff;padding:18px 15px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #1f2937}
@@ -296,14 +296,13 @@ var cImg = "";
 var partImg = "";
 var rejectCount = 0;
 
-// Plant Audio Alarm Generator (Web Audio API)
 function playAlarmSound() {
   try {
     var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     var osc = audioCtx.createOscillator();
     var gain = audioCtx.createGain();
     osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(440, audioCtx.currentTime); // Beep Frequency
+    osc.frequency.setValueAtTime(440, audioCtx.currentTime);
     osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.15);
     gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
@@ -311,9 +310,7 @@ function playAlarmSound() {
     gain.connect(audioCtx.destination);
     osc.start();
     osc.stop(audioCtx.currentTime + 0.4);
-  } catch(e) {
-    console.log("Audio not supported");
-  }
+  } catch(e) {}
 }
 
 window.calc = function(saveLog) {
@@ -356,7 +353,7 @@ window.calc = function(saveLog) {
     var badge = document.getElementById('alarmBadge');
     badge.innerText = rejectCount;
     badge.style.display = 'inline-block';
-    playAlarmSound(); // Trigger Audio Alert
+    playAlarmSound();
   }
 
   var c = "Progressive Tool Wear (" + diff + " mm)";
