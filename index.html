@@ -5,169 +5,80 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>QualityPilot AI — VISHWASH</title>
 <style>
-:root{--bg:#f4f7fb;--card:#fff;--text:#1e293b;--sub:#64748b;--border:#e2e8f0;--inp:#f8fafc;--shadow:0 6px 20px rgba(15,23,42,.05)}
-body.dark{--bg:#090d16;--card:#111827;--text:#f1f5f9;--sub:#94a3b8;--border:#1f2937;--inp:#0f172a;--shadow:0 6px 20px rgba(0,0,0,.35)}
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,sans-serif;transition:background .2s,color .2s,transform .2s}
-body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overflow-x:hidden}
-#splash{position:fixed;inset:0;background:radial-gradient(circle at 50% 45%,#132238 0%,#060911 100%);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;overflow:hidden;animation:curtainOut .85s cubic-bezier(.77,0,.175,1) 3.6s forwards}
-.bp-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(56,189,248,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.07) 1px,transparent 1px);background-size:36px 36px;pointer-events:none}
-.laser-scan{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#38bdf8,#818cf8,transparent);box-shadow:0 0 18px #38bdf8;animation:scanDown 2.8s ease-in-out infinite;pointer-events:none}
-.hud-c{position:absolute;width:26px;height:26px;border:2px solid rgba(56,189,248,.55)}.tl{top:20px;left:20px;border-right:0;border-bottom:0}.tr{top:20px;right:20px;border-left:0;border-bottom:0}.bl{bottom:20px;left:20px;border-right:0;border-top:0}.br{bottom:20px;right:20px;border-left:0;border-top:0}
-.hud-t{position:absolute;font-size:10px;letter-spacing:2px;color:rgba(56,189,248,.75);font-family:monospace}.ht-l{top:24px;left:54px}.ht-r{bottom:24px;right:54px}
-.eng-core{position:relative;width:340px;height:230px;display:flex;align-items:center;justify-content:center;perspective:800px}
-.arc-svg{position:absolute;top:-16px;left:0;width:340px;height:210px;overflow:visible;animation:arcFloat 3.4s ease-in-out infinite}
-.arc-text{font-size:13.6px;font-weight:700;letter-spacing:2.3px;fill:url(#arcGrad);filter:drop-shadow(0 0 10px rgba(56,189,248,.8))}
-.orb1{position:absolute;top:64px;width:156px;height:156px;border:1px dashed rgba(56,189,248,.45);border-radius:50%;animation:spinCw 10s linear infinite}
-.orb2{position:absolute;top:76px;width:132px;height:132px;border:1.5px solid rgba(129,140,248,.3);border-top-color:#38bdf8;border-bottom-color:#818cf8;border-radius:50%;animation:spinRev 4.5s linear infinite}
-.g-box{position:relative;top:24px;display:flex;align-items:center;justify-content:center;transform-style:preserve-3d;animation:tilt3D 3.5s ease-in-out infinite}
-.g1{width:76px;height:76px;fill:none;stroke:#38bdf8;stroke-width:2.1;filter:drop-shadow(0 0 14px rgba(56,189,248,.8));animation:spinCw 3.2s linear infinite}
-.g2{width:46px;height:46px;fill:none;stroke:#818cf8;stroke-width:2.3;margin-left:-11px;margin-top:32px;filter:drop-shadow(0 0 12px rgba(129,140,248,.8));animation:spinRev 2s linear infinite}
-.g3{width:34px;height:34px;fill:none;stroke:#22d3ee;stroke-width:2.4;margin-left:-84px;margin-top:-42px;filter:drop-shadow(0 0 10px rgba(34,211,238,.8));animation:spinRev 1.6s linear infinite}
-.sp-title{font-size:28px;font-weight:700;letter-spacing:1.2px;margin-top:6px;background:linear-gradient(90deg,#fff,#38bdf8,#a5b4fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:slideUp .7s ease .3s both}
-.sp-sub{font-size:11.5px;letter-spacing:4px;color:#38bdf8;margin-top:6px;font-weight:600;animation:slideUp .7s ease .55s both}
-.sp-loader{width:250px;height:4px;background:#1e293b;border-radius:10px;overflow:hidden;margin-top:18px}
-.sp-bar{height:100%;width:0%;background:linear-gradient(90deg,#2563eb,#38bdf8,#818cf8);animation:loadBar 3.3s ease forwards}
-.boot-log{font-family:monospace;font-size:10.5px;color:#94a3b8;letter-spacing:1.2px;margin-top:10px}
-@keyframes scanDown{0%,100%{top:8%;opacity:.2}50%{top:92%;opacity:.95}}
-@keyframes arcFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-@keyframes tilt3D{0%,100%{transform:rotateY(16deg) rotateX(6deg)}50%{transform:rotateY(-16deg) rotateX(-6deg)}}
-@keyframes spinCw{to{transform:rotate(360deg)}}@keyframes spinRev{from{transform:rotate(360deg)}to{transform:rotate(0deg)}}
-@keyframes loadBar{to{width:100%}}@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-@keyframes curtainOut{to{transform:scale(1.06);opacity:0;visibility:hidden;pointer-events:none}}
-@keyframes dashIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
-.anim-in{animation:dashIn .75s ease 3.65s both}
-.side{width:265px;background:linear-gradient(180deg,#0f172a,#090d16);color:#fff;padding:20px 16px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #1e293b}
-.brand-top{display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid #1e293b}
-.logo-icon{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#3b82f6,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:17px;overflow:hidden}
-.logo-icon img,.p-badge img{width:100%;height:100%;object-fit:cover}
-.side h2{font-size:17px;font-weight:600}
-.nav{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:11px 14px;margin-bottom:6px;background:transparent;color:#94a3b8;border:none;border-radius:9px;cursor:pointer;font-weight:500;font-size:13.5px}
-.nav:hover{background:#1e293b;color:#fff;transform:translateX(4px)}.nav.on{background:linear-gradient(90deg,#2563eb,#3b82f6);color:#fff}
-.dm-btn{width:100%;padding:9px;margin-bottom:14px;background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:9px;cursor:pointer;font-size:12.5px}
-.api-box{background:#111827;padding:12px;border-radius:10px;margin-top:14px;border:1px solid #1f2937}
-.api-box small{color:#38bdf8;display:block;margin-bottom:6px;font-size:11px}
-.api-row{display:flex;gap:6px}.api-row input,.api-row input:focus{background:#090d16!important;color:#38bdf8!important;border:1px solid #38bdf8;padding:7px 9px;font-size:12px;margin:0;border-radius:7px;flex:1}
-.eye-btn{background:#1e293b;color:#cbd5e1;border:1px solid #334155;border-radius:7px;padding:6px 8px;cursor:pointer}
-.vb{background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid #38bdf8;padding:12px;border-radius:12px;text-align:center}
-.vb small{font-size:9.5px;color:#94a3b8;letter-spacing:1.8px}.vb b{display:block;font-size:15px;color:#38bdf8;letter-spacing:2px;margin-top:3px}
-.main{flex:1;padding:24px;max-width:1400px;margin:0 auto}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
-.card{background:var(--card);padding:16px 18px;border-radius:12px;border:1px solid var(--border);box-shadow:var(--shadow);position:relative;overflow:hidden}
-.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:#2563eb}.card.c2::before{background:#10b981}.card.c3::before{background:#f59e0b}.card.c4::before{background:#8b5cf6}
-.card small{color:var(--sub);font-size:12px}.card h3{font-size:22px;font-weight:600;margin-top:5px}
-.box{background:var(--card);padding:22px;border-radius:14px;border:1px solid var(--border);margin-bottom:18px;box-shadow:var(--shadow)}
-.box h3{font-size:15.5px;font-weight:600;padding-bottom:10px;border-bottom:1px solid var(--border);margin-bottom:15px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-label{font-size:12.5px;color:var(--sub);display:block;margin-bottom:5px}
-input,select{width:100%;padding:10px 12px;margin-bottom:13px;border:1px solid var(--border);border-radius:9px;background:var(--inp);color:var(--text);font-size:13.5px;outline:none}
-.run{width:100%;padding:12px;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;border-radius:9px;font-weight:500;font-size:13.5px;cursor:pointer;margin-bottom:8px}
-.ai-btn{width:100%;padding:12px;background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;border:none;border-radius:9px;font-weight:500;font-size:13.5px;cursor:pointer;margin-bottom:8px}
-.tab{display:none}.tab.on{display:block;animation:dashIn .45s ease}
-table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13.5px}
-th{background:var(--inp);color:var(--sub);font-size:12px}th,td{border:1px solid var(--border);padding:10px 12px;text-align:left}
-.fail{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#dc2626;padding:11px 14px;border-radius:9px;font-weight:500;margin-bottom:13px}
-.pass{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#059669;padding:11px 14px;border-radius:9px;font-weight:500;margin-bottom:13px}
-.ai-resp{background:rgba(124,58,237,.06);border:1px solid rgba(124,58,237,.25);padding:15px;border-radius:10px;margin-top:14px;font-size:13.5px;line-height:1.65;white-space:pre-line}
-.bar{background:var(--inp);height:24px;border-radius:10px;overflow:hidden;margin:7px 0 16px;border:1px solid var(--border)}
-.fill{height:100%;color:#fff;font-size:12px;padding-left:12px;line-height:22px}
-.part-img{max-width:100%;max-height:190px;border-radius:9px;border:1px solid #ef4444;margin-top:8px;display:block}
-.logo-preview{border:1px dashed var(--border);border-radius:14px;padding:32px;text-align:center;background:var(--inp);margin-top:10px}
-.p-badge{width:72px;height:72px;border-radius:18px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff;overflow:hidden}
-@page{size:A4;margin:12mm}
+:root{--bg:#f4f7fb;--card:#fff;--text:#1e293b;--sub:#64748b;--border:#e2e8f0;--inp:#f8fafc}
+body.dark{--bg:#090d16;--card:#111827;--text:#f1f5f9;--sub:#94a3b8;--border:#1f2937;--inp:#0f172a}
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,sans-serif}
+body{display:flex;min-height:100vh;background:var(--bg);color:var(--text)}
+#splash{position:fixed;inset:0;background:radial-gradient(circle,#132238,#060911);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;animation:fadeOut .7s ease 2.8s forwards}
+.ring{width:110px;height:110px;border:3px dashed #38bdf8;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:44px;animation:spin 3s linear infinite;box-shadow:0 0 25px rgba(56,189,248,.4)}
+.arc-lbl{color:#38bdf8;font-size:12px;letter-spacing:3px;font-weight:700;margin-bottom:14px;text-align:center}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeOut{to{opacity:0;visibility:hidden;pointer-events:none}}
+.side{width:250px;background:#0f172a;color:#fff;padding:18px;display:flex;flex-direction:column;justify-content:space-between}
+.nav{display:block;width:100%;text-align:left;padding:11px;margin:5px 0;background:transparent;color:#94a3b8;border:none;border-radius:8px;cursor:pointer;font-size:13.5px}
+.nav.on{background:#2563eb;color:#fff}
+.vb{border:1px solid #38bdf8;padding:10px;border-radius:10px;text-align:center;margin-top:15px}
+.vb b{display:block;color:#38bdf8;letter-spacing:2px;font-size:14px}
+.main{flex:1;padding:20px;max-width:1300px;margin:0 auto}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.card,.box{background:var(--card);padding:16px;border-radius:12px;border:1px solid var(--border)}
+.box{margin-bottom:16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+label{font-size:12px;color:var(--sub);display:block;margin-bottom:4px}
+input,select{width:100%;padding:9px;margin-bottom:11px;border:1px solid var(--border);border-radius:8px;background:var(--inp);color:var(--text)}
+.btn{width:100%;padding:11px;background:#2563eb;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;margin-bottom:8px}
+.ai{background:#7c3aed}.pr{background:#059669}
+.tab{display:none}.tab.on{display:block}
+table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
+th,td{border:1px solid var(--border);padding:8px;text-align:left}
+.fail{background:rgba(239,68,68,.12);color:#dc2626;padding:10px;border-radius:8px;font-weight:600;margin-bottom:10px}
+.pass{background:rgba(16,185,129,.12);color:#059669;padding:10px;border-radius:8px;font-weight:600;margin-bottom:10px}
+.rep{background:rgba(124,58,237,.07);border:1px solid rgba(124,58,237,.3);padding:14px;border-radius:8px;margin-top:12px;font-size:13px;line-height:1.6;white-space:pre-line}
+@page{size:A4;margin:10mm}
+@media print{body{display:block!important;background:#fff!important}.side,.cards,#inBox,.no-print,#splash{display:none!important}.main,.grid{display:block!important;padding:0!important;width:100%!important}}
+@media(max-width:850px){body{flex-direction:column}.side{width:100%}.cards{grid-template-columns:1fr 1fr}.grid,.row3{grid-template-columns:1fr}}
+</style>
+</head>
 <body>
-<div id="splash">
-  <div class="bp-grid"></div><div class="laser-scan"></div>
-  <div class="hud-c tl"></div><div class="hud-c tr"></div><div class="hud-c bl"></div><div class="hud-c br"></div>
-  <div class="hud-t ht-l">SYS.TOLERANCE // ±0.001mm</div><div class="hud-t ht-r">IATF-16949 // ACTIVE</div>
-  <div class="eng-core">
-    <svg class="arc-svg" viewBox="0 0 340 210">
-      <defs><linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#38bdf8"/><stop offset="50%" stop-color="#fff"/><stop offset="100%" stop-color="#818cf8"/></linearGradient><path id="cCurve" d="M 38,175 A 132,132 0 1,1 302,175"/></defs>
-      <text class="arc-text"><textPath href="#cCurve" startOffset="50%" text-anchor="middle">WELCOME TO ULTRA-PRECISION ENGINEERING</textPath></text>
-    </svg>
-    <div class="orb1"></div><div class="orb2"></div>
-    <div class="g-box">
-      <svg class="g1" viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
-      <svg class="g2" viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
-      <svg class="g3" viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
-    </div>
-  </div>
-  <div class="sp-title">QualityPilot AI</div><div class="sp-sub">CO-POWERED BY VISHWASH</div>
-  <div class="sp-loader"><div class="sp-bar"></div></div><div class="boot-log" id="bootLog">CALIBRATING MICRON LASER SENSORS...</div>
-</div>
+<div id="splash"><div class="arc-lbl">WELCOME TO ULTRA-PRECISION ENGINEERING</div><div class="ring">⚙️</div><h2 style="margin-top:14px">QualityPilot AI</h2><small style="color:#38bdf8;letter-spacing:3px;margin-top:4px">CO-POWERED BY VISHWASH</small></div>
 <div class="side">
   <div>
-    <div class="brand-top"><div class="logo-icon" id="sideIcon">QP</div><h2 id="sideTitle">QualityPilot AI</h2></div>
-    <button class="dm-btn" id="dmBtn" onclick="toggleDark()">🌙 Switch to Dark Mode</button>
-    <button class="nav on" onclick="go('t1',this)">⚡ 8D Co-Pilot (Gemini)</button>
-    <button class="nav" onclick="go('t2',this)">📊 Time & OEE Graphs</button>
-    <button class="nav" onclick="go('t3',this)">📋 Live Logs & Audit</button>
-    <button class="nav" onclick="go('t4',this)">🎨 Logo & Brand Studio</button>
-    <div class="api-box"><small>✨ Google Gemini API Key (Optional)</small><div class="api-row"><input type="password" id="gKey" placeholder="Paste AIzaSy... Key" onchange="localStorage.setItem('qp_gkey',this.value)"><button class="eye-btn" type="button" onclick="toggleKey()">👁️</button></div></div>
+    <h2 style="margin-bottom:12px">⚙️ QualityPilot AI</h2>
+    <button class="nav" onclick="document.body.classList.toggle('dark')">🌓 Dark / Light Mode</button>
+    <button class="nav on" onclick="tab('t1',this)">⚡ 8D Co-Pilot</button>
+    <button class="nav" onclick="tab('t2',this)">📋 Audit Logs</button>
+    <label style="color:#38bdf8;margin-top:12px">Gemini API Key (Optional)</label>
+    <input type="password" id="gKey" placeholder="AIzaSy...">
   </div>
-  <div class="vb"><small>CO-POWERED BY</small><b>VISHWASH</b></div>
+  <div class="vb"><small style="font-size:10px;color:#94a3b8">CO-POWERED BY</small><b>VISHWASH</b></div>
 </div>
-<div class="main anim-in">
-  <div class="cards"><div class="card"><small>Batch Units</small><h3 id="bc">1240</h3></div><div class="card c2"><small>First-Pass Yield</small><h3>98.4%</h3></div><div class="card c3"><small>Open 8D Reports</small><h3 id="oc">3</h3></div><div class="card c4"><small>Engineer Time Saved</small><h3 id="ts">7.5 Hrs</h3></div></div>
+<div class="main">
+  <div class="cards"><div class="card"><small>Batch Units</small><h3 id="bc">1240</h3></div><div class="card"><small>First-Pass Yield</small><h3>98.4%</h3></div><div class="card"><small>Open 8D</small><h3 id="oc">3</h3></div><div class="card"><small>Time Saved</small><h3>7.5 Hrs</h3></div></div>
   <div id="t1" class="tab on">
     <div class="grid">
-      <div class="box" id="inputBox">
-        <h3>🛠️ 1. Defect & Dimension Input</h3>
-        <label>Part Name & Batch ID</label><input id="pn" value="Steel Flange #CAB-809" oninput="calc(false)">
-        <label>Defect Category (10 Industrial Types)</label>
-        <select id="dt" onchange="chkCustom();calc(false)"><option value="dim">1. Dimension Tolerance Out-of-Spec (mm)</option><option value="finish">2. Poor Surface Finish / Chatter Marks (Ra)</option><option value="burr">3. Burr / Sharp Edge Defect</option><option value="thread">4. Thread Pitch / Go-NoGo Gauge Fail</option><option value="crack">5. Surface Crack / Forging Lap</option><option value="blowhole">6. Casting Blowhole / Porosity</option><option value="weld">7. Welding Spatter / Incomplete Fusion</option><option value="hardness">8. Hardness / Heat Treatment Fail (HRC)</option><option value="rust">9. Surface Rust / Oxidation</option><option value="custom">10. Custom Defect (Type Manually...)</option></select>
-        <div id="custBox" style="display:none"><label>Describe Custom Defect</label><input id="custTxt" placeholder="e.g. Hydraulic Oil Leakage" oninput="calc(false)"></div>
-        <div class="row3"><div><label>Target Spec</label><input type="number" id="tv" value="50.00" step="0.01" oninput="calc(false)"></div><div><label>Tolerance (±)</label><input type="number" id="tl" value="0.05" step="0.01" oninput="calc(false)"></div><div><label>Measured</label><input type="number" id="av" value="50.16" step="0.01" oninput="calc(false)"></div></div>
-        <label>Observed Pattern</label><select id="pt" onchange="calc(false)"><option value="wear">Gradual Drift (Tool / Die Wear)</option><option value="off">Sudden Shift (Setup / Offset Error)</option><option value="batch">Raw Material / Batch Variation</option></select>
-        <label>Damaged Part Photo (AI Vision Evidence)</label><input type="file" accept="image/*" capture="environment" onchange="loadPartImg(event)">
-        <button class="ai-btn" onclick="askGemini()">✨ Generate Full 8D & 5-Why Investigation Report</button>
-        <button class="run" onclick="calc(true)">✅ Log Entry & Save to Audit Table</button>
+      <div class="box" id="inBox">
+        <h3 style="margin-bottom:12px">1. Defect & Dimension Input</h3>
+        <label>Part Name & Batch</label><input id="pn" value="Steel Flange #CAB-809" oninput="run(false)">
+        <label>Defect Category</label>
+        <select id="dt" onchange="run(false)"><option value="Dimension Tolerance Out-of-Spec">1. Dimension Tolerance (mm)</option><option value="Surface Finish / Chatter (Ra)">2. Surface Finish (Ra)</option><option value="Burr / Sharp Edge">3. Burr / Sharp Edge</option><option value="Thread Pitch / Gauge Fail">4. Thread Gauge Fail</option><option value="Surface Crack / Forging Lap">5. Surface Crack</option><option value="Casting Blowhole / Porosity">6. Casting Blowhole</option><option value="Welding Spatter / Fusion">7. Welding Defect</option><option value="Hardness Fail (HRC)">8. Hardness Fail (HRC)</option></select>
+        <div class="row3"><div><label>Target</label><input type="number" id="tv" value="50.00" step="0.01" oninput="run(false)"></div><div><label>Tol (±)</label><input type="number" id="tl" value="0.05" step="0.01" oninput="run(false)"></div><div><label>Measured</label><input type="number" id="av" value="50.16" step="0.01" oninput="run(false)"></div></div>
+        <button class="btn ai" onclick="fullReport()">✨ Generate Full D1–D8 & 5-Why Report</button>
+        <button class="btn" onclick="run(true)">✅ Save to Audit Log</button>
       </div>
-      <div class="box"><h3>📄 2. Live AI 8D Investigation Report</h3><div id="out"></div><div id="geminiOut"></div></div>
+      <div class="box"><h3 style="margin-bottom:12px">2. Live AI 8D Investigation Report</h3><div id="out"></div><div id="repOut"></div></div>
     </div>
   </div>
-  <div id="t2" class="tab"><div class="grid"><div class="box"><h3>⚡ Report Speed: Excel vs QualityPilot AI</h3><p style="font-size:13px">Manual Excel: 150 Mins</p><div class="bar"><div class="fill" style="width:95%;background:#ef4444">150 Mins</div></div><p style="font-size:13px">QualityPilot AI: 5 Mins</p><div class="bar"><div class="fill" style="width:20%;background:#10b981">5 Mins</div></div></div><div class="box"><h3>🏭 Live Machine OEE & Efficiency</h3><p style="font-size:13px">CNC Turning #04 (88% OEE)</p><div class="bar"><div class="fill" style="width:88%;background:#3b82f6">88% Healthy</div></div><p style="font-size:13px">VMC Milling #02 (74% OEE)</p><div class="bar"><div class="fill" style="width:74%;background:#f59e0b">74% Tool Wear</div></div></div></div></div>
-  <div id="t3" class="tab"><div class="box"><h3>📋 Shop-Floor Live Logs & Audit</h3><table><thead><tr><th>Part Name</th><th>Defect Type</th><th>Photo</th><th>Status</th></tr></thead><tbody id="lg"><tr><td>Steel Flange #CAB-805</td><td>Dimension</td><td>—</td><td style="color:#10b981">PASS</td></tr></tbody></table></div></div>
-  <div id="t4" class="tab"><div class="grid"><div class="box"><h3>🎨 Design Your SaaS / Company Logo</h3><label>Brand / Company Name</label><input id="bName" value="QualityPilot AI" oninput="upLogo()"><label>Logo Initials</label><input id="bIcon" value="QP" maxlength="3" oninput="upLogo()"><label>Theme Color</label><input type="color" id="bColor" value="#2563eb" style="height:42px" oninput="upLogo()"><label>Or Upload Logo Image</label><input type="file" accept="image/*" onchange="loadImg(event)"><button class="run" onclick="setLogo()">Apply Logo Across App & Reports</button></div><div class="box"><h3>👁️ Live Logo Preview</h3><div class="logo-preview"><div class="p-badge" id="prevBadge" style="background:#2563eb">QP</div><h2 id="prevName">QualityPilot AI</h2><p style="font-size:12px;color:var(--sub);margin-top:6px;letter-spacing:1.5px">CO-POWERED BY VISHWASH</p></div></div></div></div>
+  <div id="t2" class="tab"><div class="box"><h3>📋 Live Audit Logs</h3><table><thead><tr><th>Part</th><th>Defect</th><th>Status</th></tr></thead><tbody id="lg"><tr><td>Steel Flange #CAB-805</td><td>Dimension</td><td style="color:#10b981">PASS</td></tr></tbody></table></div></div>
 </div>
 <script>
-var logs=["CALIBRATING MICRON LASER SENSORS...","SYNCING CNC / VMC TELEMETRY MATRIX...","LOADING IATF-16949 8D AI ENGINE...","SYSTEM READY // ULTRA-PRECISION MODE"],li=0;
-var bInt=setInterval(function(){li++;var el=document.getElementById('bootLog');if(el&&li<4)el.innerText=logs[li];if(li>=3)clearInterval(bInt);},850);
-setTimeout(function(){var sp=document.getElementById('splash');if(sp)sp.style.display='none';},4500);
-var sh=7.5,bName="QualityPilot AI",cImg="",partImg="";
-function toggleKey(){var k=document.getElementById('gKey');k.type=(k.type==='password')?'text':'password';}
-function toggleDark(){document.body.classList.toggle('dark');document.getElementById('dmBtn').innerText=document.body.classList.contains('dark')?"☀️ Switch to Light Mode":"🌙 Switch to Dark Mode";}
-function go(id,b){document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});document.querySelectorAll('.nav').forEach(function(x){x.classList.remove('on');});document.getElementById(id).classList.add('on');b.classList.add('on');}
-function chkCustom(){document.getElementById('custBox').style.display=(document.getElementById('dt').value==='custom')?'block':'none';}
-function loadPartImg(e){var f=e.target.files;if(!f||!f.length)return;var r=new FileReader();r.onload=function(ev){partImg=ev.target.result;calc(false);};r.readAsDataURL(f.item(0));}
-function upLogo(){var n=document.getElementById('bName').value||"QualityPilot AI",ic=document.getElementById('bIcon').value||"QP",col=document.getElementById('bColor').value;document.getElementById('prevName').innerText=n;var pb=document.getElementById('prevBadge');pb.style.background=col;if(!cImg)pb.innerText=ic;}
-function loadImg(e){var f=e.target.files;if(!f||!f.length)return;var r=new FileReader();r.onload=function(ev){cImg=ev.target.result;document.getElementById('prevBadge').innerHTML="<img src='"+cImg+"'>";document.getElementById('sideIcon').innerHTML="<img src='"+cImg+"'>";};r.readAsDataURL(f.item(0));}
-function setLogo(){bName=document.getElementById('bName').value||"QualityPilot AI";var ic=document.getElementById('bIcon').value||"QP",col=document.getElementById('bColor').value;document.getElementById('sideTitle').innerText=bName;var si=document.getElementById('sideIcon');si.style.background=col;si.innerHTML=cImg?"<img src='"+cImg+"'>":ic;calc(false);alert("Brand Applied!");}
-function calc(saveLog){
-  var p=document.getElementById('pn').value,dt=document.getElementById('dt').value,t=parseFloat(document.getElementById('tv').value)||0,tol=Math.abs(parseFloat(document.getElementById('tl').value)||0),a=parseFloat(document.getElementById('av').value)||0,pt=document.getElementById('pt').value,diff=(a-t).toFixed(3);
-  var pass=(dt==='dim'||dt==='hardness')&&(Math.abs(diff)<=tol),out=document.getElementById('out'),lg=document.getElementById('lg');
-  var imgTag=partImg?"<div><span style='font-size:12px;color:var(--sub)'>Damaged Part Photo Evidence:</span><img src='"+partImg+"' class='part-img'></div><br>":"";
-  var thumb=partImg?"<img src='"+partImg+"' style='width:38px;height:38px;object-fit:cover;border-radius:6px'>":"—";
-  if(saveLog){document.getElementById('bc').innerText=parseInt(document.getElementById('bc').innerText)+1;sh+=2.4;document.getElementById('ts').innerText=sh.toFixed(1)+" Hrs";}
-  if(pass){var u=(dt==='hardness')?" HRC":" mm";out.innerHTML="<div class='pass'>✅ PASS — Within Spec (±"+tol+u+", Dev: "+diff+u+")</div>"+imgTag+"<small style='color:var(--sub)'>"+bName+" • CO-POWERED BY VISHWASH</small>";if(saveLog)lg.innerHTML="<tr><td>"+p+"</td><td>"+dt.toUpperCase()+"</td><td>"+thumb+"</td><td style='color:#10b981'>PASS</td></tr>"+lg.innerHTML;return;}
-  if(saveLog)document.getElementById('oc').innerText=parseInt(document.getElementById('oc').innerText)+1;
-  var c="",act="",dLabel=dt.toUpperCase();
-  if(dt==='finish'){c="Worn Cutting Insert / Improper Coolant Flow (89% Confidence)";act="Replace cutting insert & verify coolant pressure at nozzle.";}
-  else if(dt==='burr'){c="Dull Cutting Edge / Excessive Feed Rate (91% Confidence)";act="Index tool edge & verify automated deburring cycle.";}
-  else if(dt==='thread'){c="Tap Wear / Pitch Diameter Shift (87% Confidence)";act="Replace thread tap & validate batch with Go/No-Go gauge.";}
-  else if(dt==='crack'){c="Die Stress / Forging Temperature Drop (88% Confidence)";act="Perform 100% MPI crack inspection & calibrate induction heater.";}
-  else if(dt==='blowhole'){c="Gas Entrapment / Low Pouring Temperature (86% Confidence)";act="Clean die air vents & verify molten metal degassing.";}
-  else if(dt==='weld'){c="Low Arc Current / Shielding Gas Leak (90% Confidence)";act="Calibrate wire feed/ampere & inspect CO2/Argon gas flow.";}
-  else if(dt==='hardness'){c="Quenching Oil Temp / Tempering Drift (Deviation: "+diff+" HRC)";act="Quarantine suspect lot, audit furnace cycle & re-test HRC.";}
-  else if(dt==='rust'){c="Low Anti-Rust Oil Concentration / Humidity (85% Confidence)";act="Re-dip batch in rust-preventive oil & seal in VCI packaging.";}
-  else if(dt==='custom'){var ct=document.getElementById('custTxt').value||"Custom Anomaly";dLabel=ct;c="5-Why Root Cause: Process Parameter Drift on "+ct+" (84% Confidence)";act="Quarantine suspect batch & conduct 4M audit.";}
-  else{c=(pt==='wear')?"Progressive Cutting Tool Wear (Deviation: "+diff+" mm)":"CNC Tool Offset Entry Error (Deviation: "+diff+" mm)";act="Compensate CNC tool offset by "+(-diff)+" mm & inspect next 5 consecutive parts.";}
-  var today=new Date().toLocaleDateString('en-GB');
-  out.innerHTML="<div style='display:flex;justify-content:space-between;font-size:12px;color:var(--sub);margin-bottom:8px'><span>Report ID: 8D-"+Math.floor(1000+Math.random()*9000)+"</span><span>Date: "+today+"</span></div><div class='fail'>🚨 REJECT — Out of Specification (Deviation: "+diff+")</div><table><tr><th>Organization</th><td>"+bName+"</td></tr><tr><th>Part & Batch ID</th><td>"+p+"</td></tr><tr><th>Defect Category</th><td>"+dLabel+"</td></tr><tr><th>D4 Root Cause</th><td>"+c+"</td></tr><tr><th>D5 CAPA Action</th><td>"+act+"</td></tr></table><br>"+imgTag+"<small style='color:var(--sub)'>"+bName+" • CO-POWERED BY VISHWASH</small><br><br><button class='run no-print' style='background:linear-gradient(135deg,#10b981,#059669)' onclick='window.print()'>🖨️ Print / Save Full 8D PDF Report</button>";
-  if(saveLog)lg.innerHTML="<tr><td>"+p+"</td><td>"+dLabel+"</td><td>"+thumb+"</td><td style='color:#ef4444'>REJECT</td></tr>"+lg.innerHTML;
+setTimeout(function(){var s=document.getElementById('splash');if(s)s.style.display='none';},3400);
+function tab(id,b){document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});document.querySelectorAll('.nav').forEach(function(x){x.classList.remove('on');});document.getElementById(id).classList.add('on');b.classList.add('on');}
+function run(save){
+  var p=document.getElementById('pn').value,d=document.getElementById('dt').value,t=parseFloat(document.getElementById('tv').value)||0,tol=Math.abs(parseFloat(document.getElementById('tl').value)||0),a=parseFloat(document.getElementById('av').value)||0,diff=(a-t).toFixed(3),ok=Math.abs(diff)<=tol;
+  if(save){document.getElementById('bc').innerText=parseInt(document.getElementById('bc').innerText)+1;document.getElementById('lg').innerHTML="<tr><td>"+p+"</td><td>"+d+"</td><td style='color:"+(ok?"#10b981":"#ef4444")+"'>"+(ok?"PASS":"REJECT")+"</td></tr>"+document.getElementById('lg').innerHTML;}
+  document.getElementById('out').innerHTML=(ok?"<div class='pass'>✅ PASS — Within Spec (Dev: "+diff+")</div>":"<div class='fail'>🚨 REJECT — Out of Spec (Deviation: "+diff+")</div>")+"<table><tr><th>Part</th><td>"+p+"</td></tr><tr><th>Defect</th><td>"+d+"</td></tr><tr><th>Deviation</th><td>"+diff+" (Allowed ±"+tol+")</td></tr></table><br><button class='btn pr no-print' onclick='window.print()'>🖨️ Print / Save Full A4 PDF Report</button>";
 }
-async function askGemini(){
-  var key=document.getElementById('gKey').value.trim(),gOut=document.getElementById('geminiOut'),dtEl=document.getElementById('dt');
-  var p=document.getElementById('pn').value,dt=dtEl.options.item(dtEl.selectedIndex).text,ct=document.getElementById('custTxt').value,tv=document.getElementById('tv').value,tl=document.getElementById('tl').value,av=document.getElementById('av').value,diff=(parseFloat(av)-parseFloat(tv)).toFixed(3),today=new Date().toLocaleDateString('en-GB');
-  var full8D="✨ COMPREHENSIVE IATF-16949 8D & 5-WHY INVESTIGATION REPORT\nOrganization: "+bName+" | Date: "+today+"\nPart & Batch: "+p+" | Defect: "+dt+" "+ct+"\nSpecification: "+tv+" (±"+tl+") | Measured: "+av+" | Net Deviation: "+diff+"\n\nD1 — CROSS-FUNCTIONAL TEAM (CFT) FORMATION:\n• Lead Engineer: Senior Quality Assurance Engineer ("+bName+")\n• Process Owner: CNC/Production Shift Supervisor & Tooling Specialist\n• Maintenance & Metrology: CMM Calibration & Preventive Maintenance Lead\n\nD2 — DETAILED PROBLEM DESCRIPTION (5W2H):\n• What: Non-conformance detected on "+p+" under category "+dt+" "+ct+".\n• Where: Final Quality Inspection Gate & In-Process SPC Station.\n• Magnitude: Measured reading ("+av+") exceeds tolerance limit (±"+tl+") by "+diff+".\n\nD3 — INTERIM CONTAINMENT ACTION (ICA):\n• Immediately quarantine 100% of suspect lot for "+p+" in Red Hold Bin.\n• Perform 100% sorting inspection of WIP, Finished Goods, and Transit stock using calibrated gauges.\n• Mark verified OK parts with green quality tag before dispatching to customer line.\n\nD4 — ROOT CAUSE ANALYSIS (5-WHY METHODOLOGY):\n• Why 1: Part failed inspection due to "+diff+" deviation beyond allowable tolerance (±"+tl+").\n• Why 2: Machining/Process parameter drifted gradually during continuous batch production.\n• Why 3: Cutting insert/tooling exceeded optimal micro-wear threshold mid-shift.\n• Why 4: Mid-shift tool offset compensation was not triggered automatically at 75% tolerance limit.\n• Why 5 (Systemic Root Cause): Control Plan lacked mandatory SPC warning limits and automated tool-life counter interlock.\n\nD5 — PERMANENT CORRECTIVE ACTIONS (CAPA):\n• Replace worn tooling/insert and apply exact CNC offset compensation ("+(-diff)+").\n• Run First-Off Piece Approval (FOPA) on 5 consecutive parts and verify Cpk ≥ 1.33.\n• Update CNC machine tool-life counter to auto-alarm at 85% of rated insert life.\n\nD6 — VERIFICATION OF EFFECTIVENESS:\n• Monitored next 3 consecutive production batches (1,500+ units) with zero recurrence.\n• Process capability index improved from Cpk 0.82 to Cpk 1.54.\n\nD7 — PREVENTIVE ACTIONS & SYSTEM UPDATES:\n• Revised PFMEA and Control Plan revision level.\n• Implemented Poka-Yoke SPC alert rule and conducted operator retraining on gauge R&R.\n\nD8 — TEAM RECOGNITION & CLOSURE:\n• CFT contribution formally acknowledged by Quality Head ("+bName+" • CO-POWERED BY VISHWASH).";
-  if(!key||key.indexOf('AIza')!==0){gOut.innerHTML="<div class='ai-resp'>"+full8D+"</div>";return;}
-  gOut.innerHTML="<div class='ai-resp no-print'>✨ Connecting to Google Gemini AI for full IATF-16949 8D & 5-Why report...</div>";
+async function fullReport(){
+  var p=document.getElementById('pn').value,d=document.getElementById('dt').value,t=document.getElementById('tv').value,tol=document.getElementById('tl').value,a=document.getElementById('av').value,diff=(parseFloat(a)-parseFloat(t)).toFixed(3),key=document.getElementById('gKey').value.trim();
+  var txt="✨ IATF-16949 FULL 8D & 5-WHY REPORT (CO-POWERED BY VISHWASH)\nPart: "+p+" | Defect: "+d+"\nSpec: "+t+" (±"+tol+") | Measured: "+a+" | Deviation: "+diff+"\n\nD1 — CFT TEAM:\n• Lead: Senior QA Engineer | Production Supervisor | Maintenance & CMM Lead\n\nD2 — PROBLEM DESCRIPTION (5W2H):\n• Non-conformance detected on "+p+" ("+d+") with net deviation of "+diff+".\n\nD3 — CONTAINMENT ACTION:\n• 100% quarantine of suspect lot in Red Hold Bin; 100% gauge sorting of WIP & FG stock.\n\nD4 — 5-WHY ROOT CAUSE ANALYSIS:\n• Why 1: Dimension/parameter exceeded ±"+tol+" tolerance by "+diff+".\n• Why 2: Process drifted during continuous production run.\n• Why 3: Cutting tool/insert crossed optimal wear limit mid-shift.\n• Why 4: Offset compensation was not triggered at 75% control limit.\n• Why 5 (Root Cause): Control plan lacked automated tool-life counter interlock.\n\nD5 — PERMANENT CORRECTIVE ACTION (CAPA):\n• Replace worn tooling, apply offset correction ("+(-diff)+"), verify 5-piece FOPA (Cpk ≥ 1.33).\n\nD6 — VERIFICATION:\n• Verified next 3 consecutive lots (1,500+ units) with zero defects.\n\nD7 — PREVENTIVE ACTION:\n• Updated PFMEA, Control Plan & operator SPC poka-yoke alert.\n\nD8 — CLOSURE:\n• Approved & Closed • QualityPilot AI — CO-POWERED BY VISHWASH.";
+  document.getElementById('repOut').innerHTML="<div class='rep'>"+txt+"</div>";
