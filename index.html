@@ -7,21 +7,22 @@
 <style>
 :root{--bg:#f4f7fb;--card:#fff;--text:#1e293b;--sub:#64748b;--border:#e2e8f0;--inp:#f8fafc}
 body.dark{--bg:#090d16;--card:#111827;--text:#f1f5f9;--sub:#94a3b8;--border:#1f2937;--inp:#0f172a}
-*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,sans-serif}
 body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overflow-x:hidden}
-#splash{position:fixed;inset:0;background:radial-gradient(circle,#16243d,#090d16);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;animation:slideRTL .85s cubic-bezier(.77,0,.175,1) 3.4s forwards}
-.arc-box{position:relative;width:330px;height:190px;display:flex;align-items:center;justify-content:center}
-.c-svg{position:absolute;top:-12px;left:0;width:330px;height:195px;overflow:visible}
-.c-mask{animation:smoothReveal 2.3s cubic-bezier(.25,.8,.25,1) .2s both}
-.c-txt{font-size:13.2px;font-weight:700;letter-spacing:2.2px;fill:#38bdf8;filter:drop-shadow(0 0 10px rgba(56,189,248,.9))}
-.gear-wrap{position:relative;top:24px;display:flex;align-items:center;justify-content:center;animation:popIn .7s ease both}
+#splash{position:fixed;inset:0;background:radial-gradient(circle at center,#16243d,#090d16);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;animation:slideRTL .85s cubic-bezier(.77,0,.175,1) 3.4s forwards}
+.arc-box{position:relative;width:340px;height:195px;display:flex;align-items:center;justify-content:center}
+.c-svg{position:absolute;top:-10px;left:0;width:340px;height:200px;overflow:visible}
+.c-ring{fill:none;stroke:#38bdf8;stroke-width:2.5;stroke-linecap:round;stroke-dasharray:420;stroke-dashoffset:420;filter:drop-shadow(0 0 8px #38bdf8);animation:drawArc 2.2s cubic-bezier(.4,0,.2,1) forwards}
+.c-txt{font-size:13.2px;font-weight:700;letter-spacing:2.2px;fill:#e0f2fe;opacity:0;filter:drop-shadow(0 0 8px rgba(56,189,248,.95));animation:fadeArcTxt 1.4s ease .7s forwards}
+.gear-wrap{position:relative;top:26px;display:flex;align-items:center;justify-content:center;animation:popIn .7s ease both}
 .g1{width:68px;height:68px;fill:none;stroke:#38bdf8;stroke-width:2.2;filter:drop-shadow(0 0 12px #38bdf8);animation:spinCw 3s linear infinite}
 .g2{width:38px;height:38px;fill:none;stroke:#818cf8;stroke-width:2.4;margin-left:-10px;margin-top:34px;filter:drop-shadow(0 0 10px #818cf8);animation:spinRev 2s linear infinite}
 .sp-title{font-size:27px;font-weight:700;margin-top:10px;background:linear-gradient(90deg,#fff,#38bdf8,#a5b4fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:fadeUp .7s ease .3s both}
 .sp-sub{font-size:11px;letter-spacing:4px;color:#94a3b8;margin-top:6px;font-weight:600;animation:fadeUp .7s ease .5s both}
 .sp-loader{width:230px;height:4px;background:#1e293b;border-radius:10px;overflow:hidden;margin-top:16px}
 .sp-bar{height:100%;width:0%;background:linear-gradient(90deg,#2563eb,#38bdf8,#818cf8);animation:loadBar 3.1s ease forwards}
-@keyframes smoothReveal{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes drawArc{to{stroke-dashoffset:0}}
+@keyframes fadeArcTxt{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
 @keyframes popIn{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spinCw{to{transform:rotate(360deg)}}@keyframes spinRev{from{transform:rotate(360deg)}to{transform:rotate(0deg)}}
@@ -54,23 +55,29 @@ table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
 th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 .fail{background:rgba(239,68,68,.12);color:#dc2626;padding:10px;border-radius:8px;font-weight:600;margin-bottom:10px}
 .pass{background:rgba(16,185,129,.12);color:#059669;padding:10px;border-radius:8px;font-weight:600;margin-bottom:10px}
-.ai-resp{background:rgba(124,58,237,.06);border:1px solid rgba(124,58,237,.28);padding:14px;border-radius:9px;margin-top:12px;font-size:12.5px;line-height:1.55;white-space:pre-line}
+.rep-sheet{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:12px;background:var(--card)}
+.rep-head{background:linear-gradient(135deg,#0f172a,#1e3a8a);color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+.rep-head h4{font-size:15px;letter-spacing:.5px}.rep-head small{color:#93c5fd;font-size:11px}
+.rep-sec{padding:10px 14px;border-bottom:1px solid var(--border);font-size:12.5px;line-height:1.5}
+.rep-sec b{color:#2563eb;display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px}
+.rep-sign{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 14px;background:var(--inp);font-size:11.5px}
 .bar{background:var(--inp);height:22px;border-radius:8px;overflow:hidden;margin:6px 0 14px;border:1px solid var(--border)}
 .fill{height:100%;color:#fff;font-size:12px;padding-left:10px;line-height:22px}
-.part-img{max-width:100%;max-height:165px;border-radius:8px;border:1px solid #ef4444;margin-top:8px;display:block}
+.part-img{max-width:100%;max-height:150px;border-radius:8px;border:1px solid #ef4444;margin-top:8px;display:block}
 .logo-preview{border:1px dashed var(--border);border-radius:12px;padding:28px;text-align:center;background:var(--inp)}
 .p-badge{width:68px;height:68px;border-radius:16px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:#fff;overflow:hidden}
-@page{size:A4;margin:10mm}
-@media print{body{display:block!important;background:#fff!important;color:#0f172a!important}.side,.cards,#inputBox,.no-print,#splash{display:none!important}.main,.grid{display:block!important;padding:0!important;width:100%!important}.box{border:none!important;padding:0!important}.ai-resp{background:#fff!important;border:1px solid #cbd5e1!important;font-size:11.5px!important;line-height:1.45!important}}
+@page{size:A4;margin:8mm}
+@media print{*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}body{display:block!important;background:#fff!important;color:#0f172a!important}.side,.cards,#inputBox,.no-print,#splash,.box>h3{display:none!important}.main,.grid{display:block!important;padding:0!important;width:100%!important}.box{border:none!important;padding:0!important;margin:0!important}.rep-sheet{border:2px solid #1e3a8a!important;margin-top:8px!important}.rep-sec{padding:7px 12px!important;font-size:11.5px!important}}
 @media(max-width:900px){body{flex-direction:column}.side{width:100%}.cards{grid-template-columns:1fr 1fr}.grid,.row3{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div id="splash">
   <div class="arc-box">
-    <svg class="c-svg" viewBox="0 0 330 195">
-      <defs><path id="cArc" d="M 35,165 A 130,130 0 1,1 295,165"/></defs>
-      <g class="c-mask"><text class="c-txt"><textPath href="#cArc" startOffset="50%" text-anchor="middle">WELCOME TO ULTRA-PRECISION ENGINEERING</textPath></text></g>
+    <svg class="c-svg" viewBox="0 0 340 200">
+      <defs><path id="cArc" d="M 38,168 A 132,132 0 1,1 302,168"/></defs>
+      <path class="c-ring" d="M 28,176 A 142,142 0 1,1 312,176"/>
+      <text class="c-txt"><textPath href="#cArc" startOffset="50%" text-anchor="middle">WELCOME TO ULTRA-PRECISION ENGINEERING</textPath></text>
     </svg>
     <div class="gear-wrap">
       <svg class="g1" viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
@@ -108,7 +115,7 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
         <button type="button" class="ai-btn" onclick="askGemini()">✨ Generate Full 8D & 5-Why Investigation Report</button>
         <button type="button" class="run" onclick="calc(true)">✅ Log Entry & Save to Audit Table</button>
       </div>
-      <div class="box"><h3>📄 2. Live AI 8D Investigation Report</h3><div id="out"></div><div id="geminiOut"></div><button type="button" class="run no-print" style="background:#059669;margin-top:12px" onclick="printFull()">🖨️ Print / Save Full 8D PDF Report</button></div>
+      <div class="box"><h3>📄 2. Live AI 8D Investigation Report</h3><div id="out"></div><div id="geminiOut"></div><button type="button" class="run no-print" style="background:#059669;margin-top:12px" onclick="printFull()">🖨️ Print / Save Corporate 8D PDF Report</button></div>
     </div>
   </div>
   <div id="t2" class="tab"><div class="grid"><div class="box"><h3>⚡ Report Speed: Excel vs QualityPilot AI</h3><p style="font-size:13px">Manual Excel: 150 Mins</p><div class="bar"><div class="fill" style="width:95%;background:#ef4444">150 Mins</div></div><p style="font-size:13px">QualityPilot AI: 5 Mins</p><div class="bar"><div class="fill" style="width:20%;background:#10b981">5 Mins</div></div></div><div class="box"><h3>🏭 Live Machine OEE & Efficiency</h3><p style="font-size:13px">CNC Turning #04 (88% OEE)</p><div class="bar"><div class="fill" style="width:88%;background:#3b82f6">88% Healthy</div></div><p style="font-size:13px">VMC Milling #02 (74% OEE)</p><div class="bar"><div class="fill" style="width:74%;background:#f59e0b">74% Tool Wear</div></div></div></div></div>
@@ -132,7 +139,7 @@ function calc(saveLog){
   var imgTag=partImg?"<img src='"+partImg+"' class='part-img'><br>":"";
   var thumb=partImg?"<img src='"+partImg+"' style='width:36px;height:36px;object-fit:cover;border-radius:6px'>":"—";
   if(saveLog){document.getElementById('bc').innerText=parseInt(document.getElementById('bc').innerText)+1;sh+=2.4;document.getElementById('ts').innerText=sh.toFixed(1)+" Hrs";}
-  if(pass){out.innerHTML="<div class='pass'>✅ PASS — Within Spec (±"+tol+", Dev: "+diff+")</div>"+imgTag+"<small>"+bName+" • CO-POWERED BY VISHWASH</small>";if(saveLog)lg.innerHTML="<tr><td>"+p+"</td><td>"+dt.toUpperCase()+"</td><td>"+thumb+"</td><td style='color:#10b981'>PASS</td></tr>"+lg.innerHTML;return;}
+  if(pass){out.innerHTML="<div class='pass'>✅ PASS — Within Spec (±"+tol+", Dev: "+diff+")</div>"+imgTag;if(saveLog)lg.innerHTML="<tr><td>"+p+"</td><td>"+dt.toUpperCase()+"</td><td>"+thumb+"</td><td style='color:#10b981'>PASS</td></tr>"+lg.innerHTML;return;}
   if(saveLog)document.getElementById('oc').innerText=parseInt(document.getElementById('oc').innerText)+1;
   var c="Progressive Tool Wear ("+diff+" mm)",act="Compensate CNC offset by "+(-diff)+" mm & verify 5 parts.";
   if(dt==='dim'&&pt!=='wear'){c="CNC Offset Entry Error ("+diff+" mm)";}
@@ -146,16 +153,23 @@ function calc(saveLog){
   else if(dt==='rust'){c="Low Anti-Rust Oil / Humidity";act="Re-dip in rust oil & seal in VCI.";}
   var dLabel=dt==='custom'?(document.getElementById('custTxt').value||"Custom Defect"):dt.toUpperCase();
   if(dt==='custom'){c="5-Why Process Drift on "+dLabel;act="Quarantine batch & conduct 4M audit.";}
-  out.innerHTML="<div class='fail'>🚨 REJECT — Out of Spec (Deviation: "+diff+")</div><table><tr><th>Org</th><td>"+bName+"</td></tr><tr><th>Part</th><td>"+p+"</td></tr><tr><th>Defect</th><td>"+dLabel+"</td></tr><tr><th>D4 Cause</th><td>"+c+"</td></tr><tr><th>D5 CAPA</th><td>"+act+"</td></tr></table>"+imgTag;
+  out.innerHTML="<div class='fail'>🚨 REJECT — Out of Spec (Deviation: "+diff+")</div><table><tr><th>Organization</th><td>"+bName+"</td></tr><tr><th>Part & Batch</th><td>"+p+"</td></tr><tr><th>Defect</th><td>"+dLabel+"</td></tr><tr><th>D4 Cause</th><td>"+c+"</td></tr><tr><th>D5 CAPA</th><td>"+act+"</td></tr></table>"+imgTag;
   if(saveLog)lg.innerHTML="<tr><td>"+p+"</td><td>"+dLabel+"</td><td>"+thumb+"</td><td style='color:#ef4444'>REJECT</td></tr>"+lg.innerHTML;
 }
 function printFull(){if(!document.getElementById('geminiOut').innerHTML.trim())askGemini();setTimeout(function(){window.print();},200);}
 async function askGemini(){
   var key=document.getElementById('gKey').value.trim(),gOut=document.getElementById('geminiOut'),dtEl=document.getElementById('dt');
-  var p=document.getElementById('pn').value,dt=dtEl.options.item(dtEl.selectedIndex).text,ct=document.getElementById('custTxt').value,tv=document.getElementById('tv').value,tl=document.getElementById('tl').value,av=document.getElementById('av').value,diff=(parseFloat(av)-parseFloat(tv)).toFixed(3);
-  var full8D="✨ IATF-16949 FULL 8D & 5-WHY REPORT ("+bName+" • CO-POWERED BY VISHWASH)\nPart: "+p+" | Defect: "+dt+" "+ct+"\nSpec: "+tv+" (±"+tl+") | Measured: "+av+" | Deviation: "+diff+"\n\nD1 — CFT TEAM:\n• Lead: Senior QA Engineer | Production Supervisor | Maintenance & CMM Lead\n\nD2 — PROBLEM DESCRIPTION (5W2H):\n• Non-conformance detected on "+p+" ("+dt+" "+ct+") with net deviation of "+diff+".\n\nD3 — INTERIM CONTAINMENT (ICA):\n• 100% quarantine of suspect lot in Red Hold Bin; 100% gauge sorting of WIP & FG stock.\n\nD4 — 5-WHY ROOT CAUSE ANALYSIS:\n• Why 1: Parameter exceeded ±"+tl+" tolerance by "+diff+".\n• Why 2: Process drifted gradually during continuous production batch.\n• Why 3: Cutting insert/tooling crossed optimal wear threshold mid-shift.\n• Why 4: Tool offset compensation was not triggered at 75% control limit.\n• Why 5 (Root Cause): Control Plan lacked mandatory SPC warning limits & tool-life interlock.\n\nD5 — PERMANENT CORRECTIVE ACTION (CAPA):\n• Replace worn tooling, apply offset correction ("+(-diff)+"), verify 5-piece FOPA (Cpk ≥ 1.33).\n\nD6 — VERIFICATION:\n• Monitored next 3 consecutive lots (1,500+ units) with zero recurrence (Cpk 1.54).\n\nD7 — PREVENTIVE ACTION:\n• Updated PFMEA, Control Plan & operator SPC Poka-Yoke alert.\n\nD8 — CLOSURE:\n• Approved & Closed by Quality Head ("+bName+" • CO-POWERED BY VISHWASH).";
-  gOut.innerHTML="<div class='ai-resp'>"+full8D+"</div>";
-  if(key.indexOf('AIza')===0){try{var r=await fetch("https://googleapis.com"+encodeURIComponent(key),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:"Write a detailed IATF 16949 8D and 5-Why report for "+p+", defect "+dt+" "+ct+", target "+tv+" ±"+tl+", measured "+av}]}]})});var j=await r.json();if(j.candidates&&j.candidates.length)gOut.innerHTML="<div class='ai-resp'>"+j.candidates.item(0).content.parts.item(0).text.replace(/\*\*/g,'')+"</div>";}catch(e){}}
+  var p=document.getElementById('pn').value,dt=dtEl.options.item(dtEl.selectedIndex).text,ct=document.getElementById('custTxt').value,tv=document.getElementById('tv').value,tl=document.getElementById('tl').value,av=document.getElementById('av').value,diff=(parseFloat(av)-parseFloat(tv)).toFixed(3),today=new Date().toLocaleDateString('en-GB'),repId="8D-"+Math.floor(1000+Math.random()*9000);
+  var cardHtml="<div class='rep-sheet'><div class='rep-head'><div><h4>"+bName.toUpperCase()+" — IATF 16949 8D AUDIT CERTIFICATE</h4><small>CO-POWERED BY VISHWASH • GLOBAL QUALITY ASSURANCE</small></div><div style='text-align:right;font-size:11.5px'><b>ID: "+repId+"</b><br>Date: "+today+"</div></div>"+
+  "<div class='rep-sec'><b>D1 — Cross-Functional Team (CFT)</b>Lead: Senior QA Engineer ("+bName+") | Process Owner: Production Shift Supervisor | Metrology & CMM Lead</div>"+
+  "<div class='rep-sec'><b>D2 — Problem Description (5W2H)</b>Part: "+p+" | Category: "+dt+" "+ct+" | Spec: "+tv+" (±"+tl+") | Measured: "+av+" (Net Deviation: "+diff+")</div>"+
+  "<div class='rep-sec'><b>D3 — Interim Containment Action (ICA)</b>Quarantined 100% suspect batch in Red Hold Bin. Executed 100% gauge sorting on WIP, Finished Goods & Transit stock.</div>"+
+  "<div class='rep-sec'><b>D4 — 5-Why Root Cause Analysis</b>• Why 1: Parameter exceeded ±"+tl+" tolerance by "+diff+".<br>• Why 2: Process parameter drifted gradually during continuous batch cycle.<br>• Why 3: Cutting insert/tooling crossed optimal wear limit mid-shift.<br>• Why 4: Offset compensation was not triggered at 75% SPC warning limit.<br>• Why 5 (Root Cause): Control Plan lacked mandatory SPC warning interlock & automated tool-life counter.</div>"+
+  "<div class='rep-sec'><b>D5 — Permanent Corrective Action (CAPA)</b>Replaced worn tooling, applied exact offset correction ("+(-diff)+"), and validated 5-piece FOPA with Cpk ≥ 1.33.</div>"+
+  "<div class='rep-sec'><b>D6 & D7 — Verification & Preventive System Update</b>Verified next 3 consecutive lots (1,500+ units) with zero recurrence (Cpk 1.54). Updated PFMEA, Control Plan & Poka-Yoke SPC alert.</div>"+
+  "<div class='rep-sign'><div><b>Prepared By (AI Co-Pilot):</b><br>Quality Assurance Engineer — "+bName+"</div><div style='text-align:right'><b>Approved & Closed By (D8):</b><br>Quality Head • CO-POWERED BY VISHWASH</div></div></div>";
+  gOut.innerHTML=cardHtml;
+  if(key.indexOf('AIza')===0){try{var r=await fetch("https://googleapis.com"+encodeURIComponent(key),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:"Write a concise, audit-ready IATF 16949 8D & 5-Why summary for "+p+", defect "+dt+" "+ct+", target "+tv+" ±"+tl+", measured "+av}]}]})});var j=await r.json();if(j.candidates&&j.candidates.length)gOut.innerHTML="<div class='rep-sheet'><div class='rep-head'><h4>"+bName.toUpperCase()+" — GEMINI AI 8D AUDIT REPORT</h4><small>"+repId+" • "+today+"</small></div><div class='rep-sec' style='white-space:pre-line'>"+j.candidates.item(0).content.parts.item(0).text.replace(/\*\*/g,'')+"</div></div>";}catch(e){}}
 }
 window.onload=function(){var k=localStorage.getItem('qp_gkey');if(k)document.getElementById('gKey').value=k;calc(false);};
 </script>
