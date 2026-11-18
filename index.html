@@ -9,21 +9,47 @@
 body.dark{--bg:#090d16;--card:#111827;--text:#f1f5f9;--sub:#94a3b8;--border:#1f2937;--inp:#0f172a;--shadow:0 6px 20px rgba(0,0,0,0.35)}
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;transition:background .2s,color .2s,transform .2s}
 body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);font-weight:400;overflow-x:hidden}
-#splash{position:fixed;inset:0;background:radial-gradient(circle at center,#1e293b 0%,#090d16 100%);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;animation:slideCurainOut 0.85s cubic-bezier(0.77,0,0.175,1) 2.3s forwards}
-.gear-stage{position:relative;width:110px;height:90px;margin-bottom:14px;display:flex;align-items:center;justify-content:center;perspective:600px}
-.g-big{width:68px;height:68px;fill:none;stroke:#38bdf8;stroke-width:2.2;filter:drop-shadow(0 0 12px rgba(56,189,248,0.65));animation:spin3D 3.5s linear infinite}
-.g-small{width:42px;height:42px;fill:none;stroke:#818cf8;stroke-width:2.4;margin-left:-10px;margin-top:26px;filter:drop-shadow(0 0 10px rgba(129,140,248,0.65));animation:spinRev 2.2s linear infinite}
-.sp-title{font-size:26px;font-weight:600;letter-spacing:0.8px;background:linear-gradient(90deg,#ffffff,#38bdf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:slideShowText 0.7s ease forwards}
-.sp-sub{font-size:11.5px;letter-spacing:3.5px;color:#38bdf8;margin-top:8px;font-weight:500;opacity:0;animation:slideShowText 0.7s ease 0.35s forwards}
-.sp-loader{width:210px;height:4px;background:#1e293b;border-radius:10px;overflow:hidden;margin-top:20px}
-.sp-bar{height:100%;width:0%;background:linear-gradient(90deg,#3b82f6,#38bdf8,#818cf8);animation:loadBar 2.1s ease forwards}
-@keyframes spin3D{0%{transform:rotateY(18deg) rotate(0deg)}50%{transform:rotateY(-18deg) rotate(180deg)}100%{transform:rotateY(18deg) rotate(360deg)}}
+
+#splash{position:fixed;inset:0;background:radial-gradient(circle at 50% 45%,#132238 0%,#060911 100%);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;overflow:hidden;animation:curtainOut 0.85s cubic-bezier(0.77,0,0.175,1) 3.6s forwards}
+.bp-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(56,189,248,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,0.07) 1px,transparent 1px);background-size:36px 36px;pointer-events:none}
+.laser-scan{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#38bdf8,#818cf8,transparent);box-shadow:0 0 18px #38bdf8;animation:scanDown 2.8s ease-in-out infinite;pointer-events:none}
+.hud-corner{position:absolute;width:28px;height:28px;border:2px solid rgba(56,189,248,0.55);pointer-events:none}
+.tl{top:22px;left:22px;border-right:none;border-bottom:none}
+.tr{top:22px;right:22px;border-left:none;border-bottom:none}
+.bl{bottom:22px;left:22px;border-right:none;border-top:none}
+.br{bottom:22px;right:22px;border-left:none;border-top:none}
+.hud-tag{position:absolute;font-size:10px;letter-spacing:2px;color:rgba(56,189,248,0.7);font-family:monospace}
+.ht-l{top:26px;left:58px}
+.ht-r{bottom:26px;right:58px}
+
+.eng-core{position:relative;width:340px;height:235px;display:flex;align-items:center;justify-content:center;perspective:800px}
+.arc-svg{position:absolute;top:-18px;left:0;width:340px;height:210px;overflow:visible;animation:arcFloat 3.4s ease-in-out infinite}
+.arc-text{font-size:13.8px;font-weight:700;letter-spacing:2.4px;fill:url(#arcGrad);filter:drop-shadow(0 0 10px rgba(56,189,248,0.75))}
+.orbit-ring{position:absolute;top:64px;width:158px;height:158px;border:1px dashed rgba(56,189,248,0.45);border-radius:50%;animation:spinSlow 10s linear infinite}
+.orbit-ring2{position:absolute;top:76px;width:134px;height:134px;border:1.5px solid rgba(129,140,248,0.3);border-top-color:#38bdf8;border-bottom-color:#818cf8;border-radius:50%;animation:spinRev 4.5s linear infinite}
+.gear-cluster{position:relative;top:24px;display:flex;align-items:center;justify-content:center;transform-style:preserve-3d;animation:tilt3D 3.5s ease-in-out infinite}
+.g-main{width:76px;height:76px;fill:none;stroke:#38bdf8;stroke-width:2.1;filter:drop-shadow(0 0 14px rgba(56,189,248,0.8));animation:spinCw 3.2s linear infinite}
+.g-sec{width:46px;height:46px;fill:none;stroke:#818cf8;stroke-width:2.3;margin-left:-11px;margin-top:32px;filter:drop-shadow(0 0 12px rgba(129,140,248,0.8));animation:spinRev 2s linear infinite}
+.g-tri{width:34px;height:34px;fill:none;stroke:#22d3ee;stroke-width:2.4;margin-left:-84px;margin-top:-42px;filter:drop-shadow(0 0 10px rgba(34,211,238,0.8));animation:spinRev 1.6s linear infinite}
+
+.sp-title{font-size:28px;font-weight:700;letter-spacing:1.2px;margin-top:6px;background:linear-gradient(90deg,#ffffff,#38bdf8,#a5b4fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:slideUp 0.7s ease 0.3s both}
+.sp-sub{font-size:11.5px;letter-spacing:4px;color:#38bdf8;margin-top:6px;font-weight:600;animation:slideUp 0.7s ease 0.55s both}
+.sp-loader{width:250px;height:4px;background:#1e293b;border-radius:10px;overflow:hidden;margin-top:18px;box-shadow:0 0 12px rgba(56,189,248,0.25)}
+.sp-bar{height:100%;width:0%;background:linear-gradient(90deg,#2563eb,#38bdf8,#818cf8);animation:loadBar 3.3s cubic-bezier(0.4,0,0.2,1) forwards}
+.boot-log{font-family:monospace;font-size:10.5px;color:#94a3b8;letter-spacing:1.2px;margin-top:10px;height:14px}
+
+@keyframes scanDown{0%,100%{top:8%;opacity:0.2}50%{top:92%;opacity:0.95}}
+@keyframes arcFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-4px) scale(1.02)}}
+@keyframes tilt3D{0%,100%{transform:rotateY(16deg) rotateX(6deg)}50%{transform:rotateY(-16deg) rotateX(-6deg)}}
+@keyframes spinCw{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes spinRev{from{transform:rotate(360deg)}to{transform:rotate(0deg)}}
+@keyframes spinSlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes loadBar{to{width:100%}}
-@keyframes slideShowText{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:translateX(0)}}
-@keyframes slideCurainOut{0%{transform:translateX(0);opacity:1}100%{transform:translateX(-100%);opacity:0;visibility:hidden;pointer-events:none}}
+@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes curtainOut{0%{transform:scale(1);opacity:1}100%{transform:scale(1.06);opacity:0;visibility:hidden;pointer-events:none}}
 @keyframes slideShowDash{from{opacity:0;transform:translateX(35px)}to{opacity:1;transform:translateX(0)}}
-.anim-in{animation:slideShowDash 0.75s cubic-bezier(0.22,1,0.36,1) 2.35s both}
+.anim-in{animation:slideShowDash 0.75s cubic-bezier(0.22,1,0.36,1) 3.65s both}
+
 .side{width:265px;background:linear-gradient(180deg,#0f172a 0%,#090d16 100%);color:#fff;padding:20px 16px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #1e293b}
 .brand-top{display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid #1e293b}
 .logo-icon{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#3b82f6,#06b6d4);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:17px;overflow:hidden}
@@ -62,175 +88,3 @@ input[type="file"]{padding:8px;border-style:dashed;cursor:pointer}
 .ai-btn{width:100%;padding:12px;background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;border:none;border-radius:9px;font-weight:500;font-size:13.5px;cursor:pointer;margin-bottom:8px}
 .tab{display:none}.tab.on{display:block;animation:slideShowDash 0.45s ease}
 table{width:100%;border-collapse:separate;border-spacing:0;margin-top:8px;font-size:13.5px;border-radius:9px;overflow:hidden;border:1px solid var(--border)}
-th{background:var(--inp);color:var(--sub);font-weight:500;font-size:12px}
-th,td{border-bottom:1px solid var(--border);padding:10px 13px;text-align:left;font-weight:400}
-tr:last-child td{border-bottom:none}
-.fail{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.28);color:#dc2626;padding:11px 14px;border-radius:9px;font-weight:500;margin-bottom:13px;font-size:13.5px}
-.pass{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.28);color:#059669;padding:11px 14px;border-radius:9px;font-weight:500;margin-bottom:13px;font-size:13.5px}
-.ai-resp{background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.25);padding:13px;border-radius:10px;margin-top:12px;font-size:13.5px;line-height:1.6;white-space:pre-line}
-.bar{background:var(--inp);height:24px;border-radius:10px;overflow:hidden;margin:7px 0 16px;border:1px solid var(--border)}
-.fill{height:100%;color:#fff;font-size:12px;font-weight:500;padding-left:12px;line-height:22px}
-.part-img{max-width:100%;max-height:190px;border-radius:9px;border:1px solid #ef4444;margin-top:8px;display:block}
-.logo-preview{border:1px dashed var(--border);border-radius:14px;padding:32px;text-align:center;background:var(--inp);margin-top:10px}
-.p-badge{width:72px;height:72px;border-radius:18px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff;overflow:hidden}
-.p-badge img{width:100%;height:100%;object-fit:cover}
-@page{size:A4;margin:12mm}
-@media print{body{display:block!important;background:#fff!important}.side,.cards,#inputBox,.no-print,#splash{display:none!important}.main,.grid{display:block!important;padding:0!important;margin:0!important;width:100%!important}.box{border:1px solid #cbd5e1!important;box-shadow:none!important;margin:0!important;page-break-inside:avoid}}
-@media(max-width:900px){body{flex-direction:column}.side{width:100%}.cards{grid-template-columns:1fr 1fr}.grid,.row3{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
-<div id="splash">
-  <div class="gear-stage">
-    <svg class="g-big" viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
-    <svg class="g-small" viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
-  </div>
-  <div class="sp-title">QualityPilot AI</div>
-  <div class="sp-sub">CO-POWERED BY VISHWASH</div>
-  <div class="sp-loader"><div class="sp-bar"></div></div>
-</div>
-<div class="side">
-  <div>
-    <div class="brand-top"><div class="logo-icon" id="sideIcon">QP</div><h2 id="sideTitle">QualityPilot AI</h2></div>
-    <button class="dm-btn" id="dmBtn" onclick="toggleDark()">🌙 Switch to Dark Mode</button>
-    <button class="nav on" onclick="go('t1',this)">⚡ 8D Co-Pilot (Gemini)</button>
-    <button class="nav" onclick="go('t2',this)">📊 Time & OEE Graphs</button>
-    <button class="nav" onclick="go('t3',this)">📋 Live Logs & Audit</button>
-    <button class="nav" onclick="go('t4',this)">🎨 Logo & Brand Studio</button>
-    <div class="api-box">
-      <small>✨ Google Gemini API Key (Optional)</small>
-      <div class="api-row">
-        <input type="password" id="gKey" placeholder="Paste AIzaSy... Key" onchange="localStorage.setItem('qp_gkey',this.value)">
-        <button class="eye-btn" type="button" onclick="toggleKey()">👁️</button>
-      </div>
-    </div>
-  </div>
-  <div class="vb"><small>CO-POWERED BY</small><b>VISHWASH</b></div>
-</div>
-<div class="main anim-in">
-  <div class="cards">
-    <div class="card"><small>Batch Units</small><h3 id="bc">1240</h3></div>
-    <div class="card c2"><small>First-Pass Yield</small><h3>98.4%</h3></div>
-    <div class="card c3"><small>Open 8D Reports</small><h3 id="oc">3</h3></div>
-    <div class="card c4"><small>Engineer Time Saved</small><h3 id="ts">7.5 Hrs</h3></div>
-  </div>
-  <div id="t1" class="tab on">
-    <div class="grid">
-      <div class="box" id="inputBox">
-        <h3>🛠️ 1. Defect & Dimension Input</h3>
-        <label>Part Name & Batch ID</label><input id="pn" value="Steel Flange #CAB-809" oninput="calc(false)">
-        <label>Defect Category (10 Industrial Types)</label>
-        <select id="dt" onchange="chkCustom();calc(false)">
-          <option value="dim">1. Dimension Tolerance Out-of-Spec (mm)</option>
-          <option value="finish">2. Poor Surface Finish / Chatter Marks (Ra)</option>
-          <option value="burr">3. Burr / Sharp Edge Defect</option>
-          <option value="thread">4. Thread Pitch / Go-NoGo Gauge Fail</option>
-          <option value="crack">5. Surface Crack / Forging Lap</option>
-          <option value="blowhole">6. Casting Blowhole / Porosity</option>
-          <option value="weld">7. Welding Spatter / Incomplete Fusion</option>
-          <option value="hardness">8. Hardness / Heat Treatment Fail (HRC)</option>
-          <option value="rust">9. Surface Rust / Oxidation</option>
-          <option value="custom">10. Custom Defect (Type Manually...)</option>
-        </select>
-        <div id="custBox" style="display:none"><label>Describe Custom Defect</label><input id="custTxt" placeholder="e.g. Hydraulic Oil Leakage" oninput="calc(false)"></div>
-        <div class="row3">
-          <div><label>Target Spec</label><input type="number" id="tv" value="50.00" step="0.01" oninput="calc(false)"></div>
-          <div><label>Tolerance (±)</label><input type="number" id="tl" value="0.05" step="0.01" oninput="calc(false)"></div>
-          <div><label>Measured</label><input type="number" id="av" value="50.16" step="0.01" oninput="calc(false)"></div>
-        </div>
-        <label>Observed Pattern</label>
-        <select id="pt" onchange="calc(false)"><option value="wear">Gradual Drift (Tool / Die Wear)</option><option value="off">Sudden Shift (Setup / Offset Error)</option><option value="batch">Raw Material / Batch Variation</option></select>
-        <label>Damaged Part Photo (AI Vision Evidence)</label>
-        <input type="file" accept="image/*" capture="environment" onchange="loadPartImg(event)">
-        <button class="ai-btn" onclick="askGemini()">✨ Generate Deep 8D & 5-Why with Gemini AI</button>
-        <button class="run" onclick="calc(true)">✅ Log Entry & Save to Audit Table</button>
-      </div>
-      <div class="box"><h3>📄 2. Live AI 8D Investigation Report</h3><div id="out"></div><div id="geminiOut"></div></div>
-    </div>
-  </div>
-  <div id="t2" class="tab">
-    <div class="grid">
-      <div class="box"><h3>⚡ Report Speed: Excel vs QualityPilot AI</h3><p style="font-size:13px">Manual Excel: 150 Mins (2.5 Hrs)</p><div class="bar"><div class="fill" style="width:95%;background:#ef4444">150 Mins</div></div><p style="font-size:13px">QualityPilot AI (VISHWASH): 5 Mins</p><div class="bar"><div class="fill" style="width:20%;background:#10b981">5 Mins</div></div></div>
-      <div class="box"><h3>🏭 Live Machine OEE & Efficiency</h3><p style="font-size:13px">CNC Turning #04 (88% OEE)</p><div class="bar"><div class="fill" style="width:88%;background:#3b82f6">88% Healthy</div></div><p style="font-size:13px">VMC Milling #02 (74% OEE)</p><div class="bar"><div class="fill" style="width:74%;background:#f59e0b">74% Tool Wear</div></div></div>
-    </div>
-  </div>
-  <div id="t3" class="tab">
-    <div class="box"><h3>📋 Shop-Floor Live Logs & Audit</h3><table><thead><tr><th>Part Name</th><th>Defect Type</th><th>Photo</th><th>Status</th></tr></thead><tbody id="lg"><tr><td>Steel Flange #CAB-805</td><td>Dimension</td><td>—</td><td style="color:#10b981">PASS</td></tr></tbody></table></div>
-  </div>
-  <div id="t4" class="tab">
-    <div class="grid">
-      <div class="box"><h3>🎨 Design Your SaaS / Company Logo</h3><label>Brand / Company Name</label><input id="bName" value="QualityPilot AI" oninput="upLogo()"><label>Logo Initials / Symbol</label><input id="bIcon" value="QP" maxlength="3" oninput="upLogo()"><label>Theme Color</label><input type="color" id="bColor" value="#2563eb" style="height:42px" oninput="upLogo()"><label>Or Upload Logo Image</label><input type="file" accept="image/*" onchange="loadImg(event)"><button class="run" onclick="setLogo()">Apply Logo Across App & Reports</button></div>
-      <div class="box"><h3>👁️ Live Logo Preview</h3><div class="logo-preview"><div class="p-badge" id="prevBadge" style="background:#2563eb">QP</div><h2 id="prevName" style="font-weight:600">QualityPilot AI</h2><p style="font-size:12px;color:var(--sub);margin-top:6px;letter-spacing:1.5px">CO-POWERED BY VISHWASH</p></div></div>
-    </div>
-  </div>
-</div>
-<script>
-setTimeout(function(){var sp=document.getElementById('splash');if(sp)sp.style.display='none';},3300);
-var sh=7.5,bName="QualityPilot AI",cImg="",partImg="";
-function toggleKey(){var k=document.getElementById('gKey');k.type=(k.type==='password')?'text':'password';}
-function toggleDark(){document.body.classList.toggle('dark');var isD=document.body.classList.contains('dark');document.getElementById('dmBtn').innerText=isD?"☀️ Switch to Light Mode":"🌙 Switch to Dark Mode";}
-function go(id,b){document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});document.querySelectorAll('.nav').forEach(function(x){x.classList.remove('on');});document.getElementById(id).classList.add('on');b.classList.add('on');}
-function chkCustom(){var dt=document.getElementById('dt').value;document.getElementById('custBox').style.display=(dt==='custom')?'block':'none';}
-function loadPartImg(e){var files=e.target.files;if(!files||!files.length)return;var r=new FileReader();r.onload=function(ev){partImg=ev.target.result;calc(false);};r.readAsDataURL(files.item(0));}
-function upLogo(){var n=document.getElementById('bName').value||"QualityPilot AI",ic=document.getElementById('bIcon').value||"QP",col=document.getElementById('bColor').value;document.getElementById('prevName').innerText=n;var pb=document.getElementById('prevBadge');pb.style.background=col;if(!cImg)pb.innerText=ic;}
-function loadImg(e){var files=e.target.files;if(!files||!files.length)return;var r=new FileReader();r.onload=function(ev){cImg=ev.target.result;document.getElementById('prevBadge').innerHTML="<img src='"+cImg+"'>";document.getElementById('sideIcon').innerHTML="<img src='"+cImg+"'>";};r.readAsDataURL(files.item(0));}
-function setLogo(){bName=document.getElementById('bName').value||"QualityPilot AI";var ic=document.getElementById('bIcon').value||"QP",col=document.getElementById('bColor').value;document.getElementById('sideTitle').innerText=bName;var si=document.getElementById('sideIcon');si.style.background=col;si.innerHTML=cImg?"<img src='"+cImg+"'>":ic;calc(false);alert("Brand Logo & Name Applied Successfully!");}
-function calc(saveLog){
-  var p=document.getElementById('pn').value,dt=document.getElementById('dt').value;
-  var t=parseFloat(document.getElementById('tv').value)||0,tol=Math.abs(parseFloat(document.getElementById('tl').value)||0),a=parseFloat(document.getElementById('av').value)||0;
-  var pt=document.getElementById('pt').value,diff=(a-t).toFixed(3);
-  var isNumeric=(dt==='dim'||dt==='hardness'),pass=isNumeric&&(Math.abs(diff)<=tol);
-  var out=document.getElementById('out'),lg=document.getElementById('lg');
-  var imgTag=partImg?"<div><span style='font-size:12px;color:var(--sub)'>Damaged Part Photo Evidence:</span><img src='"+partImg+"' class='part-img'></div><br>":"";
-  var thumb=partImg?"<img src='"+partImg+"' style='width:38px;height:38px;object-fit:cover;border-radius:6px'>":"—";
-  if(saveLog){document.getElementById('bc').innerText=parseInt(document.getElementById('bc').innerText)+1;sh+=2.4;document.getElementById('ts').innerText=sh.toFixed(1)+" Hrs";}
-  if(pass){var unit=(dt==='hardness')?" HRC":" mm";out.innerHTML="<div class='pass'>✅ PASS — Within Specification (±"+tol+unit+", Deviation: "+diff+unit+")</div>"+imgTag+"<small style='color:var(--sub)'>"+bName+" • CO-POWERED BY VISHWASH</small>";if(saveLog)lg.innerHTML="<tr><td>"+p+"</td><td>"+dt.toUpperCase()+"</td><td>"+thumb+"</td><td style='color:#10b981'>PASS</td></tr>"+lg.innerHTML;return;}
-  if(saveLog)document.getElementById('oc').innerText=parseInt(document.getElementById('oc').innerText)+1;
-  var c="",act="",dLabel=dt.toUpperCase();
-  if(dt==='finish'){c="Worn Cutting Insert / Improper Coolant Flow (89% Confidence)";act="Replace cutting insert & verify coolant pressure at nozzle.";}
-  else if(dt==='burr'){c="Dull Cutting Edge / Excessive Feed Rate (91% Confidence)";act="Index tool edge & verify automated deburring cycle.";}
-  else if(dt==='thread'){c="Tap Wear / Pitch Diameter Shift (87% Confidence)";act="Replace thread tap & validate batch with Go/No-Go gauge.";}
-  else if(dt==='crack'){c="Die Stress / Forging Temperature Drop (88% Confidence)";act="Perform 100% MPI crack inspection & calibrate induction heater.";}
-  else if(dt==='blowhole'){c="Gas Entrapment / Low Pouring Temperature (86% Confidence)";act="Clean die air vents & verify molten metal degassing.";}
-  else if(dt==='weld'){c="Low Arc Current / Shielding Gas Leak (90% Confidence)";act="Calibrate wire feed/ampere & inspect CO2/Argon gas flow.";}
-  else if(dt==='hardness'){c="Quenching Oil Temp / Tempering Drift (Deviation: "+diff+" HRC)";act="Quarantine suspect lot, audit furnace cycle & re-test HRC.";}
-  else if(dt==='rust'){c="Low Anti-Rust Oil Concentration / Humidity (85% Confidence)";act="Re-dip batch in rust-preventive oil & seal in VCI packaging.";}
-  else if(dt==='custom'){var ct=document.getElementById('custTxt').value||"Custom Process Anomaly";dLabel=ct;c="5-Why Root Cause: Process Parameter Drift on "+ct+" (84% Confidence)";act="Quarantine suspect batch & conduct 4M (Man/Machine/Material/Method) audit.";}
-  else{c=(pt==='wear')?"Progressive Cutting Tool Wear (Deviation: "+diff+" mm)":"CNC Tool Offset Entry Error (Deviation: "+diff+" mm)";act="Compensate CNC tool offset by "+(-diff)+" mm & inspect next 5 consecutive parts.";}
-  var today=new Date().toLocaleDateString('en-GB');
-  out.innerHTML="<div style='display:flex;justify-content:space-between;font-size:12px;color:var(--sub);margin-bottom:8px'><span>Report ID: 8D-"+Math.floor(1000+Math.random()*9000)+"</span><span>Date: "+today+"</span></div><div class='fail'>🚨 REJECT — Out of Specification (Deviation: "+diff+")</div><table><tr><th>Organization</th><td>"+bName+"</td></tr><tr><th>Part & Batch ID</th><td>"+p+"</td></tr><tr><th>Defect Category</th><td>"+dLabel+"</td></tr><tr><th>D4 Root Cause</th><td>"+c+"</td></tr><tr><th>D5 CAPA Action</th><td>"+act+"</td></tr></table><br>"+imgTag+"<small style='color:var(--sub)'>"+bName+" • CO-POWERED BY VISHWASH</small><br><br><button class='run no-print' style='background:linear-gradient(135deg,#10b981,#059669)' onclick='window.print()'>🖨️ Export / Save 1-Page 8D PDF</button>";
-  if(saveLog)lg.innerHTML="<tr><td>"+p+"</td><td>"+dLabel+"</td><td>"+thumb+"</td><td style='color:#ef4444'>REJECT</td></tr>"+lg.innerHTML;
-}
-async function askGemini(){
-  var key=document.getElementById('gKey').value.trim(),gOut=document.getElementById('geminiOut');
-  var dtEl=document.getElementById('dt');
-  var p=document.getElementById('pn').value,dt=dtEl.options.item(dtEl.selectedIndex).text;
-  var ct=document.getElementById('custTxt').value,tv=document.getElementById('tv').value,tl=document.getElementById('tl').value,av=document.getElementById('av').value;
-  var builtIn8D="✨ Smart QualityPilot AI — Deep 8D & 5-Why Investigation:\n\n• D3 Containment Action: Immediately quarantine current batch of "+p+" and perform 100% sorting inspection.\n• D4 5-Why Root Cause: Observed deviation ("+(av-tv).toFixed(3)+") on "+dt+" "+ct+" indicates gradual tool wear and lack of mid-shift offset verification.\n• D5 Corrective Action (CAPA): Recalibrate machine offset, replace worn insert/tool, and verify 5 consecutive OK pieces.\n• D7 Preventive Action: Update Control Plan & Poka-Yoke SPC alert limit to trigger at 75% of tolerance band.";
-  if(!key||key.indexOf('AIza')!==0){
-    gOut.innerHTML="<div class='ai-resp'>"+builtIn8D+"</div>";
-    return;
-  }
-  gOut.innerHTML="<div class='ai-resp no-print'>✨ Connecting to Google Gemini AI for deep 8D analysis...</div>";
-  var prompt="Act as a Senior Automotive Quality Engineer (IATF 16949). Generate a crisp 8D Investigation Report in professional English bullet points for:\nPart: "+p+"\nDefect: "+dt+" "+ct+"\nTarget: "+tv+" (±"+tl+"), Measured: "+av+"\nProvide: 1) D3 Containment, 2) D4 5-Why Root Cause, 3) D5 CAPA, 4) D7 Prevention.";
-  var parts=[{text:prompt}];
-  if(partImg){
-    var mType=partImg.split(';').item(0).split(':').item(1);
-    var bData=partImg.split(',').item(1);
-    parts.push({inline_data:{mime_type:mType,data:bData}});
-  }
-  try{
-    var res=await fetch("https://googleapis.com"+encodeURIComponent(key),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:parts}]})});
-    var data=await res.json();
-    if(data.candidates&&data.candidates.length){
-      var ans=data.candidates.item(0).content.parts.item(0).text;
-      gOut.innerHTML="<div class='ai-resp'>✨ Google Gemini AI — Deep 8D & 5-Why Analysis:\n\n"+ans.replace(/\*\*/g,'')+"</div>";
-    }else{
-      gOut.innerHTML="<div class='ai-resp'>"+builtIn8D+"</div>";
-    }
-  }catch(err){gOut.innerHTML="<div class='ai-resp'>"+builtIn8D+"</div>";}
-}
-window.onload=function(){var savedKey=localStorage.getItem('qp_gkey');if(savedKey)document.getElementById('gKey').value=savedKey;calc(false);};
-</script>
-</body>
-</html>
