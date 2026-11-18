@@ -12,10 +12,10 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
 
 #splash{position:fixed;top:0;left:0;width:100vw;height:100vh;background:radial-gradient(circle at center,#0f172a 0%,#090d16 70%,#020617 100%);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;animation:slideRTL .8s ease 3.4s forwards}
 .splash-content{display:flex;flex-direction:column;align-items:center;justify-content:center}
-.arc-box{position:relative;width:500px;height:180px;display:flex;align-items:center;justify-content:center}
-.c-svg{position:absolute;top:-45px;left:0;width:500px;height:240px;overflow:visible}
-.c-ring{fill:none;stroke:#2dd4bf;stroke-width:3;stroke-linecap:round;stroke-dasharray:470;stroke-dashoffset:470;animation:drawArc 2s ease forwards}
-.c-txt{font-size:13px;font-weight:700;letter-spacing:3px;fill:#99f6e4;opacity:0;animation:fadeArcTxt 1.2s ease .6s forwards}
+.arc-box{position:relative;width:560px;height:200px;display:flex;align-items:center;justify-content:center}
+.c-svg{position:absolute;top:-45px;left:0;width:560px;height:250px;overflow:visible}
+.c-ring{fill:none;stroke:#2dd4bf;stroke-width:2.5;stroke-linecap:round;stroke-dasharray:500;stroke-dashoffset:500;animation:drawArc 2s ease forwards}
+.c-txt{font-size:13px;font-weight:700;letter-spacing:3.1px;fill:#99f6e4;opacity:0;animation:fadeArcTxt 1.2s ease .6s forwards}
 .gear-wrap{position:relative;top:5px;display:flex;align-items:center;justify-content:center;transform:scale(1.4);gap:3px}
 .g1{width:52px;height:52px;fill:none;stroke:#2dd4bf;stroke-width:2.2;animation:spinCw 3.5s linear infinite;transform-origin:center}
 .g2{width:34px;height:34px;fill:none;stroke:#5eead4;stroke-width:2.4;animation:spinRev 2.28s linear infinite;transform-origin:center;margin-left:-11px;margin-top:18px}
@@ -99,9 +99,9 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 <div id="splash">
   <div class="splash-content">
     <div class="arc-box">
-      <svg class="c-svg" viewBox="0 0 500 180">
-        <defs><path id="cArc" d="M 45,130 A 170,170 0 0,1 455,130"/></defs>
-        <path class="c-ring" d="M 25,145 A 190,190 0 0,1 475,145"/>
+      <svg class="c-svg" viewBox="0 0 560 200">
+        <defs><path id="cArc" d="M 35,135 A 210,210 0 0,1 525,135"/></defs>
+        <path class="c-ring" d="M 20,150 A 230,230 0 0,1 540,150"/>
         <text class="c-txt"><textPath href="#cArc" startOffset="50%" text-anchor="middle">WELCOME TO ULTRA-PRECISION ENGINEERING</textPath></text>
       </svg>
       <div class="gear-wrap">
@@ -283,7 +283,7 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
           <h4>VISHWASH</h4>
           <small style="color:#94a3b8;letter-spacing:1px">FOUNDER & PRECISION QUALITY ARCHITECT</small>
           <div class="c-item">📧 <b>Direct Gmail:</b> <a class="c-mail" href="mailto:vishwashp07@gmail.com">vishwashp07@gmail.com</a></div>
-          <div class="c-item">🌐 <b>Platform:</b> QualityPilot AI — IATF 16949 Suite</div>
+          <div class="c-item">🌐 <b>Platform:</b> [QualityPilot AI — VISHWASH](url?id=5)</div>
           <div class="c-item" style="border:none">⚡ <b>Support:</b> 24/7 Enterprise Plant Onboarding</div>
         </div>
         <h3 style="margin-top:14px">📬 Submitted Inquiries</h3>
