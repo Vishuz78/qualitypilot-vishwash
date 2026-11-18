@@ -9,26 +9,24 @@
 body.dark{--bg:#090d16;--card:#111827;--text:#f1f5f9;--sub:#94a3b8;--border:#1f2937;--inp:#0f172a}
 *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,sans-serif}
 body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overflow-x:hidden}
-#splash{position:fixed;inset:0;background:radial-gradient(circle,#16243d,#090d16);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;animation:slideClose .8s cubic-bezier(.77,0,.175,1) 3.4s forwards}
+#splash{position:fixed;inset:0;background:radial-gradient(circle,#16243d,#090d16);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;animation:slideRightToLeft .85s cubic-bezier(.77,0,.175,1) 3.5s forwards}
 .arc-box{position:relative;width:320px;height:185px;display:flex;align-items:center;justify-content:center}
 .c-svg{position:absolute;top:-10px;left:0;width:320px;height:190px;overflow:visible}
-.c-txt{font-size:13.2px;font-weight:700;letter-spacing:2.2px;fill:#38bdf8;stroke:#38bdf8;stroke-width:.4px;stroke-dasharray:420;stroke-dashoffset:420;animation:drawQuote 2.4s ease forwards,glowPulse 1.5s ease-in-out 1.8s infinite}
+.c-txt{font-size:13.2px;font-weight:700;letter-spacing:2.2px;fill:#38bdf8;filter:drop-shadow(0 0 10px rgba(56,189,248,.9))}
 .gear-wrap{position:relative;top:24px;display:flex;align-items:center;justify-content:center;animation:popIn .7s ease both}
 .g1{width:68px;height:68px;fill:none;stroke:#38bdf8;stroke-width:2.2;filter:drop-shadow(0 0 12px #38bdf8);animation:spinCw 3s linear infinite}
 .g2{width:38px;height:38px;fill:none;stroke:#818cf8;stroke-width:2.4;margin-left:-10px;margin-top:34px;filter:drop-shadow(0 0 10px #818cf8);animation:spinRev 2s linear infinite}
-.sp-title{font-size:27px;font-weight:700;margin-top:10px;background:linear-gradient(90deg,#fff,#38bdf8,#a5b4fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:fadeUp .7s ease .4s both}
-.sp-sub{font-size:11px;letter-spacing:4px;color:#94a3b8;margin-top:6px;font-weight:600;animation:fadeUp .7s ease .6s both}
+.sp-title{font-size:27px;font-weight:700;margin-top:10px;background:linear-gradient(90deg,#fff,#38bdf8,#a5b4fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:fadeUp .7s ease .3s both}
+.sp-sub{font-size:11px;letter-spacing:4px;color:#94a3b8;margin-top:6px;font-weight:600;animation:fadeUp .7s ease .5s both}
 .sp-loader{width:230px;height:4px;background:#1e293b;border-radius:10px;overflow:hidden;margin-top:16px}
-.sp-bar{height:100%;width:0%;background:linear-gradient(90deg,#2563eb,#38bdf8,#818cf8);animation:loadBar 3.1s ease forwards}
-@keyframes drawQuote{to{stroke-dashoffset:0}}
-@keyframes glowPulse{0%,100%{filter:drop-shadow(0 0 6px #38bdf8)}50%{filter:drop-shadow(0 0 18px #38bdf8)}}
+.sp-bar{height:100%;width:0%;background:linear-gradient(90deg,#2563eb,#38bdf8,#818cf8);animation:loadBar 3.2s ease forwards}
 @keyframes popIn{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spinCw{to{transform:rotate(360deg)}}@keyframes spinRev{from{transform:rotate(360deg)}to{transform:rotate(0deg)}}
 @keyframes loadBar{to{width:100%}}
-@keyframes slideClose{to{transform:translateY(-100%);opacity:0;visibility:hidden;pointer-events:none}}
-@keyframes slideOpen{from{opacity:0;transform:translateX(35px)}to{opacity:1;transform:translateX(0)}}
-.anim-in{animation:slideOpen .7s ease 3.45s both}
+@keyframes slideRightToLeft{0%{transform:translateX(0);opacity:1}100%{transform:translateX(-100%);opacity:0;visibility:hidden;pointer-events:none}}
+@keyframes dashEnterRTL{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)}}
+.anim-in{animation:dashEnterRTL .75s ease 3.55s both}
 .side{width:260px;background:#0f172a;color:#fff;padding:18px 15px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #1e293b}
 .brand-top{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #1e293b}
 .logo-icon{width:36px;height:36px;border-radius:9px;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;overflow:hidden}
@@ -49,7 +47,7 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
 label{font-size:12px;color:var(--sub);display:block;margin-bottom:4px}
 input,select{width:100%;padding:9px 11px;margin-bottom:12px;border:1px solid var(--border);border-radius:8px;background:var(--inp);color:var(--text);font-size:13.5px}
 .run,.ai-btn{width:100%;padding:12px;background:#2563eb;color:#fff;border:none;border-radius:8px;font-weight:600;font-size:13.5px;cursor:pointer;margin-bottom:8px}
-.ai-btn{background:#7c3aed}.tab{display:none}.tab.on{display:block;animation:slideOpen .35s ease}
+.ai-btn{background:#7c3aed}.tab{display:none}.tab.on{display:block;animation:dashEnterRTL .35s ease}
 table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
 th,td{border:1px solid var(--border);padding:9px 11px;text-align:left}
 .fail{background:rgba(239,68,68,.12);color:#dc2626;padding:10px;border-radius:8px;font-weight:600;margin-bottom:11px}
@@ -70,7 +68,7 @@ th,td{border:1px solid var(--border);padding:9px 11px;text-align:left}
   <div class="arc-box">
     <svg class="c-svg" viewBox="0 0 320 190">
       <defs><path id="cArc" d="M 35,160 A 125,125 0 1,1 285,160"/></defs>
-      <text class="c-txt"><textPath href="#cArc" startOffset="50%" text-anchor="middle">WELCOME TO ULTRA-PRECISION ENGINEERING</textPath></text>
+      <text class="c-txt"><textPath id="arcWord" href="#cArc" startOffset="50%" text-anchor="middle"></textPath></text>
     </svg>
     <div class="gear-wrap">
       <svg class="g1" viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
@@ -116,7 +114,9 @@ th,td{border:1px solid var(--border);padding:9px 11px;text-align:left}
   <div id="t4" class="tab"><div class="grid"><div class="box"><h3>🎨 Design Your SaaS / Company Logo</h3><label>Brand / Company Name</label><input id="bName" value="QualityPilot AI" oninput="upLogo()"><label>Logo Initials</label><input id="bIcon" value="QP" maxlength="3" oninput="upLogo()"><label>Theme Color</label><input type="color" id="bColor" value="#2563eb" style="height:42px" oninput="upLogo()"><label>Or Upload Logo Image</label><input type="file" accept="image/*" onchange="loadImg(event)"><button type="button" class="run" onclick="setLogo()">Apply Logo Across App & Reports</button></div><div class="box"><h3>👁️ Live Logo Preview</h3><div class="logo-preview"><div class="p-badge" id="prevBadge" style="background:#2563eb">QP</div><h2 id="prevName">QualityPilot AI</h2><p style="font-size:12px;color:var(--sub);margin-top:6px;letter-spacing:1.5px">CO-POWERED BY VISHWASH</p></div></div></div></div>
 </div>
 <script>
-setTimeout(function(){var s=document.getElementById('splash');if(s)s.style.display='none';},4300);
+var qStr="WELCOME TO ULTRA-PRECISION ENGINEERING",qi=0;
+var tInt=setInterval(function(){var el=document.getElementById('arcWord');if(el&&qi<=qStr.length){el.textContent=qStr.slice(0,qi);qi++;}else{clearInterval(tInt);}},65);
+setTimeout(function(){var s=document.getElementById('splash');if(s)s.style.display='none';},4400);
 var sh=7.5,bName="QualityPilot AI",cImg="",partImg="";
 function toggleKey(){var k=document.getElementById('gKey');k.type=(k.type==='password')?'text':'password';}
 function toggleDark(){document.body.classList.toggle('dark');document.getElementById('dmBtn').innerText=document.body.classList.contains('dark')?"☀️ Switch to Light Mode":"🌙 Switch to Dark Mode";}
@@ -134,10 +134,19 @@ function calc(saveLog){
   if(saveLog){document.getElementById('bc').innerText=parseInt(document.getElementById('bc').innerText)+1;sh+=2.4;document.getElementById('ts').innerText=sh.toFixed(1)+" Hrs";}
   if(pass){out.innerHTML="<div class='pass'>✅ PASS — Within Spec (±"+tol+", Dev: "+diff+")</div>"+imgTag+"<small>"+bName+" • CO-POWERED BY VISHWASH</small>";if(saveLog)lg.innerHTML="<tr><td>"+p+"</td><td>"+dt.toUpperCase()+"</td><td>"+thumb+"</td><td style='color:#10b981'>PASS</td></tr>"+lg.innerHTML;return;}
   if(saveLog)document.getElementById('oc').innerText=parseInt(document.getElementById('oc').innerText)+1;
-  var map={finish:["Worn Cutting Insert / Coolant Flow","Replace insert & verify coolant pressure."],burr:["Dull Cutting Edge / High Feed","Index tool edge & check deburring."],thread:["Tap Wear / Pitch Shift","Replace tap & check Go-NoGo gauge."],crack:["Die Stress / Forging Temp Drop","Run 100% MPI check & calibrate heater."],blowhole:["Gas Entrapment / Low Pour Temp","Clean die vents & degas metal."],weld:["Low Arc Current / Gas Leak","Calibrate ampere & inspect gas flow."],hardness:["Quenching Oil Temp Drift ("+diff+" HRC)","Quarantine lot & audit furnace."],rust:["Low Anti-Rust Oil / Humidity","Re-dip in rust oil & seal in VCI."]};
+  var c="Progressive Tool Wear ("+diff+" mm)",act="Compensate CNC offset by "+(-diff)+" mm & verify 5 parts.";
+  if(dt==='dim'&&pt!=='wear'){c="CNC Offset Entry Error ("+diff+" mm)";}
+  else if(dt==='finish'){c="Worn Cutting Insert / Coolant Flow";act="Replace insert & verify coolant pressure.";}
+  else if(dt==='burr'){c="Dull Cutting Edge / High Feed";act="Index tool edge & check deburring.";}
+  else if(dt==='thread'){c="Tap Wear / Pitch Shift";act="Replace tap & check Go-NoGo gauge.";}
+  else if(dt==='crack'){c="Die Stress / Forging Temp Drop";act="Run 100% MPI check & calibrate heater.";}
+  else if(dt==='blowhole'){c="Gas Entrapment / Low Pour Temp";act="Clean die vents & degas metal.";}
+  else if(dt==='weld'){c="Low Arc Current / Gas Leak";act="Calibrate ampere & inspect gas flow.";}
+  else if(dt==='hardness'){c="Quenching Oil Temp Drift ("+diff+" HRC)";act="Quarantine lot & audit furnace.";}
+  else if(dt==='rust'){c="Low Anti-Rust Oil / Humidity";act="Re-dip in rust oil & seal in VCI.";}
   var dLabel=dt==='custom'?(document.getElementById('custTxt').value||"Custom Defect"):dt.toUpperCase();
-  var info=map[dt]||(dt==='custom'?["5-Why Drift on "+dLabel,"Quarantine batch & do 4M audit."]:[(pt==='wear'?"Progressive Tool Wear (":"CNC Offset Error (")+diff+" mm)","Compensate CNC offset by "+(-diff)+" mm & verify 5 parts."]);
-  out.innerHTML="<div class='fail'>🚨 REJECT — Out of Spec (Deviation: "+diff+")</div><table><tr><th>Org</th><td>"+bName+"</td></tr><tr><th>Part</th><td>"+p+"</td></tr><tr><th>Defect</th><td>"+dLabel+"</td></tr><tr><th>D4 Cause</th><td>"+info[0]+"</td></tr><tr><th>D5 CAPA</th><td>"+info[1]+"</td></tr></table><br>"+imgTag+"<button type='button' class='run no-print' style='background:#059669' onclick='window.print()'>🖨️ Print / Save Full 8D PDF Report</button>";
+  if(dt==='custom'){c="5-Why Process Drift on "+dLabel;act="Quarantine batch & conduct 4M audit.";}
+  out.innerHTML="<div class='fail'>🚨 REJECT — Out of Spec (Deviation: "+diff+")</div><table><tr><th>Org</th><td>"+bName+"</td></tr><tr><th>Part</th><td>"+p+"</td></tr><tr><th>Defect</th><td>"+dLabel+"</td></tr><tr><th>D4 Cause</th><td>"+c+"</td></tr><tr><th>D5 CAPA</th><td>"+act+"</td></tr></table><br>"+imgTag+"<button type='button' class='run no-print' style='background:#059669' onclick='window.print()'>🖨️ Print / Save Full 8D PDF Report</button>";
   if(saveLog)lg.innerHTML="<tr><td>"+p+"</td><td>"+dLabel+"</td><td>"+thumb+"</td><td style='color:#ef4444'>REJECT</td></tr>"+lg.innerHTML;
 }
 async function askGemini(){
