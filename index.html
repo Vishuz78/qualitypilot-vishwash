@@ -10,17 +10,18 @@ body.dark{--bg:#090d16;--card:#111827;--text:#f1f5f9;--sub:#94a3b8;--border:#1f2
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,sans-serif}
 body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overflow-x:hidden}
 #splash{position:fixed;top:0;left:0;width:100vw;height:100vh;background:radial-gradient(circle at center,#16243d,#090d16);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;animation:slideRTL .8s ease 3.2s forwards}
-.arc-box{position:relative;width:480px;height:280px;display:flex;align-items:center;justify-content:center}
-.c-svg{position:absolute;top:-25px;left:0;width:480px;height:300px;overflow:visible}
-.c-ring{fill:none;stroke:#14b8a6;stroke-width:3;stroke-linecap:round;stroke-dasharray:470;stroke-dashoffset:470;animation:drawArc 2s ease forwards}
-.c-txt{font-size:14px;font-weight:700;letter-spacing:2.5px;fill:#ccfbf1;opacity:0;animation:fadeArcTxt 1.2s ease .6s forwards}
-.gear-wrap{position:relative;top:35px;display:flex;align-items:center;justify-content:center;transform:scale(1.4)}
-.g1{width:64px;height:64px;fill:none;stroke:#14b8a6;stroke-width:2.2;animation:spinCw 3s linear infinite}
-.g2{width:36px;height:36px;fill:none;stroke:#2dd4bf;stroke-width:2.4;margin-left:-10px;margin-top:32px;animation:spinRev 2s linear infinite}
-.sp-title{font-size:36px;font-weight:700;margin-top:14px;color:#14b8a6}
-.sp-sub{font-size:13px;letter-spacing:6px;color:#94a3b8;margin-top:8px;font-weight:600}
-.sp-loader{width:320px;height:6px;background:#1e293b;border-radius:10px;overflow:hidden;margin-top:22px}
-.sp-bar{height:100%;width:0%;background:#14b8a6;animation:loadBar 3s ease forwards}
+.splash-content{display:flex;flex-direction:column;align-items:center;justify-content:center;transform:translateY(-10px)}
+.arc-box{position:relative;width:480px;height:240px;display:flex;align-items:center;justify-content:center}
+.c-svg{position:absolute;top:-35px;left:0;width:480px;height:300px;overflow:visible}
+.c-ring{fill:none;stroke:#2dd4bf;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:470;stroke-dashoffset:470;animation:drawArc 2s ease forwards}
+.c-txt{font-size:14px;font-weight:700;letter-spacing:2.5px;fill:#99f6e4;opacity:0;animation:fadeArcTxt 1.2s ease .6s forwards}
+.gear-wrap{position:relative;top:20px;display:flex;align-items:center;justify-content:center;transform:scale(1.4)}
+.g1{width:64px;height:64px;fill:none;stroke:#2dd4bf;stroke-width:2.4;animation:spinCw 3s linear infinite}
+.g2{width:36px;height:36px;fill:none;stroke:#5eead4;stroke-width:2.6;margin-left:-10px;margin-top:32px;animation:spinRev 2s linear infinite}
+.sp-title{font-size:36px;font-weight:700;margin-top:10px;color:#2dd4bf;text-align:center;letter-spacing:1px}
+.sp-sub{font-size:13px;letter-spacing:6px;color:#94a3b8;margin-top:6px;font-weight:600;text-align:center}
+.sp-loader{width:320px;height:6px;background:#1e293b;border-radius:10px;overflow:hidden;margin-top:20px}
+.sp-bar{height:100%;width:0%;background:#2dd4bf;animation:loadBar 3s ease forwards}
 @keyframes drawArc{to{stroke-dashoffset:0}}
 @keyframes fadeArcTxt{to{opacity:1}}
 @keyframes spinCw{to{transform:rotate(360deg)}}
@@ -86,20 +87,22 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 </head>
 <body>
 <div id="splash">
-  <div class="arc-box">
-    <svg class="c-svg" viewBox="0 0 360 215">
-      <defs><path id="cArc" d="M 52,178 A 128,128 0 1,1 308,178"/></defs>
-      <path class="c-ring" d="M 32,186 A 148,148 0 1,1 328,186"/>
-      <text class="c-txt"><textPath href="#cArc" startOffset="50%" text-anchor="middle">WELCOME TO ULTRA-PRECISION ENGINEERING</textPath></text>
-    </svg>
-    <div class="gear-wrap">
-      <svg class="g1" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
-      <svg class="g2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2"/></svg>
+  <div class="splash-content">
+    <div class="arc-box">
+      <svg class="c-svg" viewBox="0 0 360 215">
+        <defs><path id="cArc" d="M 52,178 A 128,128 0 1,1 308,178"/></defs>
+        <path class="c-ring" d="M 32,186 A 148,148 0 1,1 328,186"/>
+        <text class="c-txt"><textPath href="#cArc" startOffset="50%" text-anchor="middle">WELCOME TO ULTRA-PRECISION ENGINEERING</textPath></text>
+      </svg>
+      <div class="gear-wrap">
+        <svg class="g1" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
+        <svg class="g2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2"/></svg>
+      </div>
     </div>
+    <div class="sp-title">QualityPilot AI</div>
+    <div class="sp-sub">CO-POWERED BY VISHWASH</div>
+    <div class="sp-loader"><div class="sp-bar"></div></div>
   </div>
-  <div class="sp-title">QualityPilot AI</div>
-  <div class="sp-sub">CO-POWERED BY VISHWASH</div>
-  <div class="sp-loader"><div class="sp-bar"></div></div>
 </div>
 
 <div class="side">
