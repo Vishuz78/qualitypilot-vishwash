@@ -32,10 +32,11 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
 .brand-top{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #1f2937}
 .logo-icon{width:36px;height:36px;border-radius:9px;background:#0F766E;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;overflow:hidden}
 .logo-icon img,.p-badge img{width:100%;height:100%;object-fit:cover}
-.nav,.dm-btn{display:block;width:100%;text-align:left;padding:11px 13px;margin-bottom:6px;background:transparent;color:#94a3b8;border:none;border-radius:8px;cursor:pointer;font-size:13.5px;transition:background 0.2s}
+.nav,.dm-btn{display:block;width:100%;text-align:left;padding:11px 13px;margin-bottom:6px;background:transparent;color:#94a3b8;border:none;border-radius:8px;cursor:pointer;font-size:13.5px;transition:background 0.2s;position:relative}
 .nav:hover{background:#1f2937;color:#fff}
 .dm-btn{background:#1f2937;color:#e2e8f0;text-align:center;margin-bottom:14px}
 .nav.on{background:#0F766E;color:#fff}
+.alert-badge{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:#dc2626;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px;font-weight:700;display:none}
 .api-box{background:#1f2937;padding:11px;border-radius:9px;margin-top:12px;border:1px solid #374151}
 .api-box small{color:#2dd4bf;display:block;margin-bottom:5px;font-size:11px}
 .api-row{display:flex;gap:5px}
@@ -110,7 +111,7 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
     <div class="brand-top"><div class="logo-icon" id="sideIcon">QP</div><h2 id="sideTitle">QualityPilot AI</h2></div>
     <button type="button" class="dm-btn" id="dmBtn">🌙 Switch to Dark Mode</button>
     <button type="button" class="nav on">⚡ 8D Co-Pilot (Gemini)</button>
-    <button type="button" class="nav">📊 Time & OEE Graphs</button>
+    <button type="button" class="nav">📊 Time & OEE Graphs <span id="alarmBadge" class="alert-badge">0</span></button>
     <button type="button" class="nav">📋 Live Logs & Audit</button>
     <button type="button" class="nav">🎨 Logo & Brand Studio</button>
     <button type="button" class="nav">📞 Contact & Support</button>
@@ -202,6 +203,27 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
         <div class="bar"><div class="fill" style="width:74%;background:#f59e0b">74% Tool Wear</div></div>
       </div>
     </div>
+    <div class="box" style="margin-top:16px">
+      <h3>📈 Statistical Process Control (SPC) — X-Bar Trend Chart</h3>
+      <p style="font-size:12.5px;color:var(--sub);margin-bottom:10px">Real-time batch measurement deviation tracking against Upper & Lower Control Limits (UCL / LCL).</p>
+      <div style="background:var(--inp);padding:15px;border-radius:10px;border:1px solid var(--border);text-align:center">
+        <svg width="100%" height="180" viewBox="0 0 600 180" style="overflow:visible">
+          <!-- UCL & LCL Limits -->
+          <line x1="40" y1="30" x2="580" y2="30" stroke="#dc2626" stroke-dasharray="4" stroke-width="1.5"/>
+          <text x="585" y="34" fill="#dc2626" font-size="10">UCL (+0.05)</text>
+          <line x1="40" y1="90" x2="580" y2="90" stroke="#16a34a" stroke-dasharray="2" stroke-width="1"/>
+          <text x="585" y="94" fill="#16a34a" font-size="10">Target (0.00)</text>
+          <line x1="40" y1="150" x2="580" y2="150" stroke="#dc2626" stroke-dasharray="4" stroke-width="1.5"/>
+          <text x="585" y="154" fill="#dc2626" font-size="10">LCL (-0.05)</text>
+          <!-- Trend Line & Points -->
+          <polyline fill="none" stroke="#0F766E" stroke-width="2.5" points="60,95 140,80 220,105 300,70 380,85 460,60 540,110"/>
+          <circle cx="60" cy="95" r="4" fill="#0F766E"/><circle cx="140" cy="80" r="4" fill="#0F766E"/>
+          <circle cx="220" cy="105" r="4" fill="#0F766E"/><circle cx="300" cy="70" r="4" fill="#0F766E"/>
+          <circle cx="380" cy="85" r="4" fill="#0F766E"/><circle cx="460" cy="60" r="4" fill="#0F766E"/>
+          <circle cx="540" cy="110" r="4" fill="#dc2626"/>
+        </svg>
+      </div>
+    </div>
   </div>
 
   <div id="t3" class="tab">
@@ -269,6 +291,7 @@ var sh = 7.5;
 var bName = "QualityPilot AI";
 var cImg = "";
 var partImg = "";
+var rejectCount = 0;
 
 window.calc = function(saveLog) {
   var p = document.getElementById('pn').value;
@@ -306,6 +329,10 @@ window.calc = function(saveLog) {
 
   if (saveLog) {
     document.getElementById('oc').innerText = parseInt(document.getElementById('oc').innerText) + 1;
+    rejectCount++;
+    var badge = document.getElementById('alarmBadge');
+    badge.innerText = rejectCount;
+    badge.style.display = 'inline-block';
   }
 
   var c = "Progressive Tool Wear (" + diff + " mm)";
@@ -425,9 +452,10 @@ window.askGemini = async function() {
   var diff = (parseFloat(av) - parseFloat(tv)).toFixed(3);
   var today = new Date().toLocaleDateString('en-GB');
   var repId = "8D-" + Math.floor(1000 + Math.random() * 9000);
+  var logoPrintHtml = cImg ? "<img src='" + cImg + "' style='width:24px;height:24px;vertical-align:middle;border-radius:4px;margin-right:6px'>" : "";
 
   var cardHtml = "<div class='rep-sheet'>" +
-    "<div class='rep-head'><div><h4>" + bName.toUpperCase() + " — IATF 16949 8D AUDIT CERTIFICATE</h4><small>CO-POWERED BY VISHWASH</small></div>" +
+    "<div class='rep-head'><div><h4>" + logoPrintHtml + bName.toUpperCase() + " — IATF 16949 8D AUDIT CERTIFICATE</h4><small>CO-POWERED BY VISHWASH</small></div>" +
     "<div style='text-align:right;font-size:11.5px'><b>ID: " + repId + "</b><br>Date: " + today + "</div></div>" +
     "<div class='rep-sec'><b>D1 — Cross-Functional Team (CFT)</b>Lead: Senior QA Engineer (" + bName + ") | Process Owner: Shift Supervisor</div>" +
     "<div class='rep-sec'><b>D2 — Problem Description (5W2H)</b>Part: " + p + " | Defect: " + dt + " " + ct + " | Spec: " + tv + " (±" + tl + ") | Measured: " + av + " (Dev: " + diff + ")</div>" +
