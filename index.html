@@ -398,7 +398,8 @@ window.sendContact = function() {
   }
   var sub = encodeURIComponent("QualityPilot AI Inquiry from " + nm);
   var body = encodeURIComponent("Name: " + nm + "\nCompany: " + (cm || "N/A") + "\nContact: " + ct + "\n\nMessage:\n" + (ms || "Interested in Demo."));
-  window.open("mailto:vishwashp07@gmail.com?subject=" + sub + "&body=" + body, "_blank");
+  var gmailUrl = "https://mail.google.com/mail/?view=cm&fs=1&to=vishwashp07@gmail.com&su=" + sub + "&body=" + body;
+  window.open(gmailUrl, "_blank");
   document.getElementById('cName').value = "";
   document.getElementById('cComp').value = "";
   document.getElementById('cContact').value = "";
