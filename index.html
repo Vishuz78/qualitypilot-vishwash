@@ -48,7 +48,7 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
 .box{margin-bottom:16px}.box h3{font-size:15.5px;padding-bottom:9px;border-bottom:1px solid var(--border);margin-bottom:14px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 label{font-size:12px;color:var(--sub);display:block;margin-bottom:4px}
-input,select{width:100%;padding:9px 11px;margin-bottom:12px;border:1px solid var(--border);border-radius:8px;background:var(--inp);color:var(--text);font-size:13.5px}
+input,select,textarea{width:100%;padding:9px 11px;margin-bottom:12px;border:1px solid var(--border);border-radius:8px;background:var(--inp);color:var(--text);font-size:13.5px}
 .run,.ai-btn{width:100%;padding:12px;background:#2563eb;color:#fff;border:none;border-radius:8px;font-weight:600;font-size:13.5px;cursor:pointer;margin-bottom:8px}
 .ai-btn{background:#7c3aed}.tab{display:none}.tab.on{display:block;animation:dashRTL .35s ease}
 table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
@@ -67,6 +67,9 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 .part-img{max-width:100%;max-height:150px;border-radius:8px;border:1px solid #ef4444;margin-top:8px;display:block}
 .logo-preview{border:1px dashed var(--border);border-radius:12px;padding:28px;text-align:center;background:var(--inp)}
 .p-badge{width:68px;height:68px;border-radius:16px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:#fff;overflow:hidden}
+.c-card{background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;padding:20px;border-radius:12px;border:1px solid #38bdf8;margin-bottom:14px}
+.c-card h4{color:#38bdf8;font-size:18px;margin-bottom:4px}.c-item{padding:10px 0;border-bottom:1px solid #334155;font-size:13.5px}
+.c-mail{color:#38bdf8;text-decoration:none;font-weight:600}
 @page{size:A4;margin:8mm}
 @media print{*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}body{display:block!important;background:#fff!important;color:#0f172a!important}.side,.cards,#inputBox,.no-print,#splash,.box>h3{display:none!important}.main,.grid{display:block!important;padding:0!important;width:100%!important}.box{border:none!important;padding:0!important;margin:0!important}.rep-sheet{border:2px solid #1e3a8a!important;margin-top:8px!important}.rep-sec{padding:7px 12px!important;font-size:11.5px!important}}
 @media(max-width:900px){body{flex-direction:column}.side{width:100%}.cards{grid-template-columns:1fr 1fr}.grid,.row3{grid-template-columns:1fr}}
@@ -96,6 +99,7 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
     <button type="button" class="nav" onclick="go('t2',this)">📊 Time & OEE Graphs</button>
     <button type="button" class="nav" onclick="go('t3',this)">📋 Live Logs & Audit</button>
     <button type="button" class="nav" onclick="go('t4',this)">🎨 Logo & Brand Studio</button>
+    <button type="button" class="nav" onclick="go('t5',this)">📞 Contact & Support</button>
     <div class="api-box"><small>✨ Google Gemini API Key (Optional)</small><div class="api-row"><input type="password" id="gKey" placeholder="Paste AIzaSy... Key" onchange="localStorage.setItem('qp_gkey',this.value)"><button type="button" class="eye-btn" onclick="toggleKey()">👁️</button></div></div>
   </div>
   <div class="vb"><small>CO-POWERED BY</small><b>VISHWASH</b></div>
@@ -122,6 +126,30 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
   <div id="t2" class="tab"><div class="grid"><div class="box"><h3>⚡ Report Speed: Excel vs QualityPilot AI</h3><p style="font-size:13px">Manual Excel: 150 Mins</p><div class="bar"><div class="fill" style="width:95%;background:#ef4444">150 Mins</div></div><p style="font-size:13px">QualityPilot AI: 5 Mins</p><div class="bar"><div class="fill" style="width:20%;background:#10b981">5 Mins</div></div></div><div class="box"><h3>🏭 Live Machine OEE & Efficiency</h3><p style="font-size:13px">CNC Turning #04 (88% OEE)</p><div class="bar"><div class="fill" style="width:88%;background:#3b82f6">88% Healthy</div></div><p style="font-size:13px">VMC Milling #02 (74% OEE)</p><div class="bar"><div class="fill" style="width:74%;background:#f59e0b">74% Tool Wear</div></div></div></div></div>
   <div id="t3" class="tab"><div class="box"><h3>📋 Shop-Floor Live Logs & Audit</h3><table><thead><tr><th>Time</th><th>Part Name</th><th>Defect Type</th><th>Photo</th><th>Status</th></tr></thead><tbody id="lg"><tr><td>05:00 PM</td><td>Steel Flange #CAB-805</td><td>Dimension</td><td>—</td><td style="color:#10b981;font-weight:600">PASS</td></tr></tbody></table></div></div>
   <div id="t4" class="tab"><div class="grid"><div class="box"><h3>🎨 Design Your SaaS / Company Logo</h3><label>Brand / Company Name</label><input id="bName" value="QualityPilot AI" oninput="upLogo()"><label>Logo Initials</label><input id="bIcon" value="QP" maxlength="3" oninput="upLogo()"><label>Theme Color</label><input type="color" id="bColor" value="#2563eb" style="height:42px" oninput="upLogo()"><label>Or Upload Logo Image</label><input type="file" accept="image/*" onchange="loadImg(event)"><button type="button" class="run" onclick="setLogo()">Apply Logo Across App & Reports</button></div><div class="box"><h3>👁️ Live Logo Preview</h3><div class="logo-preview"><div class="p-badge" id="prevBadge" style="background:#2563eb">QP</div><h2 id="prevName">QualityPilot AI</h2><p style="font-size:12px;color:var(--sub);margin-top:6px;letter-spacing:1.5px">CO-POWERED BY VISHWASH</p></div></div></div></div>
+  <div id="t5" class="tab">
+    <div class="grid">
+      <div class="box">
+        <h3>📞 Request Enterprise Demo & Support</h3>
+        <label>Your Full Name</label><input id="cName" placeholder="e.g. Rahul Sharma">
+        <label>Company / Plant Name</label><input id="cComp" placeholder="e.g. Apex Auto Components Pvt Ltd">
+        <label>Email or WhatsApp Number</label><input id="cContact" placeholder="e.g. rahul@company.com / +91 98765 43210">
+        <label>Requirement / Message</label><textarea id="cMsg" rows="3" placeholder="Tell us about your QA / IATF-16949 audit requirements..."></textarea>
+        <button type="button" class="run" onclick="sendContact()">📩 Send Inquiry via Gmail to VISHWASH</button>
+      </div>
+      <div class="box">
+        <h3>🏢 Direct Architect Contact</h3>
+        <div class="c-card">
+          <h4>VISHWASH</h4>
+          <small style="color:#94a3b8;letter-spacing:1px">FOUNDER & PRECISION QUALITY ARCHITECT</small>
+          <div class="c-item">📧 <b>Direct Gmail:</b> <a class="c-mail" href="https://google.com" target="_blank">vishwashp07@gmail.com</a></div>
+          <div class="c-item">🌐 <b>Platform:</b> QualityPilot AI — IATF 16949 Suite</div>
+          <div class="c-item" style="border:none">⚡ <b>Support:</b> 24/7 Enterprise Plant Onboarding</div>
+        </div>
+        <h3 style="margin-top:14px">📬 Submitted Inquiries</h3>
+        <div id="cLogs" style="font-size:13px;color:var(--sub)">No new messages yet. Fill the form to connect via Gmail!</div>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
 setTimeout(function(){var s=document.getElementById('splash');if(s)s.style.display='none';},4300);
@@ -135,6 +163,17 @@ function upLogo(){var n=document.getElementById('bName').value||"QualityPilot AI
 function loadImg(e){var f=e.target.files;if(!f||!f.length)return;var r=new FileReader();r.onload=function(ev){cImg=ev.target.result;document.getElementById('prevBadge').innerHTML="<img src='"+cImg+"'>";document.getElementById('sideIcon').innerHTML="<img src='"+cImg+"'>";};r.readAsDataURL(f.item(0));}
 function setLogo(){bName=document.getElementById('bName').value||"QualityPilot AI";var ic=document.getElementById('bIcon').value||"QP",col=document.getElementById('bColor').value;document.getElementById('sideTitle').innerText=bName;var si=document.getElementById('sideIcon');si.style.background=col;si.innerHTML=cImg?"<img src='"+cImg+"'>":ic;calc(false);alert("Brand Applied!");}
 function showToast(){var t=document.getElementById('toast');if(t){t.style.display='block';setTimeout(function(){t.style.display='none';},2500);}}
+function sendContact(){
+  var nm=document.getElementById('cName').value.trim(),cm=document.getElementById('cComp').value.trim(),ct=document.getElementById('cContact').value.trim(),ms=document.getElementById('cMsg').value.trim();
+  if(!nm||!ct){alert("Please enter your Name and Email/Phone!");return;}
+  var box=document.getElementById('cLogs');
+  var item="<div class='pass' style='margin-bottom:8px;font-weight:400'><b>"+nm+"</b> ("+(cm||"Plant Inquiry")+") — "+ct+"<br><small>"+(ms||"Requested QualityPilot AI Demo")+"</small></div>";
+  if(box.innerText.indexOf("No new")===0)box.innerHTML=item;else box.innerHTML=item+box.innerHTML;
+  var sub=encodeURIComponent("QualityPilot AI Inquiry from "+nm+" ("+(cm||"Enterprise")+")");
+  var body=encodeURIComponent("Name: "+nm+"\nCompany: "+(cm||"N/A")+"\nContact: "+ct+"\n\nMessage:\n"+(ms||"Interested in QualityPilot AI Demo."));
+  window.open("https://google.com"+sub+"&body="+body,"_blank");
+  document.getElementById('cName').value="";document.getElementById('cComp').value="";document.getElementById('cContact').value="";document.getElementById('cMsg').value="";
+}
 function calc(saveLog){
   var p=document.getElementById('pn').value,dt=document.getElementById('dt').value,t=parseFloat(document.getElementById('tv').value)||0,tol=Math.abs(parseFloat(document.getElementById('tl').value)||0),a=parseFloat(document.getElementById('av').value)||0,pt=document.getElementById('pt').value,diff=(a-t).toFixed(3);
   var pass=(dt==='dim'||dt==='hardness')&&(Math.abs(diff)<=tol),out=document.getElementById('out'),lg=document.getElementById('lg');
@@ -175,7 +214,3 @@ async function askGemini(){
   gOut.innerHTML=cardHtml;
   if(key.indexOf('AIza')===0){try{var r=await fetch("https://googleapis.com"+encodeURIComponent(key),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:"Write a concise, audit-ready IATF 16949 8D & 5-Why summary for "+p+", defect "+dt+" "+ct+", target "+tv+" ±"+tl+", measured "+av}]}]})});var j=await r.json();if(j.candidates&&j.candidates.length)gOut.innerHTML="<div class='rep-sheet'><div class='rep-head'><h4>"+bName.toUpperCase()+" — GEMINI AI 8D AUDIT REPORT</h4><small>"+repId+" • "+today+"</small></div><div class='rep-sec' style='white-space:pre-line'>"+j.candidates.item(0).content.parts.item(0).text.replace(/\*\*/g,'')+"</div></div>";}catch(e){}}
 }
-window.onload=function(){var k=localStorage.getItem('qp_gkey');if(k)document.getElementById('gKey').value=k;calc(false);};
-</script>
-</body>
-</html>
