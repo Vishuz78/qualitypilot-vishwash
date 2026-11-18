@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QualityPilot AI — VISHWASH</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
+body{display:flex;min-height:100vh;background:#f1f5f9;color:#0f172a}
+.side{width:230px;background:#0f172a;color:#fff;padding:18px;display:flex;flex-direction:column;justify-content:space-between}
+.brand-top{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.logo-icon{width:36px;height:36px;border-radius:8px;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;overflow:hidden}
+.logo-icon img{width:100%;height:100%;object-fit:cover}
+.side h2{color:#38bdf8;font-size:19px}
+.nav{display:block;width:100%;text-align:left;padding:11px;margin-bottom:8px;background:#1e293b;color:#cbd5e1;border:none;border-radius:6px;cursor:pointer;font-weight:bold}
+.nav.on,.nav:hover{background:#2563eb;color:#fff}
+.vb{background:#1e293b;border:2px solid #38bdf8;padding:12px;border-radius:10px;text-align:center}
+.vb small{font-size:10px;color:#94a3b8;letter-spacing:1.5px}
+.vb b{display:block;font-size:17px;color:#38bdf8;letter-spacing:2px;margin-top:3px}
+.main{flex:1;padding:20px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.card{background:#fff;padding:14px;border-radius:8px;border-left:4px solid #2563eb}
+.box{background:#fff;padding:18px;border-radius:8px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+input,select{width:100%;padding:8px;margin:5px 0 10px;border:1px solid #cbd5e1;border-radius:6px}
+.run{width:100%;padding:12px;background:#2563eb;color:#fff;border:none;border-radius:6px;font-weight:bold;cursor:pointer}
+.tab{display:none}.tab.on{display:block}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+th,td{border:1px solid #cbd5e1;padding:9px;text-align:left}
+.fail{background:#fee2e2;color:#991b1b;padding:10px;border-radius:6px;font-weight:bold;margin-bottom:10px}
+.pass{background:#dcfce7;color:#166534;padding:10px;border-radius:6px;font-weight:bold;margin-bottom:10px}
+.bar{background:#e2e8f0;height:22px;border-radius:10px;overflow:hidden;margin:6px 0 14px}
+.fill{height:100%;color:#fff;font-size:12px;font-weight:bold;padding-left:10px;line-height:22px}
+.logo-preview{border:2px dashed #cbd5e1;border-radius:12px;padding:30px;text-align:center;background:#f8fafc;margin-top:10px}
+.p-badge{width:70px;height:70px;border-radius:16px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:900;color:#fff;overflow:hidden}
+.p-badge img{width:100%;height:100%;object-fit:cover}
+@media(max-width:768px){body{flex-direction:column}.side{width:100%}.cards{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="side">
+  <div>
+    <div class="brand-top"><div class="logo-icon" id="sideIcon">QP</div><h2 id="sideTitle">QualityPilot AI</h2></div>
+    <button class="nav on" onclick="go('t1',this)">1. 8D Co-Pilot</button>
+    <button class="nav" onclick="go('t2',this)">2. Time & OEE Graphs</button>
+    <button class="nav" onclick="go('t3',this)">3. Live Logs & Audit</button>
+    <button class="nav" onclick="go('t4',this)">4. Logo & Brand Studio</button>
+  </div>
+  <div class="vb"><small>CO-POWERED BY</small><b>VISHWASH</b></div>
+</div>
+<div class="main">
+  <div class="cards">
+    <div class="card"><small>Batch Units</small><h3 id="bc">1240</h3></div>
+    <div class="card" style="border-color:#059669"><small>First-Pass Yield</small><h3>98.4%</h3></div>
+    <div class="card" style="border-color:#d97706"><small>Open 8D</small><h3 id="oc">3</h3></div>
+    <div class="card" style="border-color:#7c3aed"><small>Time Saved</small><h3 id="ts">7.5 Hrs</h3></div>
+  </div>
+  <div id="t1" class="tab on">
+    <div class="grid">
+      <div class="box">
+        <h3>1. Defect & Dimension Input</h3><br>
+        <label>Part Name & Batch ID</label><input id="pn" value="Steel Flange #CAB-809">
+        <label>Defect Category (10 Industrial Types)</label>
+        <select id="dt" onchange="chkCustom()">
+          <option value="dim">1. Dimension Tolerance Out-of-Spec (mm)</option>
+          <option value="finish">2. Poor Surface Finish / Chatter Marks (Ra)</option>
+          <option value="burr">3. Burr / Sharp Edge Defect</option>
+          <option value="thread">4. Thread Pitch / Go-NoGo Gauge Fail</option>
+          <option value="crack">5. Surface Crack / Forging Lap</option>
+          <option value="blowhole">6. Casting Blowhole / Porosity</option>
+          <option value="weld">7. Welding Spatter / Incomplete Fusion</option>
+          <option value="hardness">8. Hardness / Heat Treatment Fail (HRC)</option>
+          <option value="rust">9. Surface Rust / Oxidation</option>
+          <option value="custom">10. Custom Defect (Type Manually...)</option>
+        </select>
+        <div id="custBox" style="display:none"><label>Describe Custom Defect</label><input id="custTxt" placeholder="e.g. Hydraulic Oil Leakage"></div>
+        <label>Target Spec (mm / HRC)</label><input type="number" id="tv" value="50.00" step="0.01">
+        <label>Tolerance (±)</label><input type="number" id="tl" value="0.05" step="0.01">
+        <label>Measured Value</label><input type="number" id="av" value="50.16" step="0.01">
+        <label>Observed Pattern</label>
+        <select id="pt"><option value="wear">Gradual Drift (Tool / Die Wear)</option><option value="off">Sudden Shift (Setup / Offset Error)</option><option value="batch">Raw Material / Batch Variation</option></select>
+        <button class="run" onclick="calc()">Run AI & Generate 8D Report</button>
+      </div>
+      <div class="box"><h3>2. Auto 8D Investigation Report</h3><br><div id="out">Select defect and click blue button.</div></div>
+    </div>
+  </div>
+  <div id="t2" class="tab">
+    <div class="grid">
+      <div class="box">
+        <h3>Report Speed: Excel vs QualityPilot AI</h3><br>
+        <b>Manual Excel: 150 Mins (2.5 Hrs)</b>
+        <div class="bar"><div class="fill" style="width:95%;background:#ef4444">150 Mins</div></div>
+        <b>QualityPilot AI (VISHWASH): 5 Mins</b>
+        <div class="bar"><div class="fill" style="width:18%;background:#10b981">5 Mins</div></div>
+      </div>
+      <div class="box">
+        <h3>Live Machine OEE & Efficiency</h3><br>
+        <b>CNC Turning #04 (88% OEE)</b>
+        <div class="bar"><div class="fill" style="width:88%;background:#2563eb">88% Healthy</div></div>
+        <b>VMC Milling #02 (74% OEE)</b>
+        <div class="bar"><div class="fill" style="width:74%;background:#f59e0b">74% Tool Wear</div></div>
+      </div>
+    </div>
+  </div>
+  <div id="t3" class="tab">
+    <div class="box">
+      <h3>Shop-Floor Live Logs & Audit</h3>
+      <table><thead><tr><th>Part Name</th><th>Defect Type</th><th>Status</th></tr></thead>
+      <tbody id="lg"><tr><td>Steel Flange #CAB-805</td><td>Dimension</td><td style="color:green;font-weight:bold">PASS</td></tr></tbody></table>
+    </div>
+  </div>
+  <div id="t4" class="tab">
+    <div class="grid">
+      <div class="box">
+        <h3>Design Your SaaS / Company Logo</h3><br>
+        <label>Brand / Company Name</label><input id="bName" value="QualityPilot AI" oninput="upLogo()">
+        <label>Logo Initials / Symbol</label><input id="bIcon" value="QP" maxlength="3" oninput="upLogo()">
+        <label>Theme Color</label><input type="color" id="bColor" value="#2563eb" style="height:40px" oninput="upLogo()">
+        <label>Or Upload Logo Image</label><input type="file" accept="image/*" onchange="loadImg(event)">
+        <button class="run" onclick="setLogo()">Apply Logo Across App & Reports</button>
+      </div>
+      <div class="box">
+        <h3>Live Logo Preview</h3>
+        <div class="logo-preview">
+          <div class="p-badge" id="prevBadge" style="background:#2563eb">QP</div>
+          <h2 id="prevName">QualityPilot AI</h2>
+          <p style="font-size:12px;color:#64748b;margin-top:6px">CO-POWERED BY VISHWASH</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+var sh=7.5,bName="QualityPilot AI",cImg="";
+function go(id,b){
+  document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+  document.querySelectorAll('.nav').forEach(function(x){x.classList.remove('on');});
+  document.getElementById(id).classList.add('on');
+  b.classList.add('on');
+}
+function chkCustom(){
+  var dt=document.getElementById('dt').value;
+  document.getElementById('custBox').style.display=(dt==='custom')?'block':'none';
+}
+function upLogo(){
+  var n=document.getElementById('bName').value||"QualityPilot AI";
+  var ic=document.getElementById('bIcon').value||"QP";
+  var col=document.getElementById('bColor').value;
+  document.getElementById('prevName').innerText=n;
+  var pb=document.getElementById('prevBadge');
+  pb.style.background=col;
+  if(!cImg)pb.innerText=ic;
+}
+function loadImg(e){
+  var f=e.target.files[0];if(!f)return;
+  var r=new FileReader();
+  r.onload=function(ev){
+    cImg=ev.target.result;
+    document.getElementById('prevBadge').innerHTML="<img src='"+cImg+"'>";
+    document.getElementById('sideIcon').innerHTML="<img src='"+cImg+"'>";
+  };
+  r.readAsDataURL(f);
+}
+function setLogo(){
+  bName=document.getElementById('bName').value||"QualityPilot AI";
+  var ic=document.getElementById('bIcon').value||"QP";
+  var col=document.getElementById('bColor').value;
+  document.getElementById('sideTitle').innerText=bName;
+  var si=document.getElementById('sideIcon');
+  si.style.background=col;
+  si.innerHTML=cImg?"<img src='"+cImg+"'>":ic;
+  alert("Logo Applied Successfully!");
+}
+function calc(){
+  var p=document.getElementById('pn').value,dt=document.getElementById('dt').value;
+  var t=parseFloat(document.getElementById('tv').value),tol=parseFloat(document.getElementById('tl').value),a=parseFloat(document.getElementById('av').value);
+  var pt=document.getElementById('pt').value,diff=(a-t).toFixed(3);
+  var pass=(dt==='dim')&&(Math.abs(diff)<=tol);
+  document.getElementById('bc').innerText=parseInt(document.getElementById('bc').innerText)+1;
+  sh+=2.4;document.getElementById('ts').innerText=sh.toFixed(1)+" Hrs";
+  var out=document.getElementById('out'),lg=document.getElementById('lg');
+  if(pass){
+    out.innerHTML="<div class='pass'>PASS (Within ±"+tol+" mm)</div><small><b>"+bName+" • CO-POWERED BY VISHWASH</b></small>";
+    lg.innerHTML="<tr><td>"+p+"</td><td>Dimension</td><td style='color:green'>PASS</td></tr>"+lg.innerHTML;return;
+  }
+  document.getElementById('oc').innerText=parseInt(document.getElementById('oc').innerText)+1;
+  var c="",act="",dLabel=dt.toUpperCase();
+  if(dt==='finish'){c="Worn Insert / Improper Coolant Flow (89%)";act="Replace cutting insert & verify coolant pressure.";}
+  else if(dt==='burr'){c="Dull Cutting Edge / High Feed Rate (91%)";act="Index tool edge & add deburring cycle check.";}
+  else if(dt==='thread'){c="Tap Wear / Pitch Diameter Shift (87%)";act="Replace thread tap & verify with Go/No-Go gauge.";}
+  else if(dt==='crack'){c="Die Stress / Forging Temp Drop (88%)";act="Run 100% MPI crack test & calibrate induction heater.";}
+  else if(dt==='blowhole'){c="Gas Entrapment / Low Pouring Temp (86%)";act="Clean die vents & verify molten metal degassing.";}
+  else if(dt==='weld'){c="Low Arc Current / Shielding Gas Leak (90%)";act="Set wire feed/ampere & check CO2/Argon flow rate.";}
+  else if(dt==='hardness'){c="Quenching Oil Temp / Tempering Cycle Drift (92%)";act="Quarantine lot, re-check furnace graph & test HRC.";}
+  else if(dt==='rust'){c="Low Anti-Rust Oil Concentration / Humidity (85%)";act="Re-dip batch in rust-preventive oil & seal in VCI bag.";}
+  else if(dt==='custom'){
+    var ct=document.getElementById('custTxt').value||"Custom Process Anomaly";
+    dLabel=ct;c="AI 5-Why Analysis: Process Parameter Drift on "+ct+" (84%)";act="Contain suspect lot, audit 4M (Man/Machine/Material/Method).";
+  }
+  else{
+    c=(pt==='wear')?"Cutting Tool Wear (85%)":"Tool Offset Entry Error (90%)";
+    act="Adjust CNC tool offset by "+(-diff)+" mm & inspect next 5 parts.";
+  }
+  out.innerHTML="<div class='fail'>REJECT — 8D Report Ready</div><table><tr><th>Company</th><td>"+bName+"</td></tr><tr><th>Part & Batch</th><td>"+p+"</td></tr><tr><th>Defect</th><td>"+dLabel+"</td></tr><tr><th>D4 Root Cause</th><td>"+c+"</td></tr><tr><th>D5 CAPA Action</th><td>"+act+"</td></tr></table><br><small><b>"+bName+" • CO-POWERED BY VISHWASH</b></small><br><br><button class='run' style='background:#059669' onclick='window.print()'>Print / Save 8D PDF</button>";
+  lg.innerHTML="<tr><td>"+p+"</td><td>"+dLabel+"</td><td style='color:red;font-weight:bold'>REJECT</td></tr>"+lg.innerHTML;
+}
+</script>
+</body>
+</html>
