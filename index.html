@@ -139,3 +139,439 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
     <div class="card"><small>Batch Units</small><h3 id="bc">1240</h3></div>
     <div class="card"><small>First-Pass Yield</small><h3>98.4%</h3></div>
     <div class="card"><small>Open 8D Reports</small><h3 id="oc">3</h3></div>
+    <div class="card"><small>Engineer Time Saved</small><h3 id="ts">7.5 Hrs</h3></div>
+  </div>
+
+  <div id="t1" class="tab on">
+    <div class="grid">
+      <div class="box" id="inputBox">
+        <h3>🛠️ 1. Defect & Dimension Input</h3>
+        <label>Part Name & Batch ID</label>
+        <input id="pn" value="Steel Flange #CAB-809" oninput="calc(false)">
+        <label>Defect Category (10 Industrial Types)</label>
+        <select id="dt" onchange="chkCustom();calc(false)">
+          <option value="dim">1. Dimension Tolerance Out-of-Spec (mm)</option>
+          <option value="finish">2. Poor Surface Finish / Chatter Marks (Ra)</option>
+          <option value="burr">3. Burr / Sharp Edge Defect</option>
+          <option value="thread">4. Thread Pitch / Go-NoGo Gauge Fail</option>
+          <option value="crack">5. Surface Crack / Forging Lap</option>
+          <option value="blowhole">6. Casting Blowhole / Porosity</option>
+          <option value="weld">7. Welding Spatter / Incomplete Fusion</option>
+          <option value="hardness">8. Hardness / Heat Treatment Fail (HRC)</option>
+          <option value="rust">9. Surface Rust / Oxidation</option>
+          <option value="custom">10. Custom Defect (Type Manually...)</option>
+        </select>
+        <div id="custBox" style="display:none">
+          <label>Describe Custom Defect</label>
+          <input id="custTxt" placeholder="e.g. Hydraulic Oil Leakage" oninput="calc(false)">
+        </div>
+        <div class="row3">
+          <div><label>Target Spec</label><input type="number" id="tv" value="50.00" step="0.01" oninput="calc(false)"></div>
+          <div><label>Tolerance (±)</label><input type="number" id="tl" value="0.05" step="0.01" oninput="calc(false)"></div>
+          <div><label>Measured</label><input type="number" id="av" value="50.16" step="0.01" oninput="calc(false)"></div>
+        </div>
+        <label>Observed Pattern</label>
+        <select id="pt" onchange="calc(false)">
+          <option value="wear">Gradual Drift (Tool / Die Wear)</option>
+          <option value="off">Sudden Shift (Setup / Offset Error)</option>
+          <option value="batch">Raw Material / Batch Variation</option>
+        </select>
+        <label>Damaged Part Photo (AI Vision Evidence)</label>
+        <input type="file" id="partFile" accept="image/*" capture="environment">
+        <button type="button" class="ai-btn" onclick="askGemini()">✨ Generate Full 8D & 5-Why Investigation Report</button>
+        <button type="button" class="run" onclick="calc(true)">✅ Log Entry & Save to Audit Table</button>
+      </div>
+      <div class="box">
+        <h3>📄 2. Live AI 8D Investigation Report</h3>
+        <div id="toast" class="toast no-print">✅ Saved to Live Logs & Audit Table!</div>
+        <div id="out"></div>
+        <div id="geminiOut"></div>
+        <button type="button" class="run no-print" style="background:#16a34a;margin-top:12px" onclick="printFull()">🖨️ Print / Save Corporate 8D PDF Report</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="t2" class="tab">
+    <div class="grid">
+      <div class="box">
+        <h3>⚡ Report Speed: Excel vs QualityPilot AI</h3>
+        <p style="font-size:13px">Manual Excel: 150 Mins</p>
+        <div class="bar"><div class="fill" style="width:95%;background:#dc2626">150 Mins</div></div>
+        <p style="font-size:13px">QualityPilot AI: 5 Mins</p>
+        <div class="bar"><div class="fill" style="width:20%;background:#16a34a">5 Mins</div></div>
+      </div>
+      <div class="box">
+        <h3>🏭 Live Machine OEE & Efficiency</h3>
+        <p style="font-size:13px">CNC Turning #04 (88% OEE)</p>
+        <div class="bar"><div class="fill" style="width:88%;background:#0F766E">88% Healthy</div></div>
+        <p style="font-size:13px">VMC Milling #02 (74% OEE)</p>
+        <div class="bar"><div class="fill" style="width:74%;background:#f59e0b">74% Tool Wear</div></div>
+      </div>
+    </div>
+    <div class="box" style="margin-top:16px">
+      <h3>📈 Statistical Process Control (SPC) — X-Bar Trend Chart</h3>
+      <p style="font-size:12.5px;color:var(--sub);margin-bottom:10px">Real-time batch measurement deviation tracking against Upper & Lower Control Limits (UCL / LCL).</p>
+      <div style="background:var(--inp);padding:15px;border-radius:10px;border:1px solid var(--border);text-align:center">
+        <svg width="100%" height="180" viewBox="0 0 600 180" style="overflow:visible">
+          <line x1="40" y1="30" x2="580" y2="30" stroke="#dc2626" stroke-dasharray="4" stroke-width="1.5"/>
+          <text x="585" y="34" fill="#dc2626" font-size="10">UCL (+0.05)</text>
+          <line x1="40" y1="90" x2="580" y2="90" stroke="#16a34a" stroke-dasharray="2" stroke-width="1"/>
+          <text x="585" y="94" fill="#16a34a" font-size="10">Target (0.00)</text>
+          <line x1="40" y1="150" x2="580" y2="150" stroke="#dc2626" stroke-dasharray="4" stroke-width="1.5"/>
+          <text x="585" y="154" fill="#dc2626" font-size="10">LCL (-0.05)</text>
+          <polyline fill="none" stroke="#0F766E" stroke-width="2.5" points="60,95 140,80 220,105 300,70 380,85 460,60 540,110"/>
+          <circle cx="60" cy="95" r="4" fill="#0F766E"/><circle cx="140" cy="80" r="4" fill="#0F766E"/>
+          <circle cx="220" cy="105" r="4" fill="#0F766E"/><circle cx="300" cy="70" r="4" fill="#0F766E"/>
+          <circle cx="380" cy="85" r="4" fill="#0F766E"/><circle cx="460" cy="60" r="4" fill="#0F766E"/>
+          <circle cx="540" cy="110" r="4" fill="#dc2626"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div id="t3" class="tab">
+    <div class="box">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <h3 style="margin:0;border:none;padding:0">📋 Shop-Floor Live Logs & Audit</h3>
+        <button type="button" class="run" style="width:auto;padding:8px 14px;margin:0;background:#16a34a" onclick="exportToCSV()">📥 Export Logs to CSV</button>
+      </div>
+      <table>
+        <thead><tr><th>Time</th><th>Part Name</th><th>Defect Type</th><th>Photo</th><th>Status</th></tr></thead>
+        <tbody id="lg"><tr><td>05:00 PM</td><td>Steel Flange #CAB-805</td><td>Dimension</td><td>—</td><td style="color:#16a34a;font-weight:600">PASS</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="t4" class="tab">
+    <div class="grid">
+      <div class="box">
+        <h3>🎨 Design Your SaaS / Company Logo</h3>
+        <label>Brand / Company Name</label><input id="bName" value="QualityPilot AI" oninput="upLogo()">
+        <label>Logo Initials</label><input id="bIcon" value="QP" maxlength="3" oninput="upLogo()">
+        <label>Theme Color</label><input type="color" id="bColor" value="#0F766E" style="height:42px" oninput="upLogo()">
+        <label>Or Upload Logo Image</label><input type="file" id="logoFile" accept="image/*">
+        <button type="button" class="run" onclick="setLogo()">Apply Logo Across App & Reports</button>
+      </div>
+      <div class="box">
+        <h3>👁️ Live Logo Preview</h3>
+        <div class="logo-preview">
+          <div class="p-badge" id="prevBadge" style="background:#0F766E">QP</div>
+          <h2 id="prevName">QualityPilot AI</h2>
+          <p style="font-size:12px;color:var(--sub);margin-top:6px;letter-spacing:1.5px">CO-POWERED BY VISHWASH</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="t5" class="tab">
+    <div class="grid">
+      <div class="box">
+        <h3>📞 Request Enterprise Demo & Support</h3>
+        <label>Your Full Name</label><input id="cName" placeholder="e.g. Rahul Sharma">
+        <label>Company / Plant Name</label><input id="cComp" placeholder="e.g. Apex Auto Components Pvt Ltd">
+        <label>Email or WhatsApp Number</label><input id="cContact" placeholder="e.g. rahul@company.com / +91 98765 43210">
+        <label>Requirement / Message</label><textarea id="cMsg" rows="3" placeholder="Tell us about your QA / IATF-16949 audit requirements..."></textarea>
+        <button type="button" class="run" onclick="sendContact()">📩 Send Inquiry via Gmail to VISHWASH</button>
+      </div>
+      <div class="box">
+        <h3>🏢 Direct Architect Contact</h3>
+        <div class="c-card">
+          <h4>VISHWASH</h4>
+          <small style="color:#94a3b8;letter-spacing:1px">FOUNDER & PRECISION QUALITY ARCHITECT</small>
+          <div class="c-item">📧 <b>Direct Gmail:</b> <a class="c-mail" href="mailto:vishwashp07@gmail.com">vishwashp07@gmail.com</a></div>
+          <div class="c-item">🌐 <b>Platform:</b> QualityPilot AI — IATF 16949 Suite</div>
+          <div class="c-item" style="border:none">⚡ <b>Support:</b> 24/7 Enterprise Plant Onboarding</div>
+        </div>
+        <h3 style="margin-top:14px">📬 Submitted Inquiries</h3>
+        <div id="cLogs" style="font-size:13px;color:var(--sub)">No new messages yet. Fill the form to connect via Gmail!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var sh = 7.5;
+var bName = "QualityPilot AI";
+var cImg = "";
+var partImg = "";
+var rejectCount = 0;
+
+window.calc = function(saveLog) {
+  var p = document.getElementById('pn').value;
+  var dt = document.getElementById('dt').value;
+  var t = parseFloat(document.getElementById('tv').value) || 0;
+  var tol = Math.abs(parseFloat(document.getElementById('tl').value) || 0);
+  var a = parseFloat(document.getElementById('av').value) || 0;
+  var pt = document.getElementById('pt').value;
+  var diff = (a - t).toFixed(3);
+  var pass = (dt === 'dim' || dt === 'hardness') && (Math.abs(diff) <= tol);
+  var out = document.getElementById('out');
+  var lg = document.getElementById('lg');
+  var imgTag = partImg ? "<img src='" + partImg + "' class='part-img'><br>" : "";
+  var thumb = partImg ? "<img src='" + partImg + "' style='width:36px;height:36px;object-fit:cover;border-radius:6px'>" : "—";
+  var tm = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+
+  if (saveLog) {
+    document.getElementById('bc').innerText = parseInt(document.getElementById('bc').innerText) + 1;
+    sh += 2.4;
+    document.getElementById('ts').innerText = sh.toFixed(1) + " Hrs";
+    var toast = document.getElementById('toast');
+    if (toast) {
+      toast.style.display = 'block';
+      setTimeout(function() { toast.style.display = 'none'; }, 2500);
+    }
+  }
+
+  if (pass) {
+    out.innerHTML = "<div class='pass'>✅ PASS — Within Spec (±" + tol + ", Dev: " + diff + ")</div>" + imgTag;
+    if (saveLog) {
+      lg.innerHTML = "<tr><td>" + tm + "</td><td>" + p + "</td><td>" + dt.toUpperCase() + "</td><td>" + thumb + "</td><td style='color:#16a34a;font-weight:600'>PASS</td></tr>" + lg.innerHTML;
+    }
+    return;
+  }
+
+  if (saveLog) {
+    document.getElementById('oc').innerText = parseInt(document.getElementById('oc').innerText) + 1;
+    rejectCount++;
+    var badge = document.getElementById('alarmBadge');
+    badge.innerText = rejectCount;
+    badge.style.display = 'inline-block';
+  }
+
+  var c = "Progressive Tool Wear (" + diff + " mm)";
+  var act = "Compensate CNC offset by " + (-diff) + " mm & verify 5 parts.";
+
+  if (dt === 'dim' && pt !== 'wear') {
+    c = "CNC Offset Entry Error (" + diff + " mm)";
+  } else if (dt === 'finish') {
+    c = "Worn Cutting Insert / Coolant Flow";
+    act = "Replace insert & verify coolant pressure.";
+  } else if (dt === 'burr') {
+    c = "Dull Cutting Edge / High Feed";
+    act = "Index tool edge & check deburring.";
+  } else if (dt === 'thread') {
+    c = "Tap Wear / Pitch Shift";
+    act = "Replace tap & check Go-NoGo gauge.";
+  } else if (dt === 'crack') {
+    c = "Die Stress / Forging Temp Drop";
+    act = "Run 100% MPI check & calibrate heater.";
+  } else if (dt === 'blowhole') {
+    c = "Gas Entrapment / Low Pour Temp";
+    act = "Clean die vents & degas metal.";
+  } else if (dt === 'weld') {
+    c = "Low Arc Current / Gas Leak";
+    act = "Calibrate ampere & inspect gas flow.";
+  } else if (dt === 'hardness') {
+    c = "Quenching Oil Temp Drift (" + diff + " HRC)";
+    act = "Quarantine lot & audit furnace.";
+  } else if (dt === 'rust') {
+    c = "Low Anti-Rust Oil / Humidity";
+    act = "Re-dip in rust oil & seal in VCI.";
+  }
+
+  var dLabel = (dt === 'custom') ? (document.getElementById('custTxt').value || "Custom Defect") : dt.toUpperCase();
+  if (dt === 'custom') {
+    c = "5-Why Process Drift on " + dLabel;
+    act = "Quarantine batch & conduct 4M audit.";
+  }
+
+  out.innerHTML = "<div class='fail'>🚨 REJECT — Out of Spec (Deviation: " + diff + ")</div>" +
+    "<table>" +
+    "<tr><th>Organization</th><td>" + bName + "</td></tr>" +
+    "<tr><th>Part & Batch</th><td>" + p + "</td></tr>" +
+    "<tr><th>Defect</th><td>" + dLabel + "</td></tr>" +
+    "<tr><th>D4 Cause</th><td>" + c + "</td></tr>" +
+    "<tr><th>D5 CAPA</th><td>" + act + "</td></tr>" +
+    "</table>" + imgTag;
+
+  if (saveLog) {
+    lg.innerHTML = "<tr><td>" + tm + "</td><td>" + p + "</td><td>" + dLabel + "</td><td>" + thumb + "</td><td style='color:#dc2626;font-weight:600'>REJECT</td></tr>" + lg.innerHTML;
+  }
+};
+
+window.chkCustom = function() {
+  var val = document.getElementById('dt').value;
+  document.getElementById('custBox').style.display = (val === 'custom') ? 'block' : 'none';
+};
+
+window.upLogo = function() {
+  var n = document.getElementById('bName').value || "QualityPilot AI";
+  var ic = document.getElementById('bIcon').value || "QP";
+  var col = document.getElementById('bColor').value;
+  document.getElementById('prevName').innerText = n;
+  var pb = document.getElementById('prevBadge');
+  pb.style.background = col;
+  if (!cImg) pb.innerText = ic;
+};
+
+window.setLogo = function() {
+  bName = document.getElementById('bName').value || "QualityPilot AI";
+  var ic = document.getElementById('bIcon').value || "QP";
+  var col = document.getElementById('bColor').value;
+  document.getElementById('sideTitle').innerText = bName;
+  var si = document.getElementById('sideIcon');
+  si.style.background = col;
+  si.innerHTML = cImg ? "<img src='" + cImg + "'>" : ic;
+  window.calc(false);
+  alert("Brand Applied!");
+};
+
+window.sendContact = function() {
+  var nm = document.getElementById('cName').value.trim();
+  var cm = document.getElementById('cComp').value.trim();
+  var ct = document.getElementById('cContact').value.trim();
+  var ms = document.getElementById('cMsg').value.trim();
+  if (!nm || !ct) {
+    alert("Please enter your Name and Email/Phone!");
+    return;
+  }
+  var box = document.getElementById('cLogs');
+  var item = "<div class='pass' style='margin-bottom:8px;font-weight:400'><b>" + nm + "</b> (" + (cm || "Plant Inquiry") + ") — " + ct + "<br><small>" + (ms || "Requested QualityPilot AI Demo") + "</small></div>";
+  if (box.innerText.indexOf("No new") === 0) {
+    box.innerHTML = item;
+  } else {
+    box.innerHTML = item + box.innerHTML;
+  }
+  var sub = encodeURIComponent("QualityPilot AI Inquiry from " + nm);
+  var body = encodeURIComponent("Name: " + nm + "\nCompany: " + (cm || "N/A") + "\nContact: " + ct + "\n\nMessage:\n" + (ms || "Interested in Demo."));
+  var gmailUrl = "https://mail.google.com/mail/?view=cm&fs=1&to=vishwashp07@gmail.com&su=" + sub + "&body=" + body;
+  window.open(gmailUrl, "_blank");
+  document.getElementById('cName').value = "";
+  document.getElementById('cComp').value = "";
+  document.getElementById('cContact').value = "";
+  document.getElementById('cMsg').value = "";
+};
+
+window.askGemini = async function() {
+  window.calc(true);
+  var gOut = document.getElementById('geminiOut');
+  var dtEl = document.getElementById('dt');
+  var p = document.getElementById('pn').value;
+  var dt = dtEl.options.item(dtEl.selectedIndex).text;
+  var ct = document.getElementById('custTxt').value;
+  var tv = document.getElementById('tv').value;
+  var tl = document.getElementById('tl').value;
+  var av = document.getElementById('av').value;
+  var diff = (parseFloat(av) - parseFloat(tv)).toFixed(3);
+  var today = new Date().toLocaleDateString('en-GB');
+  var repId = "8D-" + Math.floor(1000 + Math.random() * 9000);
+  var logoPrintHtml = cImg ? "<img src='" + cImg + "' style='width:24px;height:24px;vertical-align:middle;border-radius:4px;margin-right:6px'>" : "";
+
+  var cardHtml = "<div class='rep-sheet'>" +
+    "<div class='rep-head'><div><h4>" + logoPrintHtml + bName.toUpperCase() + " — IATF 16949 8D AUDIT CERTIFICATE</h4><small>CO-POWERED BY VISHWASH</small></div>" +
+    "<div style='text-align:right;font-size:11.5px'><b>ID: " + repId + "</b><br>Date: " + today + "</div></div>" +
+    "<div class='rep-body'>" +
+    "<div class='rep-sec'><b>D1 — Cross-Functional Team (CFT)</b>Lead: Senior QA Engineer (" + bName + ") | Process Owner: Shift Supervisor</div>" +
+    "<div class='rep-sec'><b>D2 — Problem Description (5W2H)</b>Part: " + p + " | Defect: " + dt + " " + ct + " | Spec: " + tv + " (±" + tl + ") | Measured: " + av + " (Dev: " + diff + ")</div>" +
+    "<div class='rep-sec'><b>D3 — Containment Actions</b>Immediate 100% sorting of batch " + p + " & quarantining non-conforming stock.</div>" +
+    "<div class='rep-sec'><b>D4 — Root Cause Analysis (5-Why)</b>1. Why deviation? Dimension drifted by " + diff + "mm.<br>2. Why drifted? Progressive tool wear.<br>3. Why not caught? SPC chart frequency was delayed.</div>" +
+    "<div class='rep-sec'><b>D5 & D6 — Permanent Corrective Actions & Validation</b>Tool offset updated, automated part probing enabled, zero defects verified across 10 consecutive runs.</div>" +
+    "<div class='rep-sec'><b>D7 — Preventive Actions</b>FMEA updated & gauge R&R scheduled for next maintenance cycle.</div>" +
+    "</div>" +
+    "<div class='rep-sign'><div><b>Approved By:</b> Plant Quality Head</div><div style='text-align:right'><b>Sign-off:</b> ___________________</div></div>" +
+    "</div>";
+  gOut.innerHTML = cardHtml;
+};
+
+window.printFull = function() {
+  window.print();
+};
+
+window.exportToCSV = function() {
+  var rows = document.querySelectorAll("#lg tr");
+  if (!rows.length) {
+    alert("No logs available to export!");
+    return;
+  }
+  var csv = [];
+  csv.push("Time,Part Name,Defect Type,Status");
+  rows.forEach(function(row) {
+    var cols = row.querySelectorAll("td");
+    if (cols.length >= 5) {
+      var tm = cols[0].innerText;
+      var pName = cols[1].innerText;
+      var dType = cols[2].innerText;
+      var status = cols[4].innerText;
+      csv.push('"' + tm + '","' + pName + '","' + dType + '","' + status + '"');
+    }
+  });
+  var blob = new Blob([csv.join("\n")], { type: 'text/csv;charset=utf-8;' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'QualityPilot_Audit_Logs.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
+document.addEventListener("DOMContentLoaded", function() {
+  setTimeout(function() {
+    var s = document.getElementById('splash');
+    if (s) s.style.display = 'none';
+  }, 3800);
+
+  var dmBtn = document.getElementById('dmBtn');
+  if (dmBtn) {
+    dmBtn.onclick = function() {
+      document.body.classList.toggle('dark');
+      dmBtn.innerText = document.body.classList.contains('dark') ? "☀️ Switch to Light Mode" : "🌙 Switch to Dark Mode";
+    };
+  }
+
+  var navBtns = document.querySelectorAll('.nav');
+  var tabIds = ['t1', 't2', 't3', 't4', 't5'];
+  navBtns.forEach(function(btn, idx) {
+    btn.onclick = function() {
+      document.querySelectorAll('.tab').forEach(function(x) { x.classList.remove('on'); });
+      navBtns.forEach(function(x) { x.classList.remove('on'); });
+      var target = document.getElementById(tabIds[idx]);
+      if (target) target.classList.add('on');
+      btn.classList.add('on');
+    };
+  });
+
+  var eyeBtn = document.getElementById('eyeBtn');
+  if (eyeBtn) {
+    eyeBtn.onclick = function() {
+      var k = document.getElementById('gKey');
+      k.type = (k.type === 'password') ? 'text' : 'password';
+    };
+  }
+
+  var savedKey = localStorage.getItem('qp_gkey');
+  if (savedKey && document.getElementById('gKey')) {
+    document.getElementById('gKey').value = savedKey;
+  }
+
+  var partFile = document.getElementById('partFile');
+  if (partFile) {
+    partFile.onchange = function(e) {
+      var f = e.target.files;
+      if (!f || !f.length) return;
+      var r = new FileReader();
+      r.onload = function(ev) {
+        partImg = ev.target.result;
+        window.calc(false);
+      };
+      r.readAsDataURL(f.item(0));
+    };
+  }
+
+  var logoFile = document.getElementById('logoFile');
+  if (logoFile) {
+    logoFile.onchange = function(e) {
+      var f = e.target.files;
+      if (!f || !f.length) return;
+      var r = new FileReader();
+      r.onload = function(ev) {
+        cImg = ev.target.result;
+        document.getElementById('prevBadge').innerHTML = "<img src='" + cImg + "'>";
+        document.getElementById('sideIcon').innerHTML = "<img src='" + cImg + "'>";
+      };
+      r.readAsDataURL(f.item(0));
+    };
+  }
+});
+</script>
+</body>
+</html>
