@@ -227,7 +227,13 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
 .main{flex:1;padding:22px;max-width:1400px;margin:0 auto}
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
 .card,.box{background:var(--card);padding:18px;border-radius:12px;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.card{position:relative;overflow:hidden;border-top:3px solid #14b8a6}
+.card.qp-card-warn{border-top-color:#f59e0b}
+.card.qp-card-info{border-top-color:#0284c7}
 .card-head{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px}
+.card-metric-row{display:flex;justify-content:space-between;align-items:flex-end;gap:8px;margin-top:4px}
+.card-metric-row h3{font-size:21px;line-height:1.1}
+.qp-spark{width:76px;height:26px;flex-shrink:0;overflow:visible}
 .qp-demo-tag{font-size:9.5px;font-weight:700;letter-spacing:0.6px;padding:2px 6px;border-radius:5px;background:rgba(20,184,166,0.14);color:#14b8a6;border:1px solid rgba(20,184,166,0.3)}
 .box{margin-bottom:16px}
 .box h3{font-size:15.5px;padding-bottom:9px;border-bottom:1px solid var(--border);margin-bottom:14px;color:var(--text)}
@@ -281,10 +287,11 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 .qp-cal-btn{background:#0F766E;color:#fff;border:none;border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-weight:600}
 .qp-cal-btn:hover{background:#0d9488}
 
-/* Feature #5: Interactive Ishikawa (6M Fishbone) Styles */
-.qp-fb-wrap{background:var(--inp);border:1px solid var(--border);border-radius:10px;padding:12px;overflow-x:auto}
+/* Feature #5 & Phase 4: Interactive Ishikawa (6M Fishbone) Blueprint Styles */
+.qp-fb-wrap{background:radial-gradient(circle at 75% 50%, rgba(20,184,166,0.08), transparent 65%), var(--inp);border:1px solid var(--border);border-radius:10px;padding:12px;overflow-x:auto}
 .qp-fb-svg{width:100%;min-width:540px;height:auto;display:block}
-.qp-fb-node{cursor:pointer}
+.qp-fb-node{cursor:pointer;transition:opacity 0.2s}
+.qp-fb-node:hover{opacity:0.9}
 .qp-fb-root-box{margin-top:10px;padding:10px 12px;border-radius:8px;background:rgba(15,118,110,.1);border:1px solid rgba(15,118,110,.3);font-size:12.5px}
 
 /* Feature #4: CAPA & FMEA Risk Tracker Styles */
@@ -431,10 +438,54 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 
 <div class="main">
   <div class="cards">
-    <div class="card"><div class="card-head"><small>Batch Units</small><span class="qp-demo-tag">DEMO</span></div><h3 id="bc">1240</h3></div>
-    <div class="card"><div class="card-head"><small>First-Pass Yield</small><span class="qp-demo-tag">DEMO</span></div><h3>98.4%</h3></div>
-    <div class="card"><div class="card-head"><small>Open 8D Reports</small><span class="qp-demo-tag">DEMO</span></div><h3 id="oc">3</h3></div>
-    <div class="card"><div class="card-head"><small>Engineer Time Saved</small><span class="qp-demo-tag">EST.</span></div><h3 id="ts">7.5 Hrs</h3></div>
+    <div class="card">
+      <div class="card-head"><small>Batch Units</small><span class="qp-demo-tag">DEMO</span></div>
+      <div class="card-metric-row">
+        <h3 id="bc">1240</h3>
+        <svg class="qp-spark" viewBox="0 0 76 26" fill="none">
+          <defs><linearGradient id="qpSp1" x1="0" y1="0" x2="0" y2="26" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#14b8a6" stop-opacity="0.35"/><stop offset="100%" stop-color="#14b8a6" stop-opacity="0"/></linearGradient></defs>
+          <path d="M2 22 L16 17 L30 19 L44 11 L58 13 L74 4 L74 25 L2 25 Z" fill="url(#qpSp1)"/>
+          <polyline points="2,22 16,17 30,19 44,11 58,13 74,4" stroke="#14b8a6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="74" cy="4" r="2.6" fill="#2dd4bf"/>
+        </svg>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><small>First-Pass Yield</small><span class="qp-demo-tag">DEMO</span></div>
+      <div class="card-metric-row">
+        <h3>98.4%</h3>
+        <svg class="qp-spark" viewBox="0 0 76 26" fill="none">
+          <defs><linearGradient id="qpSp2" x1="0" y1="0" x2="0" y2="26" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#16a34a" stop-opacity="0.35"/><stop offset="100%" stop-color="#16a34a" stop-opacity="0"/></linearGradient></defs>
+          <path d="M2 18 L18 15 L32 16 L48 9 L62 8 L74 5 L74 25 L2 25 Z" fill="url(#qpSp2)"/>
+          <polyline points="2,18 18,15 32,16 48,9 62,8 74,5" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="74" cy="5" r="2.6" fill="#22c55e"/>
+        </svg>
+      </div>
+    </div>
+    <div class="card qp-card-warn">
+      <div class="card-head"><small>Open 8D Reports</small><span class="qp-demo-tag">DEMO</span></div>
+      <div class="card-metric-row">
+        <h3 id="oc">3</h3>
+        <svg class="qp-spark" viewBox="0 0 76 26" fill="none">
+          <defs><linearGradient id="qpSp3" x1="0" y1="0" x2="0" y2="26" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f59e0b" stop-opacity="0.35"/><stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/></linearGradient></defs>
+          <path d="M2 8 L18 12 L32 10 L48 16 L62 14 L74 19 L74 25 L2 25 Z" fill="url(#qpSp3)"/>
+          <polyline points="2,8 18,12 32,10 48,16 62,14 74,19" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="74" cy="19" r="2.6" fill="#fbbf24"/>
+        </svg>
+      </div>
+    </div>
+    <div class="card qp-card-info">
+      <div class="card-head"><small>Engineer Time Saved</small><span class="qp-demo-tag">EST.</span></div>
+      <div class="card-metric-row">
+        <h3 id="ts">7.5 Hrs</h3>
+        <svg class="qp-spark" viewBox="0 0 76 26" fill="none">
+          <defs><linearGradient id="qpSp4" x1="0" y1="0" x2="0" y2="26" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#0284c7" stop-opacity="0.35"/><stop offset="100%" stop-color="#0284c7" stop-opacity="0"/></linearGradient></defs>
+          <path d="M2 23 L16 20 L32 15 L46 12 L60 7 L74 3 L74 25 L2 25 Z" fill="url(#qpSp4)"/>
+          <polyline points="2,23 16,20 32,15 46,12 60,7 74,3" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="74" cy="3" r="2.6" fill="#38bdf8"/>
+        </svg>
+      </div>
+    </div>
   </div>
 
   <div id="t1" class="tab on">
@@ -717,7 +768,7 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
       <div class="box">
         <h3>📊 2. Interactive Fishbone Diagram (Click Any Cause to Highlight Root)</h3>
         <div class="qp-fb-wrap">
-          <svg id="qpFbSvg" class="qp-fb-svg" viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg"></svg>
+          <svg id="qpFbSvg" class="qp-fb-svg" viewBox="0 0 740 350" xmlns="http://www.w3.org/2000/svg"></svg>
         </div>
         <div id="qpFbRootSummary" class="qp-fb-root-box"></div>
         <button type="button" class="run no-print" style="background:#16a34a;margin-top:10px" onclick="printFull()">🖨️ Print Fishbone Analysis</button>
@@ -949,7 +1000,6 @@ var qpAuditLogs = (function() {
 
 function qpSaveAuditLogs() {
   if (!qpSafeSetLocalStorage('qp_audit_logs', JSON.stringify(qpAuditLogs))) {
-    // If photo data pushed storage over quota, retry once without large photo payloads
     var stripped = qpAuditLogs.map(function(item, i) {
       return i === 0 ? Object.assign({}, item, { photo: "" }) : item;
     });
@@ -1451,7 +1501,7 @@ window.qpRenewCal = function(index) {
 };
 
 /* =====================================
- FEATURE #5: ISHIKAWA (6M FISHBONE) MODULE
+ FEATURE #5 & PHASE 4: ISHIKAWA (6M FISHBONE) BLUEPRINT DIAGRAM
 ===================================== */
 var qpSelectedRootKey = "machine";
 
@@ -1482,24 +1532,47 @@ window.qpFishboneRender = function() {
 
   var effect = (document.getElementById('qpFbEffect').value || "Defect Effect").trim();
   var branches = [
-    { key: "man", label: "MAN", cause: (document.getElementById('qpFbMan').value || "—").trim(), xTop: 120, xBot: 65, yTop: 48, isTop: true },
-    { key: "machine", label: "MACHINE", cause: (document.getElementById('qpFbMachine').value || "—").trim(), xTop: 280, xBot: 225, yTop: 48, isTop: true },
-    { key: "material", label: "MATERIAL", cause: (document.getElementById('qpFbMaterial').value || "—").trim(), xTop: 440, xBot: 385, yTop: 48, isTop: true },
-    { key: "method", label: "METHOD", cause: (document.getElementById('qpFbMethod').value || "—").trim(), xTop: 120, xBot: 65, yBot: 292, isTop: false },
-    { key: "measure", label: "MEASUREMENT", cause: (document.getElementById('qpFbMeasure').value || "—").trim(), xTop: 280, xBot: 225, yBot: 292, isTop: false },
-    { key: "nature", label: "MOTHER NATURE", cause: (document.getElementById('qpFbNature').value || "—").trim(), xTop: 440, xBot: 385, yBot: 292, isTop: false }
+    { key: "man", label: "MAN", cause: (document.getElementById('qpFbMan').value || "—").trim(), xTop: 120, xBot: 68, yTop: 46, isTop: true },
+    { key: "machine", label: "MACHINE", cause: (document.getElementById('qpFbMachine').value || "—").trim(), xTop: 280, xBot: 228, yTop: 46, isTop: true },
+    { key: "material", label: "MATERIAL", cause: (document.getElementById('qpFbMaterial').value || "—").trim(), xTop: 440, xBot: 388, yTop: 46, isTop: true },
+    { key: "method", label: "METHOD", cause: (document.getElementById('qpFbMethod').value || "—").trim(), xTop: 120, xBot: 68, yBot: 304, isTop: false },
+    { key: "measure", label: "MEASUREMENT", cause: (document.getElementById('qpFbMeasure').value || "—").trim(), xTop: 280, xBot: 228, yBot: 304, isTop: false },
+    { key: "nature", label: "MOTHER NATURE", cause: (document.getElementById('qpFbNature').value || "—").trim(), xTop: 440, xBot: 388, yBot: 304, isTop: false }
   ];
 
-  var spineY = 170;
+  var spineY = 175;
   var html = "";
 
-  html += "<line x1='35' y1='" + spineY + "' x2='535' y2='" + spineY + "' stroke='#14b8a6' stroke-width='3.5'/>";
-  html += "<polygon points='535," + (spineY - 7) + " 552," + spineY + " 535," + (spineY + 7) + "' fill='#14b8a6'/>";
+  // Blueprint Dot-Grid & Glow Filter Definitions
+  html += "<defs>" +
+    "<pattern id='qpBpGrid' width='18' height='18' patternUnits='userSpaceOnUse'>" +
+      "<circle cx='2' cy='2' r='1' fill='rgba(20,184,166,0.22)'/>" +
+    "</pattern>" +
+    "<linearGradient id='qpSpineGrad' x1='30' y1='175' x2='550' y2='175' gradientUnits='userSpaceOnUse'>" +
+      "<stop offset='0%' stop-color='#0ea5a4'/>" +
+      "<stop offset='100%' stop-color='#2dd4bf'/>" +
+    "</linearGradient>" +
+    "<linearGradient id='qpHeadGrad' x1='565' y1='138' x2='725' y2='212' gradientUnits='userSpaceOnUse'>" +
+      "<stop offset='0%' stop-color='#0F766E'/>" +
+      "<stop offset='100%' stop-color='#115e59'/>" +
+    "</linearGradient>" +
+    "<filter id='qpAmberGlow' x='-20%' y='-20%' width='140%' height='140%'>" +
+      "<feDropShadow dx='0' dy='0' stdDeviation='3' flood-color='#f59e0b' flood-opacity='0.65'/>" +
+    "</filter>" +
+  "</defs>";
 
-  var shortEffect = effect.length > 26 ? effect.slice(0, 24) + "…" : effect;
-  html += "<rect x='554' y='" + (spineY - 34) + "' width='156' height='68' rx='10' fill='#0F766E' stroke='#2dd4bf' stroke-width='2'/>";
-  html += "<text x='632' y='" + (spineY - 8) + "' text-anchor='middle' fill='#ccfbf1' font-size='10' font-weight='700'>EFFECT / DEFECT</text>";
-  html += "<text x='632' y='" + (spineY + 12) + "' text-anchor='middle' fill='#ffffff' font-size='11' font-weight='700'>" + qpEscXml(shortEffect) + "</text>";
+  html += "<rect x='6' y='6' width='728' height='338' rx='10' fill='url(#qpBpGrid)'/>";
+
+  // Main Spine & Arrowhead
+  html += "<circle cx='34' cy='" + spineY + "' r='4.5' fill='#14b8a6'/>";
+  html += "<line x1='34' y1='" + spineY + "' x2='548' y2='" + spineY + "' stroke='url(#qpSpineGrad)' stroke-width='3.6' stroke-linecap='round'/>";
+  html += "<polygon points='548," + (spineY - 7.5) + " 565," + spineY + " 548," + (spineY + 7.5) + "' fill='#2dd4bf'/>";
+
+  // Fish Head (Effect Box)
+  var shortEffect = effect.length > 25 ? effect.slice(0, 23) + "…" : effect;
+  html += "<rect x='567' y='" + (spineY - 36) + "' width='160' height='72' rx='11' fill='url(#qpHeadGrad)' stroke='#2dd4bf' stroke-width='2'/>";
+  html += "<text x='647' y='" + (spineY - 10) + "' text-anchor='middle' fill='#99f6e4' font-size='9.5' font-weight='800' letter-spacing='0.8'>EFFECT / DEFECT</text>";
+  html += "<text x='647' y='" + (spineY + 11) + "' text-anchor='middle' fill='#ffffff' font-size='11' font-weight='700'>" + qpEscXml(shortEffect) + "</text>";
 
   var activeBranch = branches[1];
 
@@ -1507,25 +1580,43 @@ window.qpFishboneRender = function() {
     var isSel = (b.key === qpSelectedRootKey);
     if (isSel) activeBranch = b;
 
-    var strokeCol = isSel ? "#f59e0b" : "#0ea5a4";
-    var badgeFill = isSel ? "#d97706" : "#111827";
-    var shortCause = b.cause.length > 20 ? b.cause.slice(0, 18) + "…" : b.cause;
+    var strokeCol = isSel ? "#f59e0b" : "#14b8a6";
+    var badgeFill = isSel ? "#d97706" : "#0f172a";
+    var textCol = isSel ? "#fbbf24" : "#94a3b8";
+    var glowAttr = isSel ? " filter='url(#qpAmberGlow)'" : "";
+    var shortCause = b.cause.length > 18 ? b.cause.slice(0, 16) + "…" : b.cause;
 
     if (b.isTop) {
-      var topTextX = b.xTop + 14;
-      html += "<g class='qp-fb-node' onclick='qpSelectFishboneRoot(\"" + b.key + "\")'>";
+      var midX = (b.xTop + b.xBot) / 2;
+      var midY = (b.yTop + spineY) / 2;
+      var ribEndX = midX + 18;
+      html += "<g class='qp-fb-node' onclick='qpSelectFishboneRoot(\"" + b.key + "\")'" + glowAttr + ">";
       html += "<line x1='" + b.xBot + "' y1='" + spineY + "' x2='" + b.xTop + "' y2='" + b.yTop + "' stroke='" + strokeCol + "' stroke-width='2.4'/>";
-      html += "<rect x='" + (b.xTop - 52) + "' y='" + (b.yTop - 24) + "' width='104' height='22' rx='6' fill='" + badgeFill + "' stroke='" + strokeCol + "' stroke-width='1.5'/>";
-      html += "<text x='" + b.xTop + "' y='" + (b.yTop - 9) + "' text-anchor='middle' fill='#ffffff' font-size='10.5' font-weight='700'>" + b.label + "</text>";
-      html += "<text x='" + topTextX + "' y='" + (b.yTop + 26) + "' text-anchor='start' fill='" + (isSel ? "#fbbf24" : "#94a3b8") + "' font-size='10.5' font-weight='" + (isSel ? "700" : "500") + "'>• " + qpEscXml(shortCause) + "</text>";
+      html += "<circle cx='" + b.xBot + "' cy='" + spineY + "' r='3.5' fill='" + strokeCol + "'/>";
+      // Horizontal Sub-Rib for Cause
+      html += "<line x1='" + midX + "' y1='" + midY + "' x2='" + ribEndX + "' y2='" + midY + "' stroke='" + strokeCol + "' stroke-width='1.5'/>";
+      html += "<circle cx='" + midX + "' cy='" + midY + "' r='2.6' fill='" + strokeCol + "'/>";
+      // Category Header Pill
+      html += "<rect x='" + (b.xTop - 52) + "' y='" + (b.yTop - 25) + "' width='104' height='22' rx='6' fill='" + badgeFill + "' stroke='" + strokeCol + "' stroke-width='1.6'/>";
+      html += "<text x='" + b.xTop + "' y='" + (b.yTop - 10) + "' text-anchor='middle' fill='#ffffff' font-size='10.5' font-weight='700'>" + b.label + "</text>";
+      // Cause Text aligned cleanly off the horizontal rib
+      html += "<text x='" + (ribEndX + 4) + "' y='" + (midY + 3.5) + "' text-anchor='start' fill='" + textCol + "' font-size='10.5' font-weight='" + (isSel ? "700" : "500") + "'>" + qpEscXml(shortCause) + "</text>";
       html += "</g>";
     } else {
-      var botTextX = b.xBot + 14;
-      html += "<g class='qp-fb-node' onclick='qpSelectFishboneRoot(\"" + b.key + "\")'>";
+      var midBotX = (b.xTop + b.xBot) / 2;
+      var midBotY = (spineY + b.yBot) / 2;
+      var ribBotEndX = midBotX + 18;
+      html += "<g class='qp-fb-node' onclick='qpSelectFishboneRoot(\"" + b.key + "\")'" + glowAttr + ">";
       html += "<line x1='" + b.xTop + "' y1='" + spineY + "' x2='" + b.xBot + "' y2='" + b.yBot + "' stroke='" + strokeCol + "' stroke-width='2.4'/>";
-      html += "<rect x='" + (b.xBot - 56) + "' y='" + (b.yBot + 2) + "' width='112' height='22' rx='6' fill='" + badgeFill + "' stroke='" + strokeCol + "' stroke-width='1.5'/>";
-      html += "<text x='" + b.xBot + "' y='" + (b.yBot + 17) + "' text-anchor='middle' fill='#ffffff' font-size='10.5' font-weight='700'>" + b.label + "</text>";
-      html += "<text x='" + botTextX + "' y='" + (b.yBot - 12) + "' text-anchor='start' fill='" + (isSel ? "#fbbf24" : "#94a3b8") + "' font-size='10.5' font-weight='" + (isSel ? "700" : "500") + "'>• " + qpEscXml(shortCause) + "</text>";
+      html += "<circle cx='" + b.xTop + "' cy='" + spineY + "' r='3.5' fill='" + strokeCol + "'/>";
+      // Horizontal Sub-Rib for Cause
+      html += "<line x1='" + midBotX + "' y1='" + midBotY + "' x2='" + ribBotEndX + "' y2='" + midBotY + "' stroke='" + strokeCol + "' stroke-width='1.5'/>";
+      html += "<circle cx='" + midBotX + "' cy='" + midBotY + "' r='2.6' fill='" + strokeCol + "'/>";
+      // Category Header Pill
+      html += "<rect x='" + (b.xBot - 56) + "' y='" + (b.yBot + 3) + "' width='112' height='22' rx='6' fill='" + badgeFill + "' stroke='" + strokeCol + "' stroke-width='1.6'/>";
+      html += "<text x='" + b.xBot + "' y='" + (b.yBot + 18) + "' text-anchor='middle' fill='#ffffff' font-size='10.5' font-weight='700'>" + b.label + "</text>";
+      // Cause Text aligned cleanly off the horizontal rib
+      html += "<text x='" + (ribBotEndX + 4) + "' y='" + (midBotY + 3.5) + "' text-anchor='start' fill='" + textCol + "' font-size='10.5' font-weight='" + (isSel ? "700" : "500") + "'>" + qpEscXml(shortCause) + "</text>";
       html += "</g>";
     }
   });
@@ -1662,7 +1753,7 @@ window.qpUpdateFmeaStatus = function(idx, newStatus) {
 };
 
 /* =====================================
- FEATURE #2 & IND-01: DYNAMIC SPC (UCL/CL/LCL + USL/LSL) & CAPABILITY
+ FEATURE #2, IND-01 & PHASE 4: DYNAMIC SPC WITH ZONE SHADING
 ===================================== */
 var qpDefaultSpcSamples = [50.01, 50.02, 49.99, 50.03, 50.01, 50.04, 49.98, 50.02];
 var qpSpcSamples = (function() {
@@ -1806,6 +1897,12 @@ window.qpUpdateSPC = function() {
   var yLcl = toY(lcl);
 
   var svgHtml = "";
+
+  // Translucent Control Zone Band (between UCL & LCL)
+  var bandTop = Math.min(yUcl, yLcl);
+  var bandH = Math.max(2, Math.abs(yLcl - yUcl));
+  svgHtml += "<rect x='" + xLeft + "' y='" + bandTop.toFixed(1) + "' width='" + (xRight - xLeft) + "' height='" + bandH.toFixed(1) + "' fill='rgba(20,184,166,0.09)' rx='4'/>";
+
   svgHtml += "<line x1='" + xLeft + "' y1='" + yUsl.toFixed(1) + "' x2='" + xRight + "' y2='" + yUsl.toFixed(1) + "' stroke='#dc2626' stroke-dasharray='5 3' stroke-width='1.5'/>";
   svgHtml += "<text x='" + (xRight + 6) + "' y='" + (yUsl + 3).toFixed(1) + "' fill='#dc2626' font-size='9.5' font-weight='700'>USL (" + usl.toFixed(2) + ")</text>";
 
@@ -1837,7 +1934,10 @@ window.qpUpdateSPC = function() {
     var outCtrl = (v > ucl || v < lcl);
     var dotCol = outSpec ? "#dc2626" : (outCtrl ? "#f59e0b" : "#0F766E");
     var flag = outSpec ? " [OUT OF SPEC]" : (outCtrl ? " [OUT OF 3σ CONTROL]" : "");
-    svgHtml += "<circle cx='" + cx + "' cy='" + cy + "' r='4.3' fill='" + dotCol + "'><title>#" + (i + 1) + ": " + v + flag + "</title></circle>";
+    if (outSpec || outCtrl) {
+      svgHtml += "<circle cx='" + cx + "' cy='" + cy + "' r='8' fill='none' stroke='" + dotCol + "' stroke-width='1.3' opacity='0.55'/>";
+    }
+    svgHtml += "<circle cx='" + cx + "' cy='" + cy + "' r='4.4' fill='" + dotCol + "'><title>#" + (i + 1) + ": " + v + flag + "</title></circle>";
   });
 
   svg.innerHTML = svgHtml;
