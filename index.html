@@ -217,9 +217,10 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
 .api-box{background:#1f2937;padding:11px;border-radius:9px;margin-top:12px;border:1px solid #374151}
 .api-box small{color:#2dd4bf;display:block;margin-bottom:5px;font-size:11px}
 .api-row{display:flex;gap:5px}
-.api-row input{background:#0b0f19;color:#2dd4bf;border:1px solid #14b8a6;padding:7px;font-size:12px;margin:0;border-radius:6px;flex:1}
+.api-row input{background:#0b0f19;color:#2dd4bf;border:1px solid #14b8a6;padding:7px;font-size:12px;margin:0;border-radius:6px;flex:1;min-width:0}
 .eye-btn{background:#374151;color:#fff;border:1px solid #4b5563;border-radius:6px;padding:6px 8px;cursor:pointer}
-.security-badge{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;color:#94a3b8;padding:8px 0;border-top:1px solid #1f2937;margin-top:10px;letter-spacing:0.5px}
+.qp-api-hint{color:#94a3b8;font-size:10px;margin-top:5px;line-height:1.35}
+.security-badge{display:flex;align-items:center;justify-content:center;gap:6px;font-size:10.5px;color:#94a3b8;padding:8px 4px;border-top:1px solid #1f2937;margin-top:10px;letter-spacing:0.3px;text-align:center}
 .vb{background:#1f2937;border:1px solid #14b8a6;padding:11px;border-radius:10px;text-align:center;margin-top:10px}
 .vb small{font-size:9.5px;color:#94a3b8;letter-spacing:1.8px}
 .vb b{display:block;font-size:15px;color:#2dd4bf;letter-spacing:2px;margin-top:2px}
@@ -411,13 +412,15 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
     <div class="api-box">
       <small>✨ Google Gemini API Key (Optional)</small>
       <div class="api-row">
-        <input type="password" id="gKey" placeholder="Paste AIzaSy... Key" onchange="localStorage.setItem('qp_gkey',this.value)">
-        <button type="button" class="eye-btn" id="eyeBtn">👁️</button>
+        <input type="password" id="gKey" placeholder="Paste AIzaSy... Key" oninput="qpSaveApiKey(this.value)" onchange="qpSaveApiKey(this.value)">
+        <button type="button" class="eye-btn" id="eyeBtn" title="Show/Hide Key">👁️</button>
+        <button type="button" class="eye-btn" onclick="qpClearApiKey()" title="Clear Session Key">✕</button>
       </div>
+      <div class="qp-api-hint">Session-only memory (clears when tab closes). Avoid on shared PCs.</div>
     </div>
   </div>
   <div>
-    <div class="security-badge">🔒 <span>End-to-End Encrypted</span></div>
+    <div class="security-badge">🛡️ <span>Local Browser Storage • HTTPS Transport</span></div>
     <div class="vb"><small>CO-POWERED BY</small><b>VISHWASH</b></div>
   </div>
 </div>
@@ -812,6 +815,39 @@ var cImg = "";
 var partImg = "";
 var rejectCount = 0;
 
+/* =====================================
+ PHASE 1: SESSION KEY & HTML SANITIZER
+===================================== */
+function qpEscXml(str) {
+  return String(str || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+window.qpSaveApiKey = function(val) {
+  try {
+    localStorage.removeItem('qp_gkey');
+    var clean = String(val || "").trim();
+    if (clean) {
+      sessionStorage.setItem('qp_gkey_session', clean);
+    } else {
+      sessionStorage.removeItem('qp_gkey_session');
+    }
+  } catch (e) {}
+};
+
+window.qpClearApiKey = function() {
+  try {
+    localStorage.removeItem('qp_gkey');
+    sessionStorage.removeItem('qp_gkey_session');
+  } catch (e) {}
+  var kEl = document.getElementById('gKey');
+  if (kEl) kEl.value = "";
+};
+
 function playAlarmSound() {
   try {
     var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -888,8 +924,9 @@ window.qpRenderAuditLogs = function() {
   }
 
   lg.innerHTML = filtered.map(function(row) {
-    var thumb = row.photo
-      ? "<img src='" + row.photo + "' style='width:36px;height:36px;object-fit:cover;border-radius:6px'>"
+    var safePhoto = (row.photo && row.photo.indexOf("data:image/") === 0) ? row.photo : "";
+    var thumb = safePhoto
+      ? "<img src='" + qpEscXml(safePhoto) + "' style='width:36px;height:36px;object-fit:cover;border-radius:6px'>"
       : "—";
     var stCol = (row.status === "PASS") ? "#16a34a" : "#dc2626";
     return "<tr>" +
@@ -918,7 +955,8 @@ window.calc = function(saveLog) {
   var diff = (a - t).toFixed(3);
   var pass = (dt === 'dim' || dt === 'hardness') && (Math.abs(diff) <= tol);
   var out = document.getElementById('out');
-  var imgTag = partImg ? "<img src='" + partImg + "' class='part-img'><br>" : "";
+  var safePartImg = (partImg && partImg.indexOf("data:image/") === 0) ? partImg : "";
+  var imgTag = safePartImg ? "<img src='" + qpEscXml(safePartImg) + "' class='part-img'><br>" : "";
   var tm = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 
   if (saveLog) {
@@ -936,9 +974,9 @@ window.calc = function(saveLog) {
   }
 
   if (pass) {
-    out.innerHTML = "<div class='pass'>✅ PASS — Within Spec (±" + tol + ", Dev: " + diff + ")</div>" + imgTag;
+    out.innerHTML = "<div class='pass'>✅ PASS — Within Spec (±" + qpEscXml(tol) + ", Dev: " + qpEscXml(diff) + ")</div>" + imgTag;
     if (saveLog) {
-      window.qpRecordAuditEntry(tm, p, dt.toUpperCase(), partImg, "PASS");
+      window.qpRecordAuditEntry(tm, p, dt.toUpperCase(), safePartImg, "PASS");
     }
     return;
   }
@@ -989,17 +1027,17 @@ window.calc = function(saveLog) {
     act = "Quarantine batch & conduct 4M audit.";
   }
 
-  out.innerHTML = "<div class='fail'>🚨 REJECT — Out of Spec (Deviation: " + diff + ")</div>" +
+  out.innerHTML = "<div class='fail'>🚨 REJECT — Out of Spec (Deviation: " + qpEscXml(diff) + ")</div>" +
     "<table>" +
-    "<tr><th>Organization</th><td>" + bName + "</td></tr>" +
-    "<tr><th>Part & Batch</th><td>" + p + "</td></tr>" +
-    "<tr><th>Defect</th><td>" + dLabel + "</td></tr>" +
-    "<tr><th>D4 Cause</th><td>" + c + "</td></tr>" +
-    "<tr><th>D5 CAPA</th><td>" + act + "</td></tr>" +
+    "<tr><th>Organization</th><td>" + qpEscXml(bName) + "</td></tr>" +
+    "<tr><th>Part & Batch</th><td>" + qpEscXml(p) + "</td></tr>" +
+    "<tr><th>Defect</th><td>" + qpEscXml(dLabel) + "</td></tr>" +
+    "<tr><th>D4 Cause</th><td>" + qpEscXml(c) + "</td></tr>" +
+    "<tr><th>D5 CAPA</th><td>" + qpEscXml(act) + "</td></tr>" +
     "</table>" + imgTag;
 
   if (saveLog) {
-    window.qpRecordAuditEntry(tm, p, dLabel, partImg, "REJECT");
+    window.qpRecordAuditEntry(tm, p, dLabel, safePartImg, "REJECT");
   }
 };
 
@@ -1025,7 +1063,11 @@ window.setLogo = function() {
   document.getElementById('sideTitle').innerText = bName;
   var si = document.getElementById('sideIcon');
   si.style.background = col;
-  si.innerHTML = cImg ? "<img src='" + cImg + "'>" : ic;
+  if (cImg && cImg.indexOf("data:image/") === 0) {
+    si.innerHTML = "<img src='" + qpEscXml(cImg) + "'>";
+  } else {
+    si.textContent = ic;
+  }
   window.calc(false);
   alert("Brand Applied!");
 };
@@ -1040,7 +1082,7 @@ window.sendContact = function() {
     return;
   }
   var box = document.getElementById('cLogs');
-  var item = "<div class='pass' style='margin-bottom:8px;font-weight:400'><b>" + nm + "</b> (" + (cm || "Plant Inquiry") + ") — " + ct + "<br><small>" + (ms || "Requested QualityPilot AI Demo") + "</small></div>";
+  var item = "<div class='pass' style='margin-bottom:8px;font-weight:400'><b>" + qpEscXml(nm) + "</b> (" + qpEscXml(cm || "Plant Inquiry") + ") — " + qpEscXml(ct) + "<br><small>" + qpEscXml(ms || "Requested QualityPilot AI Demo") + "</small></div>";
   if (box.innerText.indexOf("No new") === 0) {
     box.innerHTML = item;
   } else {
@@ -1099,10 +1141,13 @@ window.askGemini = async function() {
   var diff = (parseFloat(av) - parseFloat(tv)).toFixed(3);
   var today = new Date().toLocaleDateString('en-GB');
   var repId = "8D-" + Math.floor(1000 + Math.random() * 9000);
-  var logoPrintHtml = cImg ? "<img src='" + cImg + "' style='width:24px;height:24px;vertical-align:middle;border-radius:4px;margin-right:6px'>" : "";
+  var safeCImg = (cImg && cImg.indexOf("data:image/") === 0) ? cImg : "";
+  var logoPrintHtml = safeCImg ? "<img src='" + qpEscXml(safeCImg) + "' style='width:24px;height:24px;vertical-align:middle;border-radius:4px;margin-right:6px'>" : "";
 
   var keyInput = document.getElementById('gKey');
-  var apiKey = ((keyInput && keyInput.value.trim()) || localStorage.getItem('qp_gkey') || "").trim();
+  var sessionKey = "";
+  try { sessionKey = sessionStorage.getItem('qp_gkey_session') || ""; } catch (e) {}
+  var apiKey = ((keyInput && keyInput.value.trim()) || sessionKey).trim();
 
   if (!apiKey) {
     gOut.innerHTML = qpBuildFallback8DHtml(
@@ -1268,7 +1313,7 @@ window.qpCalcGRR = function() {
       "<div class='qp-grr-stat'><small>Distinct Categories (NDC)</small><b>" + ndc + "</b></div>" +
     "</div>" +
     "<table>" +
-      "<tr><th>Instrument</th><td>" + gName + "</td></tr>" +
+      "<tr><th>Instrument</th><td>" + qpEscXml(gName) + "</td></tr>" +
       "<tr><th>Total Variation (TV)</th><td>" + tv.toFixed(4) + "</td></tr>" +
       "<tr><th>AIAG MSA Standard</th><td>Target: %GRR &lt; 10% &amp; NDC ≥ 5</td></tr>" +
     "</table>";
@@ -1290,9 +1335,9 @@ window.qpRenderCalTable = function() {
       pill = "<span class='qp-cal-pill qp-cal-due'>DUE SOON (" + diffDays + "d)</span>";
     }
     return "<tr>" +
-      "<td><b>" + item.name + "</b></td>" +
-      "<td>" + item.last + "</td>" +
-      "<td>" + item.due + "</td>" +
+      "<td><b>" + qpEscXml(item.name) + "</b></td>" +
+      "<td>" + qpEscXml(item.last) + "</td>" +
+      "<td>" + qpEscXml(item.due) + "</td>" +
       "<td>" + pill + "</td>" +
       "<td><button type='button' class='qp-cal-btn' onclick='qpRenewCal(" + idx + ")'>↻ Renew</button></td>" +
     "</tr>";
@@ -1329,14 +1374,6 @@ window.qpRenewCal = function(index) {
  FEATURE #5: ISHIKAWA (6M FISHBONE) MODULE
 ===================================== */
 var qpSelectedRootKey = "machine";
-
-function qpEscXml(str) {
-  return String(str || "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
 
 window.qpSelectFishboneRoot = function(key) {
   qpSelectedRootKey = key;
@@ -1735,10 +1772,13 @@ document.addEventListener("DOMContentLoaded", function() {
     };
   }
 
-  var savedKey = localStorage.getItem('qp_gkey');
-  if (savedKey && document.getElementById('gKey')) {
-    document.getElementById('gKey').value = savedKey;
-  }
+  try {
+    localStorage.removeItem('qp_gkey');
+    var savedSessionKey = sessionStorage.getItem('qp_gkey_session');
+    if (savedSessionKey && document.getElementById('gKey')) {
+      document.getElementById('gKey').value = savedSessionKey;
+    }
+  } catch (e) {}
 
   var partFile = document.getElementById('partFile');
   if (partFile) {
@@ -1762,8 +1802,8 @@ document.addEventListener("DOMContentLoaded", function() {
       var r = new FileReader();
       r.onload = function(ev) {
         cImg = ev.target.result;
-        document.getElementById('prevBadge').innerHTML = "<img src='" + cImg + "'>";
-        document.getElementById('sideIcon').innerHTML = "<img src='" + cImg + "'>";
+        document.getElementById('prevBadge').innerHTML = "<img src='" + qpEscXml(cImg) + "'>";
+        document.getElementById('sideIcon').innerHTML = "<img src='" + qpEscXml(cImg) + "'>";
       };
       r.readAsDataURL(f.item(0));
     };
