@@ -16,7 +16,7 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
   background:radial-gradient(circle at 50% 42%, #0e243b 0%, #080F1C 58%, #040811 100%);
   z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;
   color:#FFFFFF;overflow:hidden;
-  animation:qpSplashOut 0.55s cubic-bezier(0.22,1,0.36,1) 2.35s forwards;
+  animation:qpSplashSlideLTR 0.65s cubic-bezier(0.22,1,0.36,1) 2.35s forwards;
 }
 
 .qp-stage{
@@ -225,9 +225,9 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
   0%{width:0%}
   100%{width:100%}
 }
-@keyframes qpSplashOut{
-  0%{opacity:1;transform:scale(1)}
-  100%{opacity:0;transform:scale(1.04);visibility:hidden;pointer-events:none}
+@keyframes qpSplashSlideLTR{
+  0%{transform:translateX(0);opacity:1}
+  100%{transform:translateX(100vw);opacity:0.2;visibility:hidden;pointer-events:none}
 }
 
 .side{width:260px;background:#111827;color:#fff;padding:18px 15px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #1f2937}
@@ -518,7 +518,7 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
           <h4>VISHWASH</h4>
           <small style="color:#94a3b8;letter-spacing:1px">FOUNDER & PRECISION QUALITY ARCHITECT</small>
           <div class="c-item">📧 <b>Direct Gmail:</b> <a class="c-mail" href="mailto:vishwashp07@gmail.com">vishwashp07@gmail.com</a></div>
-          <div class="c-item">🌐 <b>Platform:</b> [QualityPilot AI — VISHWASH](url?id=1)</div>
+          <div class="c-item">🌐 <b>Platform:</b> QualityPilot AI — IATF 16949 Suite</div>
           <div class="c-item" style="border:none">⚡ <b>Support:</b> 24/7 Enterprise Plant Onboarding</div>
         </div>
         <h3 style="margin-top:14px">📬 Submitted Inquiries</h3>
@@ -723,7 +723,7 @@ window.askGemini = async function() {
     "<div class='rep-sec'><b>D3 — Containment Actions</b>Immediate 100% sorting of batch " + p + " & quarantining non-conforming stock.</div>" +
     "<div class='rep-sec'><b>D4 — Root Cause Analysis (5-Why)</b>1. Why deviation? Dimension drifted by " + diff + "mm.<br>2. Why drifted? Progressive tool wear.<br>3. Why not caught? SPC chart frequency was delayed.</div>" +
     "<div class='rep-sec'><b>D5 & D6 — Permanent Corrective Actions & Validation</b>Tool offset updated, automated part probing enabled, zero defects verified across 10 consecutive runs.</div>" +
-    "<div class="rep-sec"><b>D7 — Preventive Actions</b>FMEA updated & gauge R&R scheduled for next maintenance cycle.</div>" +
+    "<div class='rep-sec'><b>D7 — Preventive Actions</b>FMEA updated & gauge R&R scheduled for next maintenance cycle.</div>" +
     "</div>" +
     "<div class='rep-sign'><div><b>Approved By:</b> Plant Quality Head</div><div style='text-align:right'><b>Sign-off:</b> ___________________</div></div>" +
     "</div>";
@@ -765,7 +765,7 @@ document.addEventListener("DOMContentLoaded", function() {
   setTimeout(function() {
     var s = document.getElementById('splash');
     if (s) s.style.display = 'none';
-  }, 2950);
+  }, 3050);
 
   var dmBtn = document.getElementById('dmBtn');
   if (dmBtn) {
