@@ -11,7 +11,7 @@ body.dark{--bg:#090d16;--card:#111827;--text:#f1f5f9;--sub:#94a3b8;--border:#1f2
 body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overflow-x:hidden}
 
 /* =====================================
- QUALITYPILOT AI - ORIGINAL CLEAN SPLASH
+ QUALITYPILOT AI - DUAL GEAR CLEAN SPLASH
 ===================================== */
 #splash {
   position: fixed;
@@ -82,12 +82,12 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
   animation: qpFadeInUp 0.8s ease-out 0.35s forwards;
 }
 
-/* Original Gear Design (Compact & Bottom-Centered in Stage) */
+/* Dual Interlocking Rotating Gears (No QP Badge Inside) */
 .qp-gear-stage {
   position: relative;
-  width: clamp(92px, 23vw, 112px);
-  height: clamp(92px, 23vw, 112px);
-  margin-top: 10px;
+  width: clamp(135px, 34vw, 165px);
+  height: clamp(105px, 26vw, 128px);
+  margin-top: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -97,38 +97,46 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
   animation: qpGearReveal 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
 }
 
-.qp-gear-svg {
-  position: absolute;
-  inset: 0;
+.qp-dual-gear-svg {
   width: 100%;
   height: 100%;
-  transform-origin: 50% 50%;
-  animation: qpGearSpin 9s linear infinite;
+  overflow: visible;
 }
 
-.qp-qp-badge {
-  position: relative;
-  z-index: 2;
-  width: 50%;
-  height: 50%;
-  border-radius: 13px;
-  background: linear-gradient(145deg, rgba(16, 42, 68, 0.94), rgba(8, 15, 28, 0.98));
-  border: 1.5px solid #00E5FF;
-  box-shadow: 0 0 12px rgba(0, 229, 255, 0.45), inset 0 0 8px rgba(32, 220, 197, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: clamp(16px, 4vw, 20px);
-  letter-spacing: 1px;
+.qp-gear-main {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: qpGearSpinCW 9s linear infinite;
+}
+
+.qp-gear-sub {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: qpGearSpinCCW 6.75s linear infinite;
+}
+
+/* QualityPilot AI Title Above Co-Powered By */
+.qp-brand-title {
+  margin-top: 18px;
+  font-size: clamp(24px, 6.2vw, 32px);
+  font-weight: 900;
+  letter-spacing: -0.5px;
   color: #FFFFFF;
-  text-shadow: 0 0 8px rgba(0, 229, 255, 0.8);
+  text-shadow: 0 0 16px rgba(0, 229, 255, 0.55);
+  opacity: 0;
+  transform: translateY(10px);
+  animation: qpFadeInUp 0.7s ease-out 0.5s forwards;
 }
 
-/* Brand Text Directly Below Gear */
+.qp-brand-title span {
+  color: #20DCC5;
+  text-shadow: 0 0 18px rgba(0, 229, 255, 0.75);
+}
+
+/* Brand Text Directly Below QualityPilot AI */
 .qp-brand-sub {
-  margin-top: 22px;
-  font-size: clamp(11px, 2.8vw, 13px);
+  margin-top: 8px;
+  font-size: clamp(10.5px, 2.6vw, 12.5px);
   font-weight: 700;
   letter-spacing: clamp(3px, 1vw, 5px);
   color: #20DCC5;
@@ -136,7 +144,7 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
   text-shadow: 0 0 12px rgba(32, 220, 197, 0.4);
   opacity: 0;
   transform: translateY(10px);
-  animation: qpFadeInUp 0.7s ease-out 0.65s forwards;
+  animation: qpFadeInUp 0.7s ease-out 0.68s forwards;
 }
 
 @keyframes qpDrawArc {
@@ -163,9 +171,15 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
   }
 }
 
-@keyframes qpGearSpin {
+@keyframes qpGearSpinCW {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes qpGearSpinCCW {
+  to {
+    transform: rotate(-360deg);
   }
 }
 
@@ -181,6 +195,7 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
   }
   .qp-curved-text,
   .qp-gear-stage,
+  .qp-brand-title,
   .qp-brand-sub {
     opacity: 1;
     transform: none;
@@ -256,14 +271,13 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
     <div class="qp-arc-header">
       <svg class="qp-arc-svg" viewBox="0 0 360 195">
         <defs>
-          <!-- Path for the curved text -->
           <path id="qpTextArc" d="M 48,182 A 132,132 0 0,1 312,182" />
         </defs>
 
         <!-- Thin glowing C-shaped arc line drawn smoothly around the curve -->
         <path class="qp-c-line" d="M 32,184 A 148,148 0 0,1 328,184" />
 
-        <!-- Half-circle curved text above the gear -->
+        <!-- Half-circle curved text above the gears -->
         <text class="qp-curved-text">
           <textPath href="#qpTextArc" startOffset="50%" text-anchor="middle">
             Welcome to More Precise Engineering
@@ -272,31 +286,58 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
       </svg>
     </div>
 
-    <!-- 3: Original Gear Design (Compact & Rotating Continuously) -->
+    <!-- 3: Two Interlocking Rotating Gears (No QP inside) -->
     <div class="qp-gear-stage">
-      <svg class="qp-gear-svg" viewBox="0 0 120 120" fill="none">
+      <svg class="qp-dual-gear-svg" viewBox="0 0 185 135" fill="none">
         <defs>
-          <linearGradient id="qpMetalGrad" x1="15" y1="15" x2="105" y2="105" gradientUnits="userSpaceOnUse">
+          <linearGradient id="qpMetalGrad1" x1="15" y1="15" x2="105" y2="105" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stop-color="#E2F8FF"/>
             <stop offset="45%" stop-color="#00E5FF"/>
             <stop offset="100%" stop-color="#20DCC5"/>
           </linearGradient>
+          <linearGradient id="qpMetalGrad2" x1="95" y1="35" x2="175" y2="120" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#20DCC5"/>
+            <stop offset="55%" stop-color="#00E5FF"/>
+            <stop offset="100%" stop-color="#B8FFFF"/>
+          </linearGradient>
         </defs>
-        <path stroke="url(#qpMetalGrad)" stroke-width="2.5" stroke-linejoin="round" d="
-          M54 8 L66 8 L68 18.5 A42 42 0 0 1 77.2 22.3 L86 16.5 L94.5 25 L88.7 33.8
-          A42 42 0 0 1 92.5 43 L103 45 L103 57 L92.5 59
-          A42 42 0 0 1 88.7 68.2 L94.5 77 L86 85.5 L77.2 79.7
-          A42 42 0 0 1 68 83.5 L66 94 L54 94 L52 83.5
-          A42 42 0 0 1 42.8 79.7 L34 85.5 L25.5 77 L31.3 68.2
-          A42 42 0 0 1 27.5 59 L17 57 L17 45 L27.5 43
-          A42 42 0 0 1 31.3 33.8 L25.5 25 L34 16.5 L42.8 22.3
-          A42 42 0 0 1 52 18.5 Z" transform="translate(0, 9)"/>
-        <circle cx="60" cy="60" r="27" stroke="#20DCC5" stroke-width="1.6" stroke-dasharray="6 4" opacity="0.8"/>
+
+        <!-- Primary Left Gear (Rotates Clockwise) -->
+        <g class="qp-gear-main">
+          <path stroke="url(#qpMetalGrad1)" stroke-width="2.6" stroke-linejoin="round" fill="rgba(10, 32, 52, 0.65)" d="
+            M54 8 L66 8 L68 18.5 A42 42 0 0 1 77.2 22.3 L86 16.5 L94.5 25 L88.7 33.8
+            A42 42 0 0 1 92.5 43 L103 45 L103 57 L92.5 59
+            A42 42 0 0 1 88.7 68.2 L94.5 77 L86 85.5 L77.2 79.7
+            A42 42 0 0 1 68 83.5 L66 94 L54 94 L52 83.5
+            A42 42 0 0 1 42.8 79.7 L34 85.5 L25.5 77 L31.3 68.2
+            A42 42 0 0 1 27.5 59 L17 57 L17 45 L27.5 43
+            A42 42 0 0 1 31.3 33.8 L25.5 25 L34 16.5 L42.8 22.3
+            A42 42 0 0 1 52 18.5 Z" transform="translate(4, 14)"/>
+          <circle cx="64" cy="65" r="24" stroke="#20DCC5" stroke-width="1.6" stroke-dasharray="6 4" opacity="0.85"/>
+          <circle cx="64" cy="65" r="11" stroke="#00E5FF" stroke-width="2" fill="rgba(0, 229, 255, 0.12)"/>
+        </g>
+
+        <!-- Secondary Interlocking Right Gear (Rotates Counter-Clockwise) -->
+        <g class="qp-gear-sub">
+          <g transform="translate(97, 36) scale(0.74)">
+            <path stroke="url(#qpMetalGrad2)" stroke-width="3.2" stroke-linejoin="round" fill="rgba(10, 32, 52, 0.65)" d="
+              M54 8 L66 8 L68 18.5 A42 42 0 0 1 77.2 22.3 L86 16.5 L94.5 25 L88.7 33.8
+              A42 42 0 0 1 92.5 43 L103 45 L103 57 L92.5 59
+              A42 42 0 0 1 88.7 68.2 L94.5 77 L86 85.5 L77.2 79.7
+              A42 42 0 0 1 68 83.5 L66 94 L54 94 L52 83.5
+              A42 42 0 0 1 42.8 79.7 L34 85.5 L25.5 77 L31.3 68.2
+              A42 42 0 0 1 27.5 59 L17 57 L17 45 L27.5 43
+              A42 42 0 0 1 31.3 33.8 L25.5 25 L34 16.5 L42.8 22.3
+              A42 42 0 0 1 52 18.5 Z" transform="translate(0, 9)"/>
+            <circle cx="60" cy="60" r="23" stroke="#00E5FF" stroke-width="2" stroke-dasharray="5 4" opacity="0.85"/>
+            <circle cx="60" cy="60" r="10" stroke="#20DCC5" stroke-width="2.4" fill="rgba(32, 220, 197, 0.14)"/>
+          </g>
+        </g>
       </svg>
-      <div class="qp-qp-badge">QP</div>
     </div>
 
-    <!-- 4: Brand Text Directly Below Gear -->
+    <!-- 4: QualityPilot AI Above CO-POWERED BY VISHWASH -->
+    <div class="qp-brand-title">QualityPilot <span>AI</span></div>
     <div class="qp-brand-sub">CO-POWERED BY VISHWASH</div>
   </div>
 </div>
