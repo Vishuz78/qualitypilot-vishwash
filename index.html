@@ -274,6 +274,12 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 .qp-cal-btn{background:#0F766E;color:#fff;border:none;border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-weight:600}
 .qp-cal-btn:hover{background:#0d9488}
 
+/* Feature #5: Interactive Ishikawa (6M Fishbone) Styles */
+.qp-fb-wrap{background:var(--inp);border:1px solid var(--border);border-radius:10px;padding:12px;overflow-x:auto}
+.qp-fb-svg{width:100%;min-width:540px;height:auto;display:block}
+.qp-fb-node{cursor:pointer}
+.qp-fb-root-box{margin-top:10px;padding:10px 12px;border-radius:8px;background:rgba(15,118,110,.1);border:1px solid rgba(15,118,110,.3);font-size:12.5px}
+
 @media print{.side,.cards,#inputBox,.no-print,#splash,.box>h3{display:none!important}.main,.grid{display:block!important;padding:0!important;width:100%!important}}
 @media(max-width:900px){body{flex-direction:column}.side{width:100%}.cards{grid-template-columns:1fr 1fr}.grid,.row3,.qp-grr-metrics{grid-template-columns:1fr}}
 </style>
@@ -366,6 +372,7 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
     <button type="button" class="nav">📏 Gage R&R & Calibration</button>
     <button type="button" class="nav">🎨 Logo & Brand Studio</button>
     <button type="button" class="nav">📞 Contact & Support</button>
+    <button type="button" class="nav">🐟 6M Fishbone (Ishikawa)</button>
     <div class="api-box">
       <small>✨ Google Gemini API Key (Optional)</small>
       <div class="api-row">
@@ -590,6 +597,59 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
         </div>
         <h3 style="margin-top:14px">📬 Submitted Inquiries</h3>
         <div id="cLogs" style="font-size:13px;color:var(--sub)">No new messages yet. Fill the form to connect via Gmail!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature #5: Interactive Ishikawa (6M Fishbone) Tab -->
+  <div id="t7" class="tab">
+    <div class="grid">
+      <div class="box">
+        <h3>🐟 1. 6M Root Cause Factors</h3>
+        <label>Problem / Defect Effect (Fish Head)</label>
+        <input id="qpFbEffect" value="Dimension Drift (+0.16 mm) — Steel Flange #CAB-809" oninput="qpFishboneRender()">
+
+        <div class="row3">
+          <div>
+            <label>Man (Operator)</label>
+            <input id="qpFbMan" value="Shift offset check skipped" oninput="qpFishboneRender()">
+          </div>
+          <div>
+            <label>Machine (CNC/Tool)</label>
+            <input id="qpFbMachine" value="Insert flank wear" oninput="qpFishboneRender()">
+          </div>
+          <div>
+            <label>Material (Stock)</label>
+            <input id="qpFbMaterial" value="Hardness lot variance" oninput="qpFishboneRender()">
+          </div>
+        </div>
+
+        <div class="row3">
+          <div>
+            <label>Method (SOP/Process)</label>
+            <input id="qpFbMethod" value="Feed rate too high" oninput="qpFishboneRender()">
+          </div>
+          <div>
+            <label>Measurement (Gage)</label>
+            <input id="qpFbMeasure" value="Delayed mid-batch check" oninput="qpFishboneRender()">
+          </div>
+          <div>
+            <label>Mother Nature (Env)</label>
+            <input id="qpFbNature" value="Coolant temp rise" oninput="qpFishboneRender()">
+          </div>
+        </div>
+
+        <button type="button" class="ai-btn" onclick="qpFishboneSyncFrom8D()">⚡ Pull Defect & Cause from 8D Co-Pilot</button>
+        <button type="button" class="run" onclick="qpFishboneRender()">🔄 Refresh 6M Fishbone Diagram</button>
+      </div>
+
+      <div class="box">
+        <h3>📊 2. Interactive Fishbone Diagram (Click Any Cause to Highlight Root)</h3>
+        <div class="qp-fb-wrap">
+          <svg id="qpFbSvg" class="qp-fb-svg" viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+        <div id="qpFbRootSummary" class="qp-fb-root-box"></div>
+        <button type="button" class="run no-print" style="background:#16a34a;margin-top:10px" onclick="printFull()">🖨️ Print Fishbone Analysis</button>
       </div>
     </div>
   </div>
@@ -970,6 +1030,104 @@ window.qpRenewCal = function(index) {
   window.qpRenderCalTable();
 };
 
+/* =====================================
+ FEATURE #5: ISHIKAWA (6M FISHBONE) MODULE
+===================================== */
+var qpSelectedRootKey = "machine";
+
+function qpEscXml(str) {
+  return String(str || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+window.qpSelectFishboneRoot = function(key) {
+  qpSelectedRootKey = key;
+  window.qpFishboneRender();
+};
+
+window.qpFishboneSyncFrom8D = function() {
+  var part = document.getElementById('pn') ? document.getElementById('pn').value : "Part";
+  var tv = parseFloat(document.getElementById('tv').value) || 0;
+  var av = parseFloat(document.getElementById('av').value) || 0;
+  var diff = (av - tv).toFixed(3);
+  var dtEl = document.getElementById('dt');
+  var dtText = dtEl && dtEl.options[dtEl.selectedIndex] ? dtEl.options[dtEl.selectedIndex].text : "Defect";
+
+  var effEl = document.getElementById('qpFbEffect');
+  var machEl = document.getElementById('qpFbMachine');
+  if (effEl) effEl.value = dtText + " (Dev: " + diff + ") — " + part;
+  if (machEl) machEl.value = "Tooling / Process drift (" + diff + ")";
+  window.qpFishboneRender();
+};
+
+window.qpFishboneRender = function() {
+  var svg = document.getElementById('qpFbSvg');
+  var sumEl = document.getElementById('qpFbRootSummary');
+  if (!svg) return;
+
+  var effect = (document.getElementById('qpFbEffect').value || "Defect Effect").trim();
+  var branches = [
+    { key: "man", label: "MAN", cause: (document.getElementById('qpFbMan').value || "—").trim(), xTop: 120, xBot: 65, yTop: 48, isTop: true },
+    { key: "machine", label: "MACHINE", cause: (document.getElementById('qpFbMachine').value || "—").trim(), xTop: 280, xBot: 225, yTop: 48, isTop: true },
+    { key: "material", label: "MATERIAL", cause: (document.getElementById('qpFbMaterial').value || "—").trim(), xTop: 440, xBot: 385, yTop: 48, isTop: true },
+    { key: "method", label: "METHOD", cause: (document.getElementById('qpFbMethod').value || "—").trim(), xTop: 120, xBot: 65, yBot: 292, isTop: false },
+    { key: "measure", label: "MEASUREMENT", cause: (document.getElementById('qpFbMeasure').value || "—").trim(), xTop: 280, xBot: 225, yBot: 292, isTop: false },
+    { key: "nature", label: "MOTHER NATURE", cause: (document.getElementById('qpFbNature').value || "—").trim(), xTop: 440, xBot: 385, yBot: 292, isTop: false }
+  ];
+
+  var spineY = 170;
+  var html = "";
+
+  // Main horizontal spine + head
+  html += "<line x1='35' y1='" + spineY + "' x2='535' y2='" + spineY + "' stroke='#14b8a6' stroke-width='3.5'/>";
+  html += "<polygon points='535," + (spineY - 7) + " 552," + spineY + " 535," + (spineY + 7) + "' fill='#14b8a6'/>";
+
+  // Head box (Effect)
+  var shortEffect = effect.length > 26 ? effect.slice(0, 24) + "…" : effect;
+  html += "<rect x='554' y='" + (spineY - 34) + "' width='156' height='68' rx='10' fill='#0F766E' stroke='#2dd4bf' stroke-width='2'/>";
+  html += "<text x='632' y='" + (spineY - 8) + "' text-anchor='middle' fill='#ccfbf1' font-size='10' font-weight='700'>EFFECT / DEFECT</text>";
+  html += "<text x='632' y='" + (spineY + 12) + "' text-anchor='middle' fill='#ffffff' font-size='11' font-weight='700'>" + qpEscXml(shortEffect) + "</text>";
+
+  var activeBranch = branches[1];
+
+  branches.forEach(function(b) {
+    var isSel = (b.key === qpSelectedRootKey);
+    if (isSel) activeBranch = b;
+
+    var strokeCol = isSel ? "#f59e0b" : "#0ea5a4";
+    var badgeFill = isSel ? "#d97706" : "#111827";
+    var shortCause = b.cause.length > 22 ? b.cause.slice(0, 20) + "…" : b.cause;
+
+    if (b.isTop) {
+      html += "<g class='qp-fb-node' onclick='qpSelectFishboneRoot(\"" + b.key + "\")'>";
+      html += "<line x1='" + b.xBot + "' y1='" + spineY + "' x2='" + b.xTop + "' y2='" + b.yTop + "' stroke='" + strokeCol + "' stroke-width='2.4'/>";
+      html += "<rect x='" + (b.xTop - 52) + "' y='" + (b.yTop - 24) + "' width='104' height='22' rx='6' fill='" + badgeFill + "' stroke='" + strokeCol + "' stroke-width='1.5'/>";
+      html += "<text x='" + b.xTop + "' y='" + (b.yTop - 9) + "' text-anchor='middle' fill='#ffffff' font-size='10.5' font-weight='700'>" + b.label + "</text>";
+      html += "<text x='" + (b.xTop - 58) + "' y='" + (b.yTop + 28) + "' text-anchor='start' fill='" + (isSel ? "#fbbf24" : "#94a3b8") + "' font-size='10.5' font-weight='" + (isSel ? "700" : "500") + "'>• " + qpEscXml(shortCause) + "</text>";
+      html += "</g>";
+    } else {
+      html += "<g class='qp-fb-node' onclick='qpSelectFishboneRoot(\"" + b.key + "\")'>";
+      html += "<line x1='" + b.xTop + "' y1='" + spineY + "' x2='" + b.xBot + "' y2='" + b.yBot + "' stroke='" + strokeCol + "' stroke-width='2.4'/>";
+      html += "<rect x='" + (b.xBot - 56) + "' y='" + (b.yBot + 2) + "' width='112' height='22' rx='6' fill='" + badgeFill + "' stroke='" + strokeCol + "' stroke-width='1.5'/>";
+      html += "<text x='" + b.xBot + "' y='" + (b.yBot + 17) + "' text-anchor='middle' fill='#ffffff' font-size='10.5' font-weight='700'>" + b.label + "</text>";
+      html += "<text x='" + (b.xBot - 58) + "' y='" + (b.yBot - 12) + "' text-anchor='start' fill='" + (isSel ? "#fbbf24" : "#94a3b8") + "' font-size='10.5' font-weight='" + (isSel ? "700" : "500") + "'>• " + qpEscXml(shortCause) + "</text>";
+      html += "</g>";
+    }
+  });
+
+  svg.innerHTML = html;
+
+  if (sumEl) {
+    sumEl.innerHTML =
+      "<b>Selected Primary Root Cause (" + activeBranch.label + "):</b> " +
+      qpEscXml(activeBranch.cause) +
+      " <span style='color:var(--sub)'>— Target Effect: " + qpEscXml(effect) + "</span>";
+  }
+};
+
 document.addEventListener("DOMContentLoaded", function() {
   var dmBtn = document.getElementById('dmBtn');
   if (dmBtn) {
@@ -980,7 +1138,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   var navBtns = document.querySelectorAll('.nav');
-  var tabIds = ['t1', 't2', 't3', 't6', 't4', 't5'];
+  var tabIds = ['t1', 't2', 't3', 't6', 't4', 't5', 't7'];
   navBtns.forEach(function(btn, idx) {
     btn.onclick = function() {
       document.querySelectorAll('.tab').forEach(function(x) { x.classList.remove('on'); });
@@ -1035,6 +1193,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   if (typeof window.qpCalcGRR === 'function') window.qpCalcGRR();
   if (typeof window.qpRenderCalTable === 'function') window.qpRenderCalTable();
+  if (typeof window.qpFishboneRender === 'function') window.qpFishboneRender();
 });
 </script>
 </body>
