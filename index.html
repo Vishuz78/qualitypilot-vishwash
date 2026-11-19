@@ -238,6 +238,7 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
 .box{margin-bottom:16px}
 .box h3{font-size:15.5px;padding-bottom:9px;border-bottom:1px solid var(--border);margin-bottom:14px;color:var(--text)}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end}
 .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:end}
 label{font-size:12px;color:var(--sub);display:block;margin-bottom:4px;line-height:1.25}
 input,select,textarea{width:100%;padding:9px 11px;margin-bottom:12px;border:1px solid var(--border);border-radius:8px;background:var(--inp);color:var(--text);font-size:13.5px;outline:none;transition:border-color 0.2s}
@@ -294,11 +295,30 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 .qp-fb-node:hover{opacity:0.9}
 .qp-fb-root-box{margin-top:10px;padding:10px 12px;border-radius:8px;background:rgba(15,118,110,.1);border:1px solid rgba(15,118,110,.3);font-size:12.5px}
 
-/* Feature #4: CAPA & FMEA Risk Tracker Styles */
+/* Feature #4: CAPA & FMEA Risk Tracker Upgraded Styles */
 .qp-fmea-rpn-badge{display:inline-block;padding:4px 10px;border-radius:8px;font-weight:800;font-size:13px;color:#fff}
 .qp-rpn-high{background:#dc2626;box-shadow:0 0 8px rgba(220,38,38,0.4)}
 .qp-rpn-med{background:#d97706}
 .qp-rpn-low{background:#16a34a}
+.qp-ap-pill{display:inline-block;padding:3px 8px;border-radius:6px;font-size:10.5px;font-weight:800;letter-spacing:0.4px;text-transform:uppercase}
+.qp-ap-h{background:rgba(220,38,38,.16);color:#dc2626;border:1px solid rgba(220,38,38,.35)}
+.qp-ap-m{background:rgba(245,158,11,.16);color:#d97706;border:1px solid rgba(245,158,11,.35)}
+.qp-ap-l{background:rgba(22,163,74,.16);color:#16a34a;border:1px solid rgba(22,163,74,.35)}
+.qp-fmea-summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:4px 0 12px;align-items:stretch}
+.qp-fmea-stat{background:var(--inp);border:1px solid var(--border);border-radius:8px;padding:9px 10px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:66px}
+.qp-fmea-stat small{display:block;font-size:10.5px;color:var(--sub);margin-bottom:4px}
+.qp-fmea-rule-bar{background:var(--inp);border:1px solid var(--border);border-radius:8px;padding:8px 11px;font-size:12px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.qp-fmea-btn-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.qp-fmea-btn-row .ai-btn{margin-bottom:0;padding:10px 8px;font-size:12.5px}
+.qp-fmea-toolbar{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;margin-bottom:10px;align-items:center}
+.qp-fmea-toolbar input,.qp-fmea-toolbar select{margin-bottom:0}
+.qp-fmea-overdue-row{background:rgba(220,38,38,0.08)!important}
+.qp-fmea-overdue-tag{display:inline-block;background:#dc2626;color:#fff;font-size:9.5px;font-weight:700;padding:1px 5px;border-radius:4px;margin-top:3px}
+.qp-fmea-res-box{margin-top:5px;padding:4px 6px;border-radius:6px;background:rgba(22,163,74,0.12);border:1px solid rgba(22,163,74,0.3);font-size:11px;color:#16a34a;font-weight:600}
+.qp-fmea-act-btns{display:flex;gap:4px;margin-top:5px}
+.qp-mini-btn{padding:3px 7px;border-radius:5px;border:1px solid var(--border);background:var(--inp);color:var(--text);font-size:11px;cursor:pointer;font-weight:600}
+.qp-mini-btn:hover{border-color:#14b8a6;color:#14b8a6}
+.qp-mini-btn.del:hover{border-color:#dc2626;color:#dc2626}
 .qp-status-select{padding:4px 6px;margin:0;font-size:11.5px;border-radius:6px;min-width:112px}
 
 /* Feature #2: Dynamic SPC & Capability Styles */
@@ -327,7 +347,7 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 .qp-audit-clear-btn:hover{background:#475569}
 
 @media print{.side,.cards,#inputBox,.no-print,#splash,.box>h3{display:none!important}.main,.grid{display:block!important;padding:0!important;width:100%!important}}
-@media(max-width:900px){body{flex-direction:column}.side{width:100%}.cards,.qp-spc-kpi-grid,.qp-grr-metrics{grid-template-columns:1fr 1fr}.grid,.row3,.qp-audit-toolbar{grid-template-columns:1fr}}
+@media(max-width:900px){body{flex-direction:column}.side{width:100%}.cards,.qp-spc-kpi-grid,.qp-grr-metrics{grid-template-columns:1fr 1fr}.grid,.row2,.row3,.qp-fmea-summary-grid,.qp-fmea-btn-row,.qp-fmea-toolbar,.qp-audit-toolbar{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -776,14 +796,17 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
     </div>
   </div>
 
-  <!-- Feature #4: CAPA & FMEA Risk Tracker Tab -->
+  <!-- Feature #4: CAPA & FMEA Risk Tracker Tab (Upgraded) -->
   <div id="t8" class="tab">
     <div class="grid">
       <div class="box">
-        <h3>🛡️ 1. Process FMEA & Risk Priority (RPN) Calculator</h3>
+        <h3 id="qpFmeaFormTitle">🛡️ 1. Process FMEA &amp; AIAG-VDA Risk Calculator</h3>
+        <input type="hidden" id="qpFmeaEditIdx" value="-1">
+
         <label>Process Step / Item</label>
         <input id="qpFmeaStep" value="CNC Turning — Flange Outer Diameter">
-        <label>Potential Failure Mode & Cause</label>
+
+        <label>Potential Failure Mode &amp; Root Cause</label>
         <input id="qpFmeaFailure" value="Oversize Diameter (+0.16mm) due to Insert Wear">
 
         <div class="row3">
@@ -803,37 +826,57 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 
         <div id="qpRpnPreview"></div>
 
-        <div class="row3" style="margin-top:10px">
+        <div class="row2">
           <div>
             <label>CAPA Owner</label>
-            <input id="qpFmeaOwner" value="Shift QA Lead">
+            <input id="qpFmeaOwner" value="Shift QA Lead" placeholder="e.g. Shift QA Lead">
           </div>
           <div>
             <label>Target Date</label>
             <input type="date" id="qpFmeaDate">
           </div>
-          <div>
-            <label>Corrective Action</label>
-            <input id="qpFmeaAction" value="Automated tool offset probing every 50 parts">
-          </div>
         </div>
 
-        <button type="button" class="ai-btn" onclick="qpFmeaSyncFrom8D()">⚡ Import Defect from 8D Co-Pilot</button>
-        <button type="button" class="run" onclick="qpAddFmeaItem()">➕ Log Risk & CAPA Action Plan</button>
+        <label>Corrective &amp; Preventive Action (CAPA)</label>
+        <textarea id="qpFmeaAction" rows="2" placeholder="Describe corrective & preventive containment/process fix...">Automated tool offset probing every 50 parts</textarea>
+
+        <div class="qp-fmea-btn-row">
+          <button type="button" class="ai-btn" onclick="qpFmeaSyncFrom8D()">⚡ Import from 8D Co-Pilot</button>
+          <button type="button" class="ai-btn" id="qpFmeaAiBtn" onclick="qpFmeaAiSuggest()">✨ Suggest Root Cause &amp; CAPA</button>
+        </div>
+
+        <button type="button" class="run" id="qpFmeaSaveBtn" onclick="qpAddFmeaItem()">➕ Log Risk &amp; CAPA Action Plan</button>
+        <button type="button" class="qp-audit-clear-btn" id="qpFmeaCancelEditBtn" style="display:none;width:100%" onclick="qpCancelFmeaEdit()">✕ Cancel Edit</button>
       </div>
 
       <div class="box">
-        <h3>📋 2. FMEA Risk & CAPA Register</h3>
+        <div class="qp-audit-head">
+          <h3 style="margin:0;border:none;padding:0">📋 2. FMEA Risk &amp; CAPA Register</h3>
+          <button type="button" class="run" style="width:auto;padding:7px 12px;margin:0;background:#16a34a;font-size:12.5px" onclick="qpExportFmeaCSV()">📥 Export CSV</button>
+        </div>
+
+        <div class="qp-fmea-toolbar">
+          <input type="search" id="qpFmeaSearch" placeholder="🔍 Search step, failure, owner..." oninput="qpRenderFmeaTable()">
+          <select id="qpFmeaFilter" onchange="qpRenderFmeaTable()">
+            <option value="ALL">All Items</option>
+            <option value="HIGH_RISK">High Risk (RPN ≥ 150 / AP High)</option>
+            <option value="OVERDUE">Overdue Items</option>
+            <option value="Open">🔴 Open Only</option>
+            <option value="In Progress">🟡 In Progress Only</option>
+            <option value="Closed">🟢 Closed Only</option>
+          </select>
+        </div>
+
         <div class="qp-table-scroll">
           <table>
             <thead>
               <tr>
                 <th>Process / Failure</th>
-                <th>S×O×D</th>
+                <th>S×O×D &amp; AP</th>
                 <th>RPN</th>
                 <th>Corrective Action</th>
-                <th>Owner</th>
-                <th>Status</th>
+                <th>Owner / Due</th>
+                <th>Status &amp; Actions</th>
               </tr>
             </thead>
             <tbody id="qpFmeaTableBody"></tbody>
@@ -1543,7 +1586,6 @@ window.qpFishboneRender = function() {
   var spineY = 175;
   var html = "";
 
-  // Blueprint Dot-Grid & Glow Filter Definitions
   html += "<defs>" +
     "<pattern id='qpBpGrid' width='18' height='18' patternUnits='userSpaceOnUse'>" +
       "<circle cx='2' cy='2' r='1' fill='rgba(20,184,166,0.22)'/>" +
@@ -1563,12 +1605,10 @@ window.qpFishboneRender = function() {
 
   html += "<rect x='6' y='6' width='728' height='338' rx='10' fill='url(#qpBpGrid)'/>";
 
-  // Main Spine & Arrowhead
   html += "<circle cx='34' cy='" + spineY + "' r='4.5' fill='#14b8a6'/>";
   html += "<line x1='34' y1='" + spineY + "' x2='548' y2='" + spineY + "' stroke='url(#qpSpineGrad)' stroke-width='3.6' stroke-linecap='round'/>";
   html += "<polygon points='548," + (spineY - 7.5) + " 565," + spineY + " 548," + (spineY + 7.5) + "' fill='#2dd4bf'/>";
 
-  // Fish Head (Effect Box)
   var shortEffect = effect.length > 25 ? effect.slice(0, 23) + "…" : effect;
   html += "<rect x='567' y='" + (spineY - 36) + "' width='160' height='72' rx='11' fill='url(#qpHeadGrad)' stroke='#2dd4bf' stroke-width='2'/>";
   html += "<text x='647' y='" + (spineY - 10) + "' text-anchor='middle' fill='#99f6e4' font-size='9.5' font-weight='800' letter-spacing='0.8'>EFFECT / DEFECT</text>";
@@ -1593,13 +1633,10 @@ window.qpFishboneRender = function() {
       html += "<g class='qp-fb-node' onclick='qpSelectFishboneRoot(\"" + b.key + "\")'" + glowAttr + ">";
       html += "<line x1='" + b.xBot + "' y1='" + spineY + "' x2='" + b.xTop + "' y2='" + b.yTop + "' stroke='" + strokeCol + "' stroke-width='2.4'/>";
       html += "<circle cx='" + b.xBot + "' cy='" + spineY + "' r='3.5' fill='" + strokeCol + "'/>";
-      // Horizontal Sub-Rib for Cause
       html += "<line x1='" + midX + "' y1='" + midY + "' x2='" + ribEndX + "' y2='" + midY + "' stroke='" + strokeCol + "' stroke-width='1.5'/>";
       html += "<circle cx='" + midX + "' cy='" + midY + "' r='2.6' fill='" + strokeCol + "'/>";
-      // Category Header Pill
       html += "<rect x='" + (b.xTop - 52) + "' y='" + (b.yTop - 25) + "' width='104' height='22' rx='6' fill='" + badgeFill + "' stroke='" + strokeCol + "' stroke-width='1.6'/>";
       html += "<text x='" + b.xTop + "' y='" + (b.yTop - 10) + "' text-anchor='middle' fill='#ffffff' font-size='10.5' font-weight='700'>" + b.label + "</text>";
-      // Cause Text aligned cleanly off the horizontal rib
       html += "<text x='" + (ribEndX + 4) + "' y='" + (midY + 3.5) + "' text-anchor='start' fill='" + textCol + "' font-size='10.5' font-weight='" + (isSel ? "700" : "500") + "'>" + qpEscXml(shortCause) + "</text>";
       html += "</g>";
     } else {
@@ -1609,13 +1646,10 @@ window.qpFishboneRender = function() {
       html += "<g class='qp-fb-node' onclick='qpSelectFishboneRoot(\"" + b.key + "\")'" + glowAttr + ">";
       html += "<line x1='" + b.xTop + "' y1='" + spineY + "' x2='" + b.xBot + "' y2='" + b.yBot + "' stroke='" + strokeCol + "' stroke-width='2.4'/>";
       html += "<circle cx='" + b.xTop + "' cy='" + spineY + "' r='3.5' fill='" + strokeCol + "'/>";
-      // Horizontal Sub-Rib for Cause
       html += "<line x1='" + midBotX + "' y1='" + midBotY + "' x2='" + ribBotEndX + "' y2='" + midBotY + "' stroke='" + strokeCol + "' stroke-width='1.5'/>";
       html += "<circle cx='" + midBotX + "' cy='" + midBotY + "' r='2.6' fill='" + strokeCol + "'/>";
-      // Category Header Pill
       html += "<rect x='" + (b.xBot - 56) + "' y='" + (b.yBot + 3) + "' width='112' height='22' rx='6' fill='" + badgeFill + "' stroke='" + strokeCol + "' stroke-width='1.6'/>";
       html += "<text x='" + b.xBot + "' y='" + (b.yBot + 18) + "' text-anchor='middle' fill='#ffffff' font-size='10.5' font-weight='700'>" + b.label + "</text>";
-      // Cause Text aligned cleanly off the horizontal rib
       html += "<text x='" + (ribBotEndX + 4) + "' y='" + (midBotY + 3.5) + "' text-anchor='start' fill='" + textCol + "' font-size='10.5' font-weight='" + (isSel ? "700" : "500") + "'>" + qpEscXml(shortCause) + "</text>";
       html += "</g>";
     }
@@ -1632,7 +1666,7 @@ window.qpFishboneRender = function() {
 };
 
 /* =====================================
- FEATURE #4 & IND-04: CAPA & FMEA RISK TRACKER MODULE
+ FEATURE #4 UPGRADED: CAPA & AIAG-VDA FMEA RISK TRACKER MODULE
 ===================================== */
 var qpFmeaRecords = (function() {
   try {
@@ -1640,8 +1674,8 @@ var qpFmeaRecords = (function() {
     if (saved) return JSON.parse(saved);
   } catch (e) {}
   return [
-    { step: "CNC Turning — Flange OD", failure: "Oversize (+0.16mm) / Insert Wear", s: 8, o: 6, d: 4, action: "Auto probing every 50 parts", owner: "Shift QA Lead", status: "In Progress" },
-    { step: "Forging Process", failure: "Surface Lap Crack / Thermal Drop", s: 9, o: 3, d: 5, action: "100% MPI Inspection & Pyrometer Audit", owner: "Plant Metallurgist", status: "Open" }
+    { step: "CNC Turning — Flange OD", failure: "Oversize (+0.16mm) / Insert Wear", s: 8, o: 6, d: 4, action: "Auto probing every 50 parts", owner: "Shift QA Lead", dueDate: "2026-12-05", status: "In Progress", resS: null, resO: null, resD: null },
+    { step: "Forging Process", failure: "Surface Lap Crack / Thermal Drop", s: 9, o: 3, d: 5, action: "100% MPI Inspection & Pyrometer Audit", owner: "Plant Metallurgist", dueDate: "2026-11-15", status: "Open", resS: null, resO: null, resD: null }
   ];
 })();
 
@@ -1649,33 +1683,56 @@ function qpSaveFmeaRecords() {
   qpSafeSetLocalStorage('qp_fmea_records', JSON.stringify(qpFmeaRecords));
 }
 
+function qpComputeActionPriority(s, o, d) {
+  if (s >= 9 && o >= 2) return "HIGH";
+  if (s >= 9 && o === 1 && d >= 5) return "HIGH";
+  if ((s === 7 || s === 8) && o >= 4) return "HIGH";
+  if ((s === 7 || s === 8) && o >= 2 && d >= 7) return "HIGH";
+  if (s >= 5 && o >= 6 && d >= 5) return "HIGH";
+  if (s >= 9) return "MEDIUM";
+  if ((s === 7 || s === 8) && o >= 2) return "MEDIUM";
+  if ((s === 5 || s === 6) && (o >= 4 || (o >= 2 && d >= 5))) return "MEDIUM";
+  if (s <= 4 && o >= 6 && d >= 5) return "MEDIUM";
+  return "LOW";
+}
+
+function qpIsFmeaOverdue(item) {
+  if (!item || !item.dueDate || item.status === "Closed") return false;
+  var todayStr = new Date().toISOString().split('T')[0];
+  return item.dueDate < todayStr;
+}
+
 window.qpCalcRPN = function() {
   var s = Math.min(10, Math.max(1, parseInt(document.getElementById('qpFmeaS').value) || 1));
   var o = Math.min(10, Math.max(1, parseInt(document.getElementById('qpFmeaO').value) || 1));
   var d = Math.min(10, Math.max(1, parseInt(document.getElementById('qpFmeaD').value) || 1));
   var rpn = s * o * d;
+  var ap = qpComputeActionPriority(s, o, d);
   var prevEl = document.getElementById('qpRpnPreview');
   if (!prevEl) return;
 
   var badgeClass = "qp-rpn-low";
-  var levelText = "LOW RISK — Standard Control";
+  var levelText = "LOW RISK (RPN < 80) — Standard Process Control";
   if (rpn >= 150) {
     badgeClass = "qp-rpn-high";
-    levelText = "HIGH RISK (RPN ≥ 150) — CAPA Required";
-  } else if (s >= 8) {
+    levelText = "HIGH RPN (≥ 150) — Mandatory CAPA Required";
+  } else if (ap === "HIGH") {
     badgeClass = "qp-rpn-high";
-    levelText = "HIGH SEVERITY OVERRIDE (S ≥ 8) — CAPA Required";
-  } else if (rpn >= 80) {
+    levelText = "AIAG-VDA HIGH AP OVERRIDE — Mandatory CAPA Required";
+  } else if (rpn >= 80 || ap === "MEDIUM") {
     badgeClass = "qp-rpn-med";
-    levelText = "MEDIUM RISK (RPN 80–149) — Action Recommended";
+    levelText = "MEDIUM RISK — Preventive Action Recommended";
   }
 
+  var apClass = (ap === "HIGH") ? "qp-ap-h" : (ap === "MEDIUM" ? "qp-ap-m" : "qp-ap-l");
+
   prevEl.innerHTML =
-    "<div class='qp-grr-metrics'>" +
-      "<div class='qp-grr-stat'><small>Risk Priority Number</small><b class='qp-fmea-rpn-badge " + badgeClass + "'>" + rpn + "</b></div>" +
-      "<div class='qp-grr-stat'><small>Risk Formula</small><b>" + s + " × " + o + " × " + d + "</b></div>" +
-      "<div class='qp-grr-stat' style='grid-column:span 2'><small>Plant FMEA Threshold Rule</small><b style='font-size:12px'>" + levelText + "</b></div>" +
-    "</div>";
+    "<div class='qp-fmea-summary-grid'>" +
+      "<div class='qp-fmea-stat'><small>Risk Priority (RPN)</small><b class='qp-fmea-rpn-badge " + badgeClass + "'>" + rpn + "</b></div>" +
+      "<div class='qp-fmea-stat'><small>AIAG-VDA Action Priority</small><span class='qp-ap-pill " + apClass + "'>" + ap + " AP</span></div>" +
+      "<div class='qp-fmea-stat'><small>Formula (S × O × D)</small><b>" + s + " × " + o + " × " + d + "</b></div>" +
+    "</div>" +
+    "<div class='qp-fmea-rule-bar'><span style='color:var(--sub)'>Threshold Rule:</span><b>" + levelText + "</b></div>";
 };
 
 window.qpFmeaSyncFrom8D = function() {
@@ -1689,28 +1746,166 @@ window.qpFmeaSyncFrom8D = function() {
   window.qpCalcRPN();
 };
 
+window.qpFmeaAiSuggest = async function() {
+  var step = (document.getElementById('qpFmeaStep').value || "").trim();
+  var failure = (document.getElementById('qpFmeaFailure').value || "").trim();
+  var btn = document.getElementById('qpFmeaAiBtn');
+
+  if (!step && !failure) {
+    alert("Enter a Process Step or Potential Failure Mode first!");
+    return;
+  }
+
+  var keyInput = document.getElementById('gKey');
+  var sessionKey = "";
+  try { sessionKey = sessionStorage.getItem('qp_gkey_session') || ""; } catch (e) {}
+  var apiKey = ((keyInput && keyInput.value.trim()) || sessionKey).trim();
+
+  if (!apiKey) {
+    var low = (step + " " + failure).toLowerCase();
+    var sugS = 7, sugO = 5, sugD = 4;
+    var sugFail = failure || ("Process drift on " + step);
+    var sugAct = "Implement 1st-piece & in-process SPC check every 25 parts and update operator work instruction.";
+    if (low.indexOf("crack") !== -1 || low.indexOf("forging") !== -1 || low.indexOf("safety") !== -1) {
+      sugS = 9; sugO = 3; sugD = 5;
+      sugAct = "Deploy 100% MPI / NDT inspection, interlock furnace pyrometer limits, and error-proof die setup.";
+    } else if (low.indexOf("wear") !== -1 || low.indexOf("oversize") !== -1 || low.indexOf("cnc") !== -1 || low.indexOf("turning") !== -1) {
+      sugS = 8; sugO = 6; sugD = 4;
+      sugAct = "Set tool-life counter auto-stop at 80% wear limit and add automated touch-probe offset compensation.";
+    } else if (low.indexOf("weld") !== -1 || low.indexOf("porosity") !== -1) {
+      sugS = 8; sugO = 4; sugD = 5;
+      sugAct = "Add shielding gas flow interlock alarm and verify welding current/voltage SPC parameters.";
+    }
+    if (!failure) document.getElementById('qpFmeaFailure').value = sugFail;
+    document.getElementById('qpFmeaS').value = sugS;
+    document.getElementById('qpFmeaO').value = sugO;
+    document.getElementById('qpFmeaD').value = sugD;
+    document.getElementById('qpFmeaAction').value = sugAct;
+    window.qpCalcRPN();
+    alert("Engineering rule-based S/O/D & CAPA suggested! (Add Gemini API key in sidebar for live AI suggestions.)");
+    return;
+  }
+
+  if (btn) {
+    btn.disabled = true;
+    btn.innerText = "⏳ Suggesting...";
+  }
+
+  try {
+    var prompt =
+      "You are an IATF 16949 & AIAG-VDA PFMEA Lead Engineer. Given the Process Step and Failure Mode below, return ONLY valid JSON (no markdown fences) with keys: " +
+      "{\"failureMode\": string, \"s\": integer 1-10, \"o\": integer 1-10, \"d\": integer 1-10, \"capa\": string}.\n" +
+      "Process Step: " + (step || "Unspecified") + "\n" +
+      "Failure Mode / Notes: " + (failure || "Suggest likely failure mode & root cause");
+
+    var resp = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": apiKey
+      },
+      body: JSON.stringify({
+        contents: [{ role: "user", parts: [{ text: prompt }] }]
+      })
+    });
+
+    var data = await resp.json();
+    if (!resp.ok) throw new Error((data && data.error && data.error.message) || ("HTTP " + resp.status));
+
+    var candidate = data && data.candidates && data.candidates[0];
+    var rawText = ((candidate && candidate.content && candidate.content.parts) || [])
+      .map(function(p) { return p.text || ""; }).join("").trim();
+    rawText = rawText.replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/```$/i, "").trim();
+
+    var parsed = JSON.parse(rawText);
+    if (parsed.failureMode) document.getElementById('qpFmeaFailure').value = String(parsed.failureMode);
+    if (parsed.s) document.getElementById('qpFmeaS').value = Math.min(10, Math.max(1, parseInt(parsed.s) || 7));
+    if (parsed.o) document.getElementById('qpFmeaO').value = Math.min(10, Math.max(1, parseInt(parsed.o) || 5));
+    if (parsed.d) document.getElementById('qpFmeaD').value = Math.min(10, Math.max(1, parseInt(parsed.d) || 4));
+    if (parsed.capa) document.getElementById('qpFmeaAction').value = String(parsed.capa);
+    window.qpCalcRPN();
+  } catch (err) {
+    alert("AI suggestion fallback: " + (err && err.message ? err.message : "Could not parse AI response."));
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerText = "✨ Suggest Root Cause & CAPA";
+    }
+  }
+};
+
 window.qpRenderFmeaTable = function() {
   var tbody = document.getElementById('qpFmeaTableBody');
   if (!tbody) return;
 
-  tbody.innerHTML = qpFmeaRecords.map(function(item, idx) {
-    var rpn = item.s * item.o * item.d;
-    var badgeClass = "qp-rpn-low";
-    if (rpn >= 150 || item.s >= 8) badgeClass = "qp-rpn-high";
-    else if (rpn >= 80) badgeClass = "qp-rpn-med";
+  var qEl = document.getElementById('qpFmeaSearch');
+  var fEl = document.getElementById('qpFmeaFilter');
+  var query = (qEl && qEl.value ? qEl.value : "").trim().toLowerCase();
+  var filterVal = (fEl && fEl.value) ? fEl.value : "ALL";
 
-    return "<tr>" +
+  var mapped = qpFmeaRecords.map(function(item, origIdx) {
+    return { item: item, idx: origIdx };
+  }).filter(function(entry) {
+    var it = entry.item;
+    var rpn = it.s * it.o * it.d;
+    var ap = qpComputeActionPriority(it.s, it.o, it.d);
+    var overdue = qpIsFmeaOverdue(it);
+
+    if (filterVal === "HIGH_RISK" && !(rpn >= 150 || ap === "HIGH")) return false;
+    if (filterVal === "OVERDUE" && !overdue) return false;
+    if ((filterVal === "Open" || filterVal === "In Progress" || filterVal === "Closed") && it.status !== filterVal) return false;
+
+    if (!query) return true;
+    var hay = ((it.step || "") + " " + (it.failure || "") + " " + (it.action || "") + " " + (it.owner || "") + " " + (it.dueDate || "")).toLowerCase();
+    return hay.indexOf(query) !== -1;
+  });
+
+  if (!mapped.length) {
+    tbody.innerHTML = "<tr><td colspan='6' style='text-align:center;color:var(--sub)'>No matching FMEA / CAPA records found.</td></tr>";
+    return;
+  }
+
+  tbody.innerHTML = mapped.map(function(entry) {
+    var item = entry.item;
+    var idx = entry.idx;
+    var rpn = item.s * item.o * item.d;
+    var ap = qpComputeActionPriority(item.s, item.o, item.d);
+    var overdue = qpIsFmeaOverdue(item);
+
+    var badgeClass = "qp-rpn-low";
+    if (rpn >= 150 || ap === "HIGH") badgeClass = "qp-rpn-high";
+    else if (rpn >= 80 || ap === "MEDIUM") badgeClass = "qp-rpn-med";
+
+    var apClass = (ap === "HIGH") ? "qp-ap-h" : (ap === "MEDIUM" ? "qp-ap-m" : "qp-ap-l");
+
+    var resHtml = "";
+    if (item.status === "Closed" && item.resS && item.resO && item.resD) {
+      var resRpn = item.resS * item.resO * item.resD;
+      var dropPct = rpn > 0 ? Math.round(((rpn - resRpn) / rpn) * 100) : 0;
+      resHtml = "<div class='qp-fmea-res-box'>Residual: <b>" + resRpn + "</b> (" + item.resS + "×" + item.resO + "×" + item.resD + ", -" + dropPct + "%)</div>";
+    }
+
+    var dueHtml = item.dueDate ? "<div style='font-size:11px;color:var(--sub);margin-top:2px'>Due: " + qpEscXml(item.dueDate) + "</div>" : "";
+    if (overdue) {
+      dueHtml += "<span class='qp-fmea-overdue-tag'>OVERDUE</span>";
+    }
+
+    return "<tr class='" + (overdue ? "qp-fmea-overdue-row" : "") + "'>" +
       "<td><b>" + qpEscXml(item.step) + "</b><br><small style='color:var(--sub)'>" + qpEscXml(item.failure) + "</small></td>" +
-      "<td style='font-size:11px;color:var(--sub)'>" + item.s + "×" + item.o + "×" + item.d + "</td>" +
-      "<td><span class='qp-fmea-rpn-badge " + badgeClass + "'>" + rpn + "</span></td>" +
+      "<td style='font-size:11px;color:var(--sub)'>" + item.s + "×" + item.o + "×" + item.d + "<br><span class='qp-ap-pill " + apClass + "' style='margin-top:4px'>" + ap + " AP</span></td>" +
+      "<td><span class='qp-fmea-rpn-badge " + badgeClass + "'>" + rpn + "</span>" + resHtml + "</td>" +
       "<td>" + qpEscXml(item.action) + "</td>" +
-      "<td><small>" + qpEscXml(item.owner) + "</small></td>" +
+      "<td><small><b>" + qpEscXml(item.owner) + "</b></small>" + dueHtml + "</td>" +
       "<td>" +
         "<select class='qp-status-select' onchange='qpUpdateFmeaStatus(" + idx + ", this.value)'>" +
           "<option value='Open'" + (item.status === 'Open' ? " selected" : "") + ">🔴 Open</option>" +
           "<option value='In Progress'" + (item.status === 'In Progress' ? " selected" : "") + ">🟡 In Progress</option>" +
           "<option value='Closed'" + (item.status === 'Closed' ? " selected" : "") + ">🟢 Closed</option>" +
         "</select>" +
+        "<div class='qp-fmea-act-btns'>" +
+          "<button type='button' class='qp-mini-btn' onclick='qpEditFmeaItem(" + idx + ")'>✏️ Edit</button>" +
+          "<button type='button' class='qp-mini-btn del' onclick='qpDeleteFmeaItem(" + idx + ")'>🗑️</button>" +
+        "</div>" +
       "</td>" +
     "</tr>";
   }).join("");
@@ -1719,37 +1914,138 @@ window.qpRenderFmeaTable = function() {
 window.qpAddFmeaItem = function() {
   var step = (document.getElementById('qpFmeaStep').value || "").trim();
   var failure = (document.getElementById('qpFmeaFailure').value || "").trim();
-  var s = parseInt(document.getElementById('qpFmeaS').value) || 1;
-  var o = parseInt(document.getElementById('qpFmeaO').value) || 1;
-  var d = parseInt(document.getElementById('qpFmeaD').value) || 1;
+  var s = Math.min(10, Math.max(1, parseInt(document.getElementById('qpFmeaS').value) || 1));
+  var o = Math.min(10, Math.max(1, parseInt(document.getElementById('qpFmeaO').value) || 1));
+  var d = Math.min(10, Math.max(1, parseInt(document.getElementById('qpFmeaD').value) || 1));
   var action = (document.getElementById('qpFmeaAction').value || "").trim();
   var owner = (document.getElementById('qpFmeaOwner').value || "").trim();
+  var dueDate = (document.getElementById('qpFmeaDate').value || "").trim();
+  var editIdx = parseInt(document.getElementById('qpFmeaEditIdx').value);
 
   if (!step || !failure) {
     alert("Please enter Process Step and Potential Failure Mode!");
     return;
   }
 
-  qpFmeaRecords.unshift({
-    step: step,
-    failure: failure,
-    s: s,
-    o: o,
-    d: d,
-    action: action || "Review SOP & run corrective audit",
-    owner: owner || "Quality Team",
-    status: "Open"
-  });
+  if (!isNaN(editIdx) && editIdx >= 0 && qpFmeaRecords[editIdx]) {
+    var existing = qpFmeaRecords[editIdx];
+    existing.step = step;
+    existing.failure = failure;
+    existing.s = s;
+    existing.o = o;
+    existing.d = d;
+    existing.action = action || "Review SOP & run corrective audit";
+    existing.owner = owner || "Quality Team";
+    existing.dueDate = dueDate;
+    window.qpCancelFmeaEdit();
+  } else {
+    qpFmeaRecords.unshift({
+      step: step,
+      failure: failure,
+      s: s,
+      o: o,
+      d: d,
+      action: action || "Review SOP & run corrective audit",
+      owner: owner || "Quality Team",
+      dueDate: dueDate,
+      status: "Open",
+      resS: null,
+      resO: null,
+      resD: null
+    });
+  }
 
   qpSaveFmeaRecords();
   window.qpRenderFmeaTable();
 };
 
+window.qpEditFmeaItem = function(idx) {
+  var item = qpFmeaRecords[idx];
+  if (!item) return;
+  document.getElementById('qpFmeaEditIdx').value = idx;
+  document.getElementById('qpFmeaStep').value = item.step || "";
+  document.getElementById('qpFmeaFailure').value = item.failure || "";
+  document.getElementById('qpFmeaS').value = item.s || 5;
+  document.getElementById('qpFmeaO').value = item.o || 5;
+  document.getElementById('qpFmeaD').value = item.d || 5;
+  document.getElementById('qpFmeaOwner').value = item.owner || "";
+  document.getElementById('qpFmeaDate').value = item.dueDate || "";
+  document.getElementById('qpFmeaAction').value = item.action || "";
+  document.getElementById('qpFmeaFormTitle').innerText = "✏️ Editing FMEA Risk Entry #" + (idx + 1);
+  document.getElementById('qpFmeaSaveBtn').innerText = "💾 Update FMEA & CAPA Entry";
+  document.getElementById('qpFmeaCancelEditBtn').style.display = "block";
+  window.qpCalcRPN();
+};
+
+window.qpCancelFmeaEdit = function() {
+  document.getElementById('qpFmeaEditIdx').value = "-1";
+  document.getElementById('qpFmeaFormTitle').innerText = "🛡️ 1. Process FMEA & AIAG-VDA Risk Calculator";
+  document.getElementById('qpFmeaSaveBtn').innerText = "➕ Log Risk & CAPA Action Plan";
+  document.getElementById('qpFmeaCancelEditBtn').style.display = "none";
+};
+
+window.qpDeleteFmeaItem = function(idx) {
+  if (!qpFmeaRecords[idx]) return;
+  if (!confirm("Delete this FMEA / CAPA entry?")) return;
+  qpFmeaRecords.splice(idx, 1);
+  qpSaveFmeaRecords();
+  window.qpRenderFmeaTable();
+};
+
 window.qpUpdateFmeaStatus = function(idx, newStatus) {
-  if (qpFmeaRecords[idx]) {
-    qpFmeaRecords[idx].status = newStatus;
-    qpSaveFmeaRecords();
+  var item = qpFmeaRecords[idx];
+  if (!item) return;
+  item.status = newStatus;
+
+  if (newStatus === "Closed") {
+    var defaultO = Math.max(1, item.o - 3);
+    var defaultD = Math.max(1, item.d - 2);
+    var raw = prompt(
+      "Verify Post-CAPA Risk Reduction (Initial RPN: " + (item.s * item.o * item.d) + ").\n" +
+      "Enter Revised S, O, D (1–10) separated by commas:",
+      item.s + "," + defaultO + "," + defaultD
+    );
+    if (raw) {
+      var parts = raw.split(",").map(function(x) { return parseInt(x.trim(), 10); });
+      if (parts.length === 3 && !isNaN(parts[0]) && !isNaN(parts[1]) && !isNaN(parts[2])) {
+        item.resS = Math.min(10, Math.max(1, parts[0]));
+        item.resO = Math.min(10, Math.max(1, parts[1]));
+        item.resD = Math.min(10, Math.max(1, parts[2]));
+      }
+    }
   }
+
+  qpSaveFmeaRecords();
+  window.qpRenderFmeaTable();
+};
+
+window.qpExportFmeaCSV = function() {
+  if (!qpFmeaRecords.length) {
+    alert("No FMEA records to export!");
+    return;
+  }
+  var csv = ["Process Step,Failure Mode,S,O,D,Initial RPN,AIAG-VDA AP,Corrective Action,Owner,Target Date,Status,Residual S,Residual O,Residual D,Residual RPN"];
+  qpFmeaRecords.forEach(function(it) {
+    var rpn = it.s * it.o * it.d;
+    var ap = qpComputeActionPriority(it.s, it.o, it.d);
+    var resRpn = (it.resS && it.resO && it.resD) ? (it.resS * it.resO * it.resD) : "";
+    var row = [
+      it.step, it.failure, it.s, it.o, it.d, rpn, ap,
+      it.action, it.owner, it.dueDate || "", it.status,
+      it.resS || "", it.resO || "", it.resD || "", resRpn
+    ].map(function(val) {
+      return '"' + String(val).replace(/"/g, '""') + '"';
+    });
+    csv.push(row.join(","));
+  });
+
+  var blob = new Blob([csv.join("\n")], { type: 'text/csv;charset=utf-8;' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'QualityPilot_PFMEA_CAPA_Register.csv';
+  a.click();
+  URL.revokeObjectURL(url);
 };
 
 /* =====================================
@@ -1898,7 +2194,6 @@ window.qpUpdateSPC = function() {
 
   var svgHtml = "";
 
-  // Translucent Control Zone Band (between UCL & LCL)
   var bandTop = Math.min(yUcl, yLcl);
   var bandH = Math.max(2, Math.abs(yLcl - yUcl));
   svgHtml += "<rect x='" + xLeft + "' y='" + bandTop.toFixed(1) + "' width='" + (xRight - xLeft) + "' height='" + bandH.toFixed(1) + "' fill='rgba(20,184,166,0.09)' rx='4'/>";
@@ -2007,6 +2302,13 @@ document.addEventListener("DOMContentLoaded", function() {
       };
       r.readAsDataURL(f.item(0));
     };
+  }
+
+  var fmeaDateEl = document.getElementById('qpFmeaDate');
+  if (fmeaDateEl && !fmeaDateEl.value) {
+    var dPlus14 = new Date();
+    dPlus14.setDate(dPlus14.getDate() + 14);
+    fmeaDateEl.value = dPlus14.toISOString().split('T')[0];
   }
 
   if (typeof window.calc === 'function') window.calc(false);
