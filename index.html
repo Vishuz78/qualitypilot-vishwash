@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -10,28 +10,225 @@ body.dark{--bg:#090d16;--card:#111827;--text:#f1f5f9;--sub:#94a3b8;--border:#1f2
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,sans-serif}
 body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overflow-x:hidden}
 
-#splash{position:fixed;top:0;left:0;width:100vw;height:100vh;background:radial-gradient(circle at center,#0f172a 0%,#090d16 70%,#020617 100%);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;animation:slideRTL .8s ease 3.4s forwards}
-.splash-content{display:flex;flex-direction:column;align-items:center;justify-content:center}
-.arc-box{position:relative;width:540px;height:210px;display:flex;align-items:center;justify-content:center}
-.c-svg{position:absolute;top:0;left:0;width:540px;height:220px;overflow:visible}
-.c-ring{fill:none;stroke:#2dd4bf;stroke-width:3;stroke-linecap:round;stroke-dasharray:660;stroke-dashoffset:660;animation:drawArc 2s ease forwards}
-.c-txt{font-size:13.5px;font-weight:700;letter-spacing:3.2px;fill:#99f6e4;opacity:0;animation:fadeArcTxt 1.2s ease .6s forwards}
-.gear-wrap{position:relative;top:40px;display:flex;align-items:center;justify-content:center;transform:scale(1.65);gap:3px}
-.g1{width:50px;height:50px;fill:none;stroke:#2dd4bf;stroke-width:2.2;animation:spinCw 3.5s linear infinite;transform-origin:center}
-.g2{width:34px;height:34px;fill:none;stroke:#5eead4;stroke-width:2.4;animation:spinRev 2.38s linear infinite;transform-origin:center;margin-left:-10px;margin-top:18px}
+/* Futuristic 3D Neon Splash Screen */
+#splash{
+  position:fixed;inset:0;width:100vw;height:100vh;
+  background:radial-gradient(circle at 50% 42%, #0e243b 0%, #080F1C 58%, #040811 100%);
+  z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:#FFFFFF;overflow:hidden;
+  animation:qpSplashOut 0.55s cubic-bezier(0.22,1,0.36,1) 2.35s forwards;
+}
 
-.sp-title{font-size:38px;font-weight:700;margin-top:26px;color:#2dd4bf;text-align:center;letter-spacing:1.5px;opacity:0;transform:translateY(15px);animation:fadeUp 1s ease 1s forwards;text-shadow:0 0 25px rgba(45,212,191,0.4)}
-.sp-sub{font-size:12px;letter-spacing:6px;color:#94a3b8;margin-top:6px;font-weight:600;text-align:center;opacity:0;transform:translateY(15px);animation:fadeUp 1s ease 1.4s forwards}
-.sp-loader{width:280px;height:5px;background:#1e293b;border-radius:10px;overflow:hidden;margin-top:20px;opacity:0;animation:fadeUp 0.8s ease 1.8s forwards}
-.sp-bar{height:100%;width:0%;background:linear-gradient(90deg,#0f766e,#2dd4bf);animation:loadBar 1.4s ease 1.8s forwards}
+.qp-stage{
+  position:relative;width:100%;max-width:560px;padding:16px 20px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  perspective:900px;z-index:2;
+}
 
-@keyframes drawArc{to{stroke-dashoffset:0}}
-@keyframes fadeArcTxt{to{opacity:1}}
-@keyframes spinCw{to{transform:rotate(360deg)}}
-@keyframes spinRev{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
-@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
-@keyframes loadBar{to{width:100%}}
-@keyframes slideRTL{to{transform:translateX(-100%);opacity:0;visibility:hidden;pointer-events:none}}
+/* Central Vertical Energy Beam */
+.qp-beam{
+  position:absolute;top:2%;left:50%;transform:translateX(-50%);
+  width:clamp(90px, 24vw, 170px);height:66%;
+  background:linear-gradient(180deg,
+    rgba(0,229,255,0) 0%,
+    rgba(0,229,255,0.16) 28%,
+    rgba(32,220,197,0.34) 68%,
+    rgba(0,229,255,0.05) 100%);
+  filter:blur(12px);
+  opacity:0;pointer-events:none;
+  animation:qpBeamRise 1.1s ease-out 0.05s forwards;
+}
+
+/* Glowing Circular Platform & Light Rings */
+.qp-platform-wrap{
+  position:relative;width:clamp(210px, 52vw, 270px);height:clamp(170px, 40vw, 210px);
+  display:flex;align-items:center;justify-content:center;
+  transform-style:preserve-3d;
+}
+
+.qp-platform-base{
+  position:absolute;bottom:8px;width:84%;height:34px;border-radius:50%;
+  background:radial-gradient(ellipse at center,
+    rgba(0,229,255,0.42) 0%,
+    rgba(32,220,197,0.16) 52%,
+    rgba(0,229,255,0) 75%);
+  box-shadow:0 0 28px rgba(0,229,255,0.45), inset 0 0 14px rgba(32,220,197,0.5);
+  transform:rotateX(68deg) scale(0.5);opacity:0;
+  animation:qpPlatformAppear 0.75s cubic-bezier(0.16,1,0.3,1) 0.1s forwards;
+}
+
+.qp-ring{
+  position:absolute;border-radius:50%;pointer-events:none;
+  border:1.5px solid transparent;
+}
+
+.qp-ring-outer{
+  width:92%;height:92%;
+  border-top-color:#00E5FF;border-bottom-color:rgba(32,220,197,0.45);
+  box-shadow:0 0 14px rgba(0,229,255,0.35);
+  opacity:0;
+  animation:qpRingIn 0.7s ease-out 0.15s forwards, qpSpinCW 5.5s linear 0.15s infinite;
+}
+
+.qp-ring-inner{
+  width:76%;height:76%;
+  border-left-color:#20DCC5;border-right-color:rgba(0,229,255,0.5);
+  box-shadow:0 0 12px rgba(32,220,197,0.3);
+  opacity:0;
+  animation:qpRingIn 0.7s ease-out 0.22s forwards, qpSpinCCW 4.2s linear 0.22s infinite;
+}
+
+/* 3D Orbital Rings Around Logo */
+.qp-orbit{
+  position:absolute;width:88%;height:88%;border-radius:50%;
+  pointer-events:none;transform-style:preserve-3d;
+}
+.qp-orbit-a{
+  border:1.5px solid rgba(0,229,255,0.55);
+  box-shadow:0 0 12px rgba(0,229,255,0.35);
+  transform:rotateX(64deg) rotateY(16deg);
+  animation:qpOrbitA 3.2s linear infinite;
+}
+.qp-orbit-b{
+  width:78%;height:78%;
+  border:1.5px dashed rgba(32,220,197,0.65);
+  box-shadow:0 0 10px rgba(32,220,197,0.3);
+  transform:rotateX(-62deg) rotateY(-20deg);
+  animation:qpOrbitB 2.6s linear infinite;
+}
+
+/* 3D Metallic Engineering Gear + QP Emblem */
+.qp-core{
+  position:relative;width:clamp(94px, 24vw, 118px);height:clamp(94px, 24vw, 118px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(22px) scale(0.62) rotateX(24deg);
+  filter:drop-shadow(0 0 18px rgba(0,229,255,0.55)) drop-shadow(0 0 32px rgba(32,220,197,0.28));
+  animation:qpCoreEmerge 0.85s cubic-bezier(0.16,1,0.3,1) 0.18s forwards, qpCorePulse 2.2s ease-in-out 1s infinite;
+}
+
+.qp-gear-svg{
+  position:absolute;inset:0;width:100%;height:100%;
+  animation:qpGearSpin 8s linear infinite;
+}
+
+.qp-qp-badge{
+  position:relative;z-index:2;
+  width:52%;height:52%;border-radius:14px;
+  background:linear-gradient(145deg, rgba(16,42,68,0.92), rgba(8,15,28,0.96));
+  border:1.5px solid #00E5FF;
+  box-shadow:0 0 14px rgba(0,229,255,0.5), inset 0 0 10px rgba(32,220,197,0.35);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:clamp(17px, 4.4vw, 22px);letter-spacing:1px;
+  color:#FFFFFF;text-shadow:0 0 10px rgba(0,229,255,0.85);
+}
+
+/* Floating Particles & Sparks */
+.qp-sparks{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.qp-spark{
+  position:absolute;border-radius:50%;background:#00E5FF;
+  box-shadow:0 0 8px #00E5FF, 0 0 14px #20DCC5;
+  opacity:0;animation:qpSparkFloat 2.4s ease-in-out infinite;
+}
+.qp-spark.s1{width:4px;height:4px;left:28%;top:64%;animation-delay:0.1s}
+.qp-spark.s2{width:3px;height:3px;left:71%;top:60%;background:#20DCC5;animation-delay:0.45s}
+.qp-spark.s3{width:5px;height:5px;left:38%;top:72%;animation-delay:0.75s}
+.qp-spark.s4{width:3px;height:3px;left:63%;top:68%;background:#FFFFFF;animation-delay:0.3s}
+.qp-spark.s5{width:4px;height:4px;left:48%;top:58%;background:#20DCC5;animation-delay:0.9s}
+.qp-spark.s6{width:3px;height:3px;left:56%;top:74%;animation-delay:0.6s}
+
+/* Brand Reveal */
+.qp-brand{
+  margin-top:10px;text-align:center;
+  opacity:0;transform:translateY(14px);
+  animation:qpTextReveal 0.7s cubic-bezier(0.16,1,0.3,1) 0.45s forwards;
+}
+.qp-brand-title{
+  font-size:clamp(28px, 7vw, 42px);font-weight:800;letter-spacing:1.2px;
+  color:#FFFFFF;
+  text-shadow:0 0 18px rgba(0,229,255,0.55), 0 0 36px rgba(32,220,197,0.3);
+}
+.qp-brand-title span{color:#00E5FF}
+.qp-brand-sub{
+  margin-top:6px;font-size:clamp(10px, 2.6vw, 12px);
+  font-weight:700;letter-spacing:clamp(3px, 1.1vw, 5.5px);
+  color:#20DCC5;text-transform:uppercase;
+  opacity:0;transform:translateY(10px);
+  animation:qpTextReveal 0.65s ease-out 0.7s forwards;
+}
+
+/* Loading Bar & Status */
+.qp-loader-box{
+  margin-top:22px;width:min(300px, 82vw);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  opacity:0;animation:qpTextReveal 0.55s ease-out 0.85s forwards;
+}
+.qp-status{
+  font-size:10.5px;font-weight:700;letter-spacing:2.4px;
+  color:#FFFFFF;text-transform:uppercase;text-align:center;
+  text-shadow:0 0 10px rgba(0,229,255,0.45);
+}
+.qp-track{
+  position:relative;width:100%;height:6px;border-radius:999px;
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(0,229,255,0.28);
+  overflow:hidden;
+  box-shadow:inset 0 0 8px rgba(0,0,0,0.6);
+}
+.qp-progress{
+  height:100%;width:0%;border-radius:999px;
+  background:linear-gradient(90deg, #20DCC5 0%, #00E5FF 65%, #FFFFFF 100%);
+  box-shadow:0 0 14px #00E5FF;
+  animation:qpFillBar 1.35s cubic-bezier(0.25,0.8,0.25,1) 0.9s forwards;
+}
+
+@keyframes qpBeamRise{
+  0%{opacity:0;transform:translateX(-50%) scaleY(0.35)}
+  100%{opacity:1;transform:translateX(-50%) scaleY(1)}
+}
+@keyframes qpPlatformAppear{
+  0%{opacity:0;transform:rotateX(68deg) scale(0.45)}
+  100%{opacity:1;transform:rotateX(68deg) scale(1)}
+}
+@keyframes qpRingIn{
+  0%{opacity:0;transform:scale(0.75)}
+  100%{opacity:1;transform:scale(1)}
+}
+@keyframes qpSpinCW{to{transform:rotate(360deg)}}
+@keyframes qpSpinCCW{to{transform:rotate(-360deg)}}
+@keyframes qpOrbitA{
+  0%{transform:rotateX(64deg) rotateY(16deg) rotateZ(0deg)}
+  100%{transform:rotateX(64deg) rotateY(16deg) rotateZ(360deg)}
+}
+@keyframes qpOrbitB{
+  0%{transform:rotateX(-62deg) rotateY(-20deg) rotateZ(360deg)}
+  100%{transform:rotateX(-62deg) rotateY(-20deg) rotateZ(0deg)}
+}
+@keyframes qpCoreEmerge{
+  0%{opacity:0;transform:translateY(24px) scale(0.6) rotateX(26deg)}
+  100%{opacity:1;transform:translateY(0) scale(1) rotateX(0deg)}
+}
+@keyframes qpCorePulse{
+  0%,100%{filter:drop-shadow(0 0 16px rgba(0,229,255,0.5)) drop-shadow(0 0 28px rgba(32,220,197,0.25))}
+  50%{filter:drop-shadow(0 0 24px rgba(0,229,255,0.85)) drop-shadow(0 0 40px rgba(32,220,197,0.45))}
+}
+@keyframes qpGearSpin{to{transform:rotate(360deg)}}
+@keyframes qpSparkFloat{
+  0%{opacity:0;transform:translate3d(0,0,0) scale(0.6)}
+  35%{opacity:0.95}
+  100%{opacity:0;transform:translate3d(10px,-52px,0) scale(1.15)}
+}
+@keyframes qpTextReveal{
+  0%{opacity:0;transform:translateY(12px)}
+  100%{opacity:1;transform:translateY(0)}
+}
+@keyframes qpFillBar{
+  0%{width:0%}
+  100%{width:100%}
+}
+@keyframes qpSplashOut{
+  0%{opacity:1;transform:scale(1)}
+  100%{opacity:0;transform:scale(1.04);visibility:hidden;pointer-events:none}
+}
 
 .side{width:260px;background:#111827;color:#fff;padding:18px 15px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #1f2937}
 .brand-top{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #1f2937}
@@ -96,22 +293,60 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 </style>
 </head>
 <body>
-<div id="splash">
-  <div class="splash-content">
-    <div class="arc-box">
-      <svg class="c-svg" viewBox="0 0 540 220">
-        <defs><path id="cArc" d="M 90,210 A 180,180 0 0,1 450,210"/></defs>
-        <path class="c-ring" d="M 68,210 A 202,202 0 0,1 472,210"/>
-        <text class="c-txt"><textPath href="#cArc" startOffset="50%" text-anchor="middle">WELCOME TO ULTRA-PRECISION ENGINEERING</textPath></text>
-      </svg>
-      <div class="gear-wrap">
-        <svg class="g1" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
-        <svg class="g2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2"/></svg>
+<div id="splash" aria-hidden="true">
+  <div class="qp-beam"></div>
+  <div class="qp-sparks">
+    <span class="qp-spark s1"></span>
+    <span class="qp-spark s2"></span>
+    <span class="qp-spark s3"></span>
+    <span class="qp-spark s4"></span>
+    <span class="qp-spark s5"></span>
+    <span class="qp-spark s6"></span>
+  </div>
+
+  <div class="qp-stage">
+    <div class="qp-platform-wrap">
+      <div class="qp-platform-base"></div>
+      <div class="qp-ring qp-ring-outer"></div>
+      <div class="qp-ring qp-ring-inner"></div>
+      <div class="qp-orbit qp-orbit-a"></div>
+      <div class="qp-orbit qp-orbit-b"></div>
+
+      <div class="qp-core">
+        <svg class="qp-gear-svg" viewBox="0 0 120 120" fill="none">
+          <defs>
+            <linearGradient id="qpMetalGrad" x1="15" y1="15" x2="105" y2="105" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#E2F8FF"/>
+              <stop offset="45%" stop-color="#00E5FF"/>
+              <stop offset="100%" stop-color="#20DCC5"/>
+            </linearGradient>
+          </defs>
+          <path stroke="url(#qpMetalGrad)" stroke-width="2.5" stroke-linejoin="round" d="
+            M54 8 L66 8 L68 18.5 A42 42 0 0 1 77.2 22.3 L86 16.5 L94.5 25 L88.7 33.8
+            A42 42 0 0 1 92.5 43 L103 45 L103 57 L92.5 59
+            A42 42 0 0 1 88.7 68.2 L94.5 77 L86 85.5 L77.2 79.7
+            A42 42 0 0 1 68 83.5 L66 94 L54 94 L52 83.5
+            A42 42 0 0 1 42.8 79.7 L34 85.5 L25.5 77 L31.3 68.2
+            A42 42 0 0 1 27.5 59 L17 57 L17 45 L27.5 43
+            A42 42 0 0 1 31.3 33.8 L25.5 25 L34 16.5 L42.8 22.3
+            A42 42 0 0 1 52 18.5 Z" transform="translate(0, 9)"/>
+          <circle cx="60" cy="60" r="27" stroke="#20DCC5" stroke-width="1.6" stroke-dasharray="6 4" opacity="0.8"/>
+        </svg>
+        <div class="qp-qp-badge">QP</div>
       </div>
     </div>
-    <div class="sp-title">QualityPilot AI</div>
-    <div class="sp-sub">CO-POWERED BY VISHWASH</div>
-    <div class="sp-loader"><div class="sp-bar"></div></div>
+
+    <div class="qp-brand">
+      <div class="qp-brand-title">QualityPilot <span>AI</span></div>
+      <div class="qp-brand-sub">CO-POWERED BY VISHWASH</div>
+    </div>
+
+    <div class="qp-loader-box">
+      <div class="qp-status">INITIALIZING QUALITY SYSTEM...</div>
+      <div class="qp-track">
+        <div class="qp-progress"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -283,7 +518,7 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
           <h4>VISHWASH</h4>
           <small style="color:#94a3b8;letter-spacing:1px">FOUNDER & PRECISION QUALITY ARCHITECT</small>
           <div class="c-item">📧 <b>Direct Gmail:</b> <a class="c-mail" href="mailto:vishwashp07@gmail.com">vishwashp07@gmail.com</a></div>
-          <div class="c-item">🌐 <b>Platform:</b> QualityPilot AI — IATF 16949 Suite</div>
+          <div class="c-item">🌐 <b>Platform:</b> [QualityPilot AI — VISHWASH](url?id=1)</div>
           <div class="c-item" style="border:none">⚡ <b>Support:</b> 24/7 Enterprise Plant Onboarding</div>
         </div>
         <h3 style="margin-top:14px">📬 Submitted Inquiries</h3>
@@ -488,7 +723,7 @@ window.askGemini = async function() {
     "<div class='rep-sec'><b>D3 — Containment Actions</b>Immediate 100% sorting of batch " + p + " & quarantining non-conforming stock.</div>" +
     "<div class='rep-sec'><b>D4 — Root Cause Analysis (5-Why)</b>1. Why deviation? Dimension drifted by " + diff + "mm.<br>2. Why drifted? Progressive tool wear.<br>3. Why not caught? SPC chart frequency was delayed.</div>" +
     "<div class='rep-sec'><b>D5 & D6 — Permanent Corrective Actions & Validation</b>Tool offset updated, automated part probing enabled, zero defects verified across 10 consecutive runs.</div>" +
-    "<div class='rep-sec'><b>D7 — Preventive Actions</b>FMEA updated & gauge R&R scheduled for next maintenance cycle.</div>" +
+    "<div class="rep-sec"><b>D7 — Preventive Actions</b>FMEA updated & gauge R&R scheduled for next maintenance cycle.</div>" +
     "</div>" +
     "<div class='rep-sign'><div><b>Approved By:</b> Plant Quality Head</div><div style='text-align:right'><b>Sign-off:</b> ___________________</div></div>" +
     "</div>";
@@ -530,7 +765,7 @@ document.addEventListener("DOMContentLoaded", function() {
   setTimeout(function() {
     var s = document.getElementById('splash');
     if (s) s.style.display = 'none';
-  }, 4000);
+  }, 2950);
 
   var dmBtn = document.getElementById('dmBtn');
   if (dmBtn) {
