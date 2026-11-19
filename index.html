@@ -493,7 +493,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
   let rafId = 0;
 
   let renderer, scene, camera, composer;
-  let reactorGroup, gearGroup, qpEmblemGroup, beamMesh, beamAura;
+  let reactorGroup, gearGroup, qpEmblemGroup;
   let rings = [];
   let sparksPoints, dustPoints, sparkSpeeds, dustSpeeds;
 
@@ -583,7 +583,6 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
     const aspect = w / h;
     camera.aspect = aspect;
 
-    // Keep the 3D reactor large and centered above the title without clipping on narrow portrait phones
     if (aspect < 0.72) {
       camera.position.set(0, 0.45, 9.6);
     } else if (aspect < 1.1) {
@@ -610,61 +609,33 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.75 : 2));
     renderer.setSize(window.innerWidth, window.innerHeight, false);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
+    renderer.toneMappingExposure = 1.12;
 
     const pmrem = new THREE.PMREMGenerator(renderer);
     const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
     scene.environment = envTex;
-    scene.environmentIntensity = 1.1;
+    scene.environmentIntensity = 1.05;
 
-    // Lighting for realistic metallic reflections + cyan/teal rim
-    const amb = new THREE.AmbientLight(0x164e63, 0.9);
+    // Balanced ambient & rim lighting without harsh top spotlight beam
+    const amb = new THREE.AmbientLight(0x164e63, 1.05);
     scene.add(amb);
 
-    const keyLight = new THREE.DirectionalLight(0xe0f7ff, 2.6);
-    keyLight.position.set(4, 5, 6);
-    scene.add(keyLight);
+    const frontLight = new THREE.DirectionalLight(0xe0f7ff, 1.85);
+    frontLight.position.set(2.5, 1.5, 6.5);
+    scene.add(frontLight);
 
-    const cyanRim = new THREE.PointLight(0x00e5ff, 6.5, 18, 1.4);
-    cyanRim.position.set(-2.5, 1.8, 3.2);
+    const cyanRim = new THREE.PointLight(0x00e5ff, 5.2, 16, 1.5);
+    cyanRim.position.set(-2.6, 0.8, 3.0);
     scene.add(cyanRim);
 
-    const tealRim = new THREE.PointLight(0x20dcc5, 5.2, 16, 1.5);
-    tealRim.position.set(2.8, -1.5, 2.5);
+    const tealRim = new THREE.PointLight(0x20dcc5, 4.4, 15, 1.5);
+    tealRim.position.set(2.6, -1.0, 2.8);
     scene.add(tealRim);
 
     reactorGroup = new THREE.Group();
     reactorGroup.position.set(0, 0.72, 0);
     reactorGroup.scale.setScalar(0.35);
     scene.add(reactorGroup);
-
-    // Powerful cyan energy beam behind the logo
-    const beamGeo = new THREE.CylinderGeometry(0.35, 1.45, 9.5, 32, 1, true);
-    const beamMat = new THREE.MeshBasicMaterial({
-      color: 0x00e5ff,
-      transparent: true,
-      opacity: 0.22,
-      side: THREE.DoubleSide,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending
-    });
-    beamMesh = new THREE.Mesh(beamGeo, beamMat);
-    beamMesh.position.set(0, 0.3, -1.35);
-    beamMesh.rotation.z = 0.08;
-    reactorGroup.add(beamMesh);
-
-    const auraGeo = new THREE.PlaneGeometry(4.2, 7.5);
-    const auraMat = new THREE.MeshBasicMaterial({
-      color: 0x20dcc5,
-      transparent: true,
-      opacity: 0.11,
-      side: THREE.DoubleSide,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending
-    });
-    beamAura = new THREE.Mesh(auraGeo, auraMat);
-    beamAura.position.set(0, 0.2, -1.5);
-    reactorGroup.add(beamAura);
 
     // Metallic 3D engineering gear
     gearGroup = new THREE.Group();
@@ -689,12 +660,11 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
     const gearMesh = new THREE.Mesh(gearGeo, metalMat);
     gearGroup.add(gearMesh);
 
-    // Glowing cyan inner bezel around QP core
     const bezelGeo = new THREE.TorusGeometry(0.95, 0.045, 20, 64);
     const bezelMat = new THREE.MeshStandardMaterial({
       color: 0x00e5ff,
       emissive: 0x00e5ff,
-      emissiveIntensity: 1.6,
+      emissiveIntensity: 1.55,
       metalness: 0.4,
       roughness: 0.2
     });
@@ -751,7 +721,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
       const tMat = new THREE.MeshStandardMaterial({
         color: cfg.color,
         emissive: cfg.color,
-        emissiveIntensity: 1.25,
+        emissiveIntensity: 1.2,
         metalness: 0.5,
         roughness: 0.2
       });
@@ -768,7 +738,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
       return { group, ...cfg };
     });
 
-    // Electric sparks & floating particles with distinct speeds & directions
+    // Electric sparks & floating particles
     const sparkTex = createSparkTexture();
     const sparkCount = isMobile ? 65 : 110;
     const sparkPos = new Float32Array(sparkCount * 3);
@@ -826,14 +796,13 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
     dustPoints = new THREE.Points(dustGeo, dustMat);
     scene.add(dustPoints);
 
-    // Post-processing bloom
     composer = new EffectComposer(renderer);
     composer.addPass(new RenderPass(scene, camera));
     const bloom = new UnrealBloomPass(
       new THREE.Vector2(window.innerWidth, window.innerHeight),
-      isMobile ? 0.65 : 0.85,
-      0.55,
-      0.22
+      isMobile ? 0.6 : 0.78,
+      0.5,
+      0.26
     );
     composer.addPass(bloom);
   }
@@ -843,7 +812,6 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
     const elapsed = (now - started) * 0.001;
 
     if (reactorGroup) {
-      // Cinematic camera zoom-in & logo reveal
       const revealT = Math.min(1, elapsed / 1.35);
       const easeOut = 1 - Math.pow(1 - revealT, 3);
       const scaleVal = 0.35 + easeOut * 0.65;
@@ -862,12 +830,6 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 
     if (qpEmblemGroup && !prefersReduced) {
       qpEmblemGroup.rotation.y = Math.sin(elapsed * 1.1) * 0.22;
-    }
-
-    if (beamMesh && beamAura && !prefersReduced) {
-      const pulse = 0.85 + Math.sin(elapsed * 3.1) * 0.22;
-      beamMesh.scale.set(pulse, 1, pulse);
-      beamAura.material.opacity = 0.09 + (Math.sin(elapsed * 2.4) + 1) * 0.04;
     }
 
     if (!prefersReduced) {
@@ -961,7 +923,6 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
     window.addEventListener('resize', handleResize);
     rafId = requestAnimationFrame(animate);
   } catch (err) {
-    // Fallback if WebGL context is unavailable
     canvas.style.display = 'none';
   }
 
