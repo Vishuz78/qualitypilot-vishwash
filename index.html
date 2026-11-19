@@ -232,8 +232,8 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
 .box{margin-bottom:16px}
 .box h3{font-size:15.5px;padding-bottom:9px;border-bottom:1px solid var(--border);margin-bottom:14px;color:var(--text)}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-label{font-size:12px;color:var(--sub);display:block;margin-bottom:4px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:end}
+label{font-size:12px;color:var(--sub);display:block;margin-bottom:4px;line-height:1.25}
 input,select,textarea{width:100%;padding:9px 11px;margin-bottom:12px;border:1px solid var(--border);border-radius:8px;background:var(--inp);color:var(--text);font-size:13.5px;outline:none;transition:border-color 0.2s}
 input:focus,select:focus,textarea:focus{border-color:#14b8a6;box-shadow:0 0 0 3px rgba(20,184,166,0.15)}
 .run,.ai-btn{width:100%;padding:12px;background:#0F766E;color:#fff;border:none;border-radius:8px;font-weight:600;font-size:13.5px;cursor:pointer;margin-bottom:8px;transition:background 0.2s}
@@ -556,6 +556,7 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
         </select>
         <button type="button" class="qp-audit-clear-btn" onclick="qpClearAuditLogs()">🗑️ Reset Logs</button>
       </div>
+      <div id="qpStorageNotice" style="display:none;margin-bottom:10px" class="qp-grr-warn"></div>
       <div class="qp-table-scroll">
         <table>
           <thead><tr><th>Time</th><th>Part Name</th><th>Defect Type</th><th>Photo</th><th>Status</th></tr></thead>
@@ -828,7 +829,7 @@ var partImg = "";
 var rejectCount = 0;
 
 /* =====================================
- PHASE 1: SESSION KEY & HTML SANITIZER
+ PHASE 1 & 3: SESSION KEY, SANITIZER & THUMBNAIL HELPER
 ===================================== */
 function qpEscXml(str) {
   return String(str || "")
@@ -837,6 +838,57 @@ function qpEscXml(str) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
+}
+
+function qpShowStorageNotice(msg) {
+  var el = document.getElementById('qpStorageNotice');
+  if (!el) return;
+  if (!msg) {
+    el.style.display = 'none';
+    el.innerHTML = "";
+    return;
+  }
+  el.style.display = 'block';
+  el.innerHTML = qpEscXml(msg);
+}
+
+function qpSafeSetLocalStorage(key, value) {
+  try {
+    localStorage.setItem(key, value);
+    qpShowStorageNotice("");
+    return true;
+  } catch (e) {
+    qpShowStorageNotice("Browser localStorage limit reached. Oldest/large audit photos may not persist; export CSV regularly.");
+    return false;
+  }
+}
+
+function qpCompressPhotoDataUrl(dataUrl, maxWidth, callback) {
+  if (!dataUrl || dataUrl.indexOf("data:image/") !== 0) {
+    callback("");
+    return;
+  }
+  var img = new Image();
+  img.onload = function() {
+    try {
+      var targetW = maxWidth || 160;
+      var scale = img.width > targetW ? (targetW / img.width) : 1;
+      var w = Math.max(1, Math.round(img.width * scale));
+      var h = Math.max(1, Math.round(img.height * scale));
+      var canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      callback(canvas.toDataURL('image/jpeg', 0.68));
+    } catch (e) {
+      callback(dataUrl);
+    }
+  };
+  img.onerror = function() {
+    callback(dataUrl);
+  };
+  img.src = dataUrl;
 }
 
 window.qpSaveApiKey = function(val) {
@@ -878,7 +930,7 @@ function playAlarmSound() {
 }
 
 /* =====================================
- FEATURE #3: PERSISTENT AUDIT DATABASE
+ FEATURE #3 & DAT-02: PERSISTENT AUDIT DATABASE
 ===================================== */
 var qpDefaultAuditLogs = [
   { time: "05:00 PM", part: "Steel Flange #CAB-805", defect: "Dimension", photo: "", status: "PASS" }
@@ -896,21 +948,34 @@ var qpAuditLogs = (function() {
 })();
 
 function qpSaveAuditLogs() {
-  try {
-    localStorage.setItem('qp_audit_logs', JSON.stringify(qpAuditLogs));
-  } catch (e) {}
+  if (!qpSafeSetLocalStorage('qp_audit_logs', JSON.stringify(qpAuditLogs))) {
+    // If photo data pushed storage over quota, retry once without large photo payloads
+    var stripped = qpAuditLogs.map(function(item, i) {
+      return i === 0 ? Object.assign({}, item, { photo: "" }) : item;
+    });
+    qpSafeSetLocalStorage('qp_audit_logs', JSON.stringify(stripped));
+  }
 }
 
 window.qpRecordAuditEntry = function(tm, part, defect, photoDataUrl, status) {
-  qpAuditLogs.unshift({
+  var entry = {
     time: tm,
     part: part,
     defect: defect,
-    photo: photoDataUrl || "",
+    photo: "",
     status: status
-  });
+  };
+  qpAuditLogs.unshift(entry);
   qpSaveAuditLogs();
   window.qpRenderAuditLogs();
+
+  if (photoDataUrl) {
+    qpCompressPhotoDataUrl(photoDataUrl, 160, function(thumbUrl) {
+      entry.photo = thumbUrl || photoDataUrl;
+      qpSaveAuditLogs();
+      window.qpRenderAuditLogs();
+    });
+  }
 };
 
 window.qpRenderAuditLogs = function() {
@@ -1285,9 +1350,7 @@ var qpCalRecords = (function() {
 })();
 
 function qpSaveCalRecords() {
-  try {
-    localStorage.setItem('qp_cal_records', JSON.stringify(qpCalRecords));
-  } catch (e) {}
+  qpSafeSetLocalStorage('qp_cal_records', JSON.stringify(qpCalRecords));
 }
 
 window.qpCalcGRR = function() {
@@ -1446,21 +1509,23 @@ window.qpFishboneRender = function() {
 
     var strokeCol = isSel ? "#f59e0b" : "#0ea5a4";
     var badgeFill = isSel ? "#d97706" : "#111827";
-    var shortCause = b.cause.length > 22 ? b.cause.slice(0, 20) + "…" : b.cause;
+    var shortCause = b.cause.length > 20 ? b.cause.slice(0, 18) + "…" : b.cause;
 
     if (b.isTop) {
+      var topTextX = b.xTop + 14;
       html += "<g class='qp-fb-node' onclick='qpSelectFishboneRoot(\"" + b.key + "\")'>";
       html += "<line x1='" + b.xBot + "' y1='" + spineY + "' x2='" + b.xTop + "' y2='" + b.yTop + "' stroke='" + strokeCol + "' stroke-width='2.4'/>";
       html += "<rect x='" + (b.xTop - 52) + "' y='" + (b.yTop - 24) + "' width='104' height='22' rx='6' fill='" + badgeFill + "' stroke='" + strokeCol + "' stroke-width='1.5'/>";
       html += "<text x='" + b.xTop + "' y='" + (b.yTop - 9) + "' text-anchor='middle' fill='#ffffff' font-size='10.5' font-weight='700'>" + b.label + "</text>";
-      html += "<text x='" + (b.xTop - 58) + "' y='" + (b.yTop + 28) + "' text-anchor='start' fill='" + (isSel ? "#fbbf24" : "#94a3b8") + "' font-size='10.5' font-weight='" + (isSel ? "700" : "500") + "'>• " + qpEscXml(shortCause) + "</text>";
+      html += "<text x='" + topTextX + "' y='" + (b.yTop + 26) + "' text-anchor='start' fill='" + (isSel ? "#fbbf24" : "#94a3b8") + "' font-size='10.5' font-weight='" + (isSel ? "700" : "500") + "'>• " + qpEscXml(shortCause) + "</text>";
       html += "</g>";
     } else {
+      var botTextX = b.xBot + 14;
       html += "<g class='qp-fb-node' onclick='qpSelectFishboneRoot(\"" + b.key + "\")'>";
       html += "<line x1='" + b.xTop + "' y1='" + spineY + "' x2='" + b.xBot + "' y2='" + b.yBot + "' stroke='" + strokeCol + "' stroke-width='2.4'/>";
       html += "<rect x='" + (b.xBot - 56) + "' y='" + (b.yBot + 2) + "' width='112' height='22' rx='6' fill='" + badgeFill + "' stroke='" + strokeCol + "' stroke-width='1.5'/>";
       html += "<text x='" + b.xBot + "' y='" + (b.yBot + 17) + "' text-anchor='middle' fill='#ffffff' font-size='10.5' font-weight='700'>" + b.label + "</text>";
-      html += "<text x='" + (b.xBot - 58) + "' y='" + (b.yBot - 12) + "' text-anchor='start' fill='" + (isSel ? "#fbbf24" : "#94a3b8") + "' font-size='10.5' font-weight='" + (isSel ? "700" : "500") + "'>• " + qpEscXml(shortCause) + "</text>";
+      html += "<text x='" + botTextX + "' y='" + (b.yBot - 12) + "' text-anchor='start' fill='" + (isSel ? "#fbbf24" : "#94a3b8") + "' font-size='10.5' font-weight='" + (isSel ? "700" : "500") + "'>• " + qpEscXml(shortCause) + "</text>";
       html += "</g>";
     }
   });
@@ -1490,9 +1555,7 @@ var qpFmeaRecords = (function() {
 })();
 
 function qpSaveFmeaRecords() {
-  try {
-    localStorage.setItem('qp_fmea_records', JSON.stringify(qpFmeaRecords));
-  } catch (e) {}
+  qpSafeSetLocalStorage('qp_fmea_records', JSON.stringify(qpFmeaRecords));
 }
 
 window.qpCalcRPN = function() {
@@ -1614,9 +1677,7 @@ var qpSpcSamples = (function() {
 })();
 
 function qpSaveSpcSamples() {
-  try {
-    localStorage.setItem('qp_spc_samples', JSON.stringify(qpSpcSamples));
-  } catch (e) {}
+  qpSafeSetLocalStorage('qp_spc_samples', JSON.stringify(qpSpcSamples));
 }
 
 window.qpPushSpcMeasurement = function(val) {
