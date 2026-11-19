@@ -1,0 +1,19 @@
+{
+  "name": "QualityPilot AI — VISHWASH",
+  "short_name": "QualityPilot AI",
+  "description": "Industrial Quality Management, 8D Co-Pilot, SPC, Gage R&R & PFMEA Platform",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#07111e",
+  "theme_color": "#0F766E",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
