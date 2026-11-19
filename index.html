@@ -11,148 +11,144 @@ body.dark{--bg:#090d16;--card:#111827;--text:#f1f5f9;--sub:#94a3b8;--border:#1f2
 body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overflow-x:hidden}
 
 /* =====================================
- QUALITYPILOT AI - 3D WEBGL INTRO
+ QUALITYPILOT AI - ORIGINAL CLEAN SPLASH
 ===================================== */
-#qp-intro-v2 {
+#splash {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
   height: 100svh;
+  background: radial-gradient(circle at 50% 48%, #0d2238 0%, #07111e 65%, #040811 100%);
   z-index: 999999;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: max(18px, env(safe-area-inset-top)) 14px max(18px, env(safe-area-inset-bottom));
+  justify-content: center;
+  padding: 24px 16px;
   color: #ffffff;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: radial-gradient(ellipse at 50% 42%, #10465a 0%, #092333 28%, #07111e 68%, #020711 100%);
-  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.75s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.75s ease;
+  overflow: hidden;
+  transition: opacity 0.65s ease, visibility 0.65s ease;
 }
 
-#qp-intro-v2.qp-hide {
+#splash.qp-hide {
   opacity: 0;
-  transform: scale(1.04);
   visibility: hidden;
   pointer-events: none;
 }
 
-#qp-webgl-canvas {
+.qp-splash-wrap {
+  width: min(92vw, 420px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Curved Top Text + Animated C-Shaped Arc Line */
+.qp-arc-header {
+  width: 100%;
+  max-width: 380px;
+  margin-bottom: -44px;
+  pointer-events: none;
+}
+
+.qp-arc-svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  display: block;
+}
+
+.qp-c-line {
+  fill: none;
+  stroke: #00E5FF;
+  stroke-width: 2;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 6px rgba(0, 229, 255, 0.85));
+  stroke-dasharray: 460;
+  stroke-dashoffset: 460;
+  animation: qpDrawArc 1.35s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
+}
+
+.qp-curved-text {
+  fill: #E0F7FF;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: qpFadeInUp 0.8s ease-out 0.35s forwards;
+}
+
+/* Original Gear Design (Compact & Bottom-Centered in Stage) */
+.qp-gear-stage {
+  position: relative;
+  width: clamp(92px, 23vw, 112px);
+  height: clamp(92px, 23vw, 112px);
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.82);
+  filter: drop-shadow(0 0 14px rgba(0, 229, 255, 0.45));
+  animation: qpGearReveal 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
+}
+
+.qp-gear-svg {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  display: block;
-  z-index: 1;
-  pointer-events: none;
+  transform-origin: 50% 50%;
+  animation: qpGearSpin 9s linear infinite;
 }
 
-#qp-intro-v2 .qp-overlay-ui {
+.qp-qp-badge {
   position: relative;
-  z-index: 3;
-  width: min(94%, 640px);
-  height: 100%;
+  z-index: 2;
+  width: 50%;
+  height: 50%;
+  border-radius: 13px;
+  background: linear-gradient(145deg, rgba(16, 42, 68, 0.94), rgba(8, 15, 28, 0.98));
+  border: 1.5px solid #00E5FF;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.45), inset 0 0 8px rgba(32, 220, 197, 0.3);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  text-align: center;
-  pointer-events: none;
+  justify-content: center;
+  font-weight: 800;
+  font-size: clamp(16px, 4vw, 20px);
+  letter-spacing: 1px;
+  color: #FFFFFF;
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.8);
 }
 
-#qp-intro-v2 .qp-top-spacer {
-  flex: 1 1 auto;
-  min-height: clamp(145px, 34vh, 270px);
-  width: 100%;
-}
-
-#qp-intro-v2 .qp-heading {
-  flex-shrink: 0;
-  animation: qpTextReveal 1.35s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-#qp-intro-v2 .qp-eyebrow {
-  font-size: clamp(9px, 2.2vw, 11px);
-  letter-spacing: clamp(2px, 0.7vw, 3.5px);
-  color: #83eefa;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-}
-
-#qp-intro-v2 .qp-heading h1 {
-  font-size: clamp(30px, 7.6vw, 54px);
-  font-weight: 900;
-  letter-spacing: -1.5px;
-  line-height: 1.05;
-  margin: 0;
-  color: #ffffff;
-  text-shadow: 0 0 20px rgba(0, 229, 255, 0.65);
-}
-
-#qp-intro-v2 .qp-heading h1 span {
-  color: #20dcc5;
-  text-shadow: 0 0 24px #00e5ff;
-}
-
-#qp-intro-v2 .qp-heading p {
-  font-size: clamp(10px, 2.5vw, 12px);
-  letter-spacing: clamp(3px, 1vw, 5.5px);
-  color: #a5dce5;
-  margin-top: 10px;
+/* Brand Text Directly Below Gear */
+.qp-brand-sub {
+  margin-top: 22px;
+  font-size: clamp(11px, 2.8vw, 13px);
   font-weight: 700;
+  letter-spacing: clamp(3px, 1vw, 5px);
+  color: #20DCC5;
+  text-transform: uppercase;
+  text-shadow: 0 0 12px rgba(32, 220, 197, 0.4);
+  opacity: 0;
+  transform: translateY(10px);
+  animation: qpFadeInUp 0.7s ease-out 0.65s forwards;
 }
 
-#qp-intro-v2 .qp-loader {
-  width: min(82%, 350px);
-  margin-top: 18px;
-  flex-shrink: 0;
-  animation: qpTextReveal 1.5s ease 0.2s both;
+@keyframes qpDrawArc {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
-#qp-intro-v2 .qp-loader-line {
-  height: 6px;
-  background: #1a3446;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 0 15px rgba(0, 229, 255, 0.65);
-}
-
-#qp-intro-v2 .qp-loader-line div {
-  width: 38%;
-  height: 100%;
-  border-radius: 20px;
-  background: linear-gradient(90deg, #087f9e, #00e5ff, #ffffff);
-  box-shadow: 0 0 18px #00e5ff;
-  animation: qpLoaderSweep 1.4s ease-in-out infinite alternate;
-}
-
-#qp-intro-v2 .qp-loader p {
-  font-size: 10px;
-  letter-spacing: 2.6px;
-  color: #5ce9ed;
-  margin-top: 12px;
-  animation: qpStatusPulse 1.5s ease-in-out infinite;
-}
-
-#qp-intro-v2 .qp-tagline {
-  margin-top: 16px;
-  flex-shrink: 0;
-  color: #829fac;
-  font-size: clamp(9px, 2.2vw, 10.5px);
-  letter-spacing: 2.8px;
-  animation: qpTextReveal 1.6s ease 0.3s both;
-}
-
-#qp-intro-v2 .qp-tagline span {
-  color: #20dcc5;
-}
-
-@keyframes qpTextReveal {
+@keyframes qpFadeInUp {
   from {
     opacity: 0;
-    transform: translateY(22px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -160,42 +156,34 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
   }
 }
 
-@keyframes qpLoaderSweep {
-  from {
-    transform: translateX(-20%);
-  }
+@keyframes qpGearReveal {
   to {
-    transform: translateX(185%);
-  }
-}
-
-@keyframes qpStatusPulse {
-  0%, 100% {
     opacity: 1;
-  }
-  50% {
-    opacity: 0.55;
+    transform: scale(1);
   }
 }
 
-@media (max-height: 640px) {
-  #qp-intro-v2 .qp-top-spacer {
-    min-height: 110px;
-  }
-  #qp-intro-v2 .qp-loader {
-    margin-top: 12px;
-  }
-  #qp-intro-v2 .qp-tagline {
-    margin-top: 10px;
+@keyframes qpGearSpin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #qp-intro-v2,
-  #qp-intro-v2 * {
+  #splash,
+  #splash * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+  .qp-c-line {
+    stroke-dashoffset: 0;
+  }
+  .qp-curved-text,
+  .qp-gear-stage,
+  .qp-brand-sub {
+    opacity: 1;
+    transform: none;
   }
 }
 
@@ -257,33 +245,59 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 .c-card h4{color:#2dd4bf;font-size:18px;margin-bottom:4px}
 .c-item{padding:10px 0;border-bottom:1px solid #1f2937;font-size:13.5px}
 .c-mail{color:#2dd4bf;text-decoration:none;font-weight:600}
-@media print{.side,.cards,#inputBox,.no-print,#qp-intro-v2,.box>h3{display:none!important}.main,.grid{display:block!important;padding:0!important;width:100%!important}}
+@media print{.side,.cards,#inputBox,.no-print,#splash,.box>h3{display:none!important}.main,.grid{display:block!important;padding:0!important;width:100%!important}}
 @media(max-width:900px){body{flex-direction:column}.side{width:100%}.cards{grid-template-columns:1fr 1fr}.grid,.row3{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div id="qp-intro-v2" aria-hidden="true">
-  <canvas id="qp-webgl-canvas"></canvas>
+<div id="splash" aria-hidden="true">
+  <div class="qp-splash-wrap">
+    <!-- 1 & 2: Curved Half-Circle Text + Animated Glowing C-Shaped Arc Line -->
+    <div class="qp-arc-header">
+      <svg class="qp-arc-svg" viewBox="0 0 360 195">
+        <defs>
+          <!-- Path for the curved text -->
+          <path id="qpTextArc" d="M 48,182 A 132,132 0 0,1 312,182" />
+        </defs>
 
-  <div class="qp-overlay-ui">
-    <div class="qp-top-spacer"></div>
+        <!-- Thin glowing C-shaped arc line drawn smoothly around the curve -->
+        <path class="qp-c-line" d="M 32,184 A 148,148 0 0,1 328,184" />
 
-    <div class="qp-heading">
-      <div class="qp-eyebrow">NEXT GENERATION QUALITY INTELLIGENCE</div>
-      <h1>QualityPilot <span>AI</span></h1>
-      <p>CO-POWERED BY VISHWASH</p>
+        <!-- Half-circle curved text above the gear -->
+        <text class="qp-curved-text">
+          <textPath href="#qpTextArc" startOffset="50%" text-anchor="middle">
+            Welcome to More Precise Engineering
+          </textPath>
+        </text>
+      </svg>
     </div>
 
-    <div class="qp-loader">
-      <div class="qp-loader-line">
-        <div></div>
-      </div>
-      <p>INITIALIZING QUALITY SYSTEM...</p>
+    <!-- 3: Original Gear Design (Compact & Rotating Continuously) -->
+    <div class="qp-gear-stage">
+      <svg class="qp-gear-svg" viewBox="0 0 120 120" fill="none">
+        <defs>
+          <linearGradient id="qpMetalGrad" x1="15" y1="15" x2="105" y2="105" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#E2F8FF"/>
+            <stop offset="45%" stop-color="#00E5FF"/>
+            <stop offset="100%" stop-color="#20DCC5"/>
+          </linearGradient>
+        </defs>
+        <path stroke="url(#qpMetalGrad)" stroke-width="2.5" stroke-linejoin="round" d="
+          M54 8 L66 8 L68 18.5 A42 42 0 0 1 77.2 22.3 L86 16.5 L94.5 25 L88.7 33.8
+          A42 42 0 0 1 92.5 43 L103 45 L103 57 L92.5 59
+          A42 42 0 0 1 88.7 68.2 L94.5 77 L86 85.5 L77.2 79.7
+          A42 42 0 0 1 68 83.5 L66 94 L54 94 L52 83.5
+          A42 42 0 0 1 42.8 79.7 L34 85.5 L25.5 77 L31.3 68.2
+          A42 42 0 0 1 27.5 59 L17 57 L17 45 L27.5 43
+          A42 42 0 0 1 31.3 33.8 L25.5 25 L34 16.5 L42.8 22.3
+          A42 42 0 0 1 52 18.5 Z" transform="translate(0, 9)"/>
+        <circle cx="60" cy="60" r="27" stroke="#20DCC5" stroke-width="1.6" stroke-dasharray="6 4" opacity="0.8"/>
+      </svg>
+      <div class="qp-qp-badge">QP</div>
     </div>
 
-    <div class="qp-tagline">
-      PRECISION <span>✦</span> PERFORMANCE <span>✦</span> TRUST
-    </div>
+    <!-- 4: Brand Text Directly Below Gear -->
+    <div class="qp-brand-sub">CO-POWERED BY VISHWASH</div>
   </div>
 </div>
 
@@ -465,476 +479,35 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
   </div>
 </div>
 
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://unpkg.com/three@0.169.0/build/three.module.js",
-    "three/addons/": "https://unpkg.com/three@0.169.0/examples/jsm/"
-  }
-}
-</script>
-
-<script type="module">
-import * as THREE from 'three';
-import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-
+<script>
 (function () {
-  const intro = document.getElementById('qp-intro-v2');
-  const canvas = document.getElementById('qp-webgl-canvas');
-  if (!intro || !canvas) return;
+  var splash = document.getElementById('splash');
+  if (!splash) return;
 
-  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const started = performance.now();
-  const minIntroTime = 2600;
-  let finished = false;
-  let rafId = 0;
+  var started = Date.now();
+  var minDuration = 2200;
+  var done = false;
 
-  let renderer, scene, camera, composer;
-  let reactorGroup, gearGroup, qpEmblemGroup;
-  let rings = [];
-  let sparksPoints, dustPoints, sparkSpeeds, dustSpeeds;
+  function hideSplash() {
+    if (done) return;
+    done = true;
 
-  function buildGearShape(innerR, outerR, teethCount) {
-    const shape = new THREE.Shape();
-    const step = (Math.PI * 2) / teethCount;
-    for (let i = 0; i < teethCount; i++) {
-      const a0 = i * step;
-      const a1 = a0 + step * 0.22;
-      const a2 = a0 + step * 0.34;
-      const a3 = a0 + step * 0.66;
-      const a4 = a0 + step * 0.78;
-
-      const p0x = Math.cos(a0) * innerR, p0y = Math.sin(a0) * innerR;
-      if (i === 0) shape.moveTo(p0x, p0y);
-      else shape.lineTo(p0x, p0y);
-
-      shape.lineTo(Math.cos(a1) * innerR, Math.sin(a1) * innerR);
-      shape.lineTo(Math.cos(a2) * outerR, Math.sin(a2) * outerR);
-      shape.lineTo(Math.cos(a3) * outerR, Math.sin(a3) * outerR);
-      shape.lineTo(Math.cos(a4) * innerR, Math.sin(a4) * innerR);
-    }
-    shape.closePath();
-
-    const bore = new THREE.Path();
-    bore.absarc(0, 0, innerR * 0.64, 0, Math.PI * 2, true);
-    shape.holes.push(bore);
-    return shape;
-  }
-
-  function createQpTexture() {
-    const c = document.createElement('canvas');
-    c.width = 512;
-    c.height = 512;
-    const ctx = c.getContext('2d');
-    ctx.clearRect(0, 0, 512, 512);
-
-    const grad = ctx.createRadialGradient(256, 256, 30, 256, 256, 230);
-    grad.addColorStop(0, 'rgba(14, 68, 92, 0.96)');
-    grad.addColorStop(0.75, 'rgba(6, 26, 40, 0.95)');
-    grad.addColorStop(1, 'rgba(0, 229, 255, 0.35)');
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.arc(256, 256, 226, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.strokeStyle = '#00e5ff';
-    ctx.lineWidth = 8;
-    ctx.shadowColor = '#00e5ff';
-    ctx.shadowBlur = 22;
-    ctx.beginPath();
-    ctx.arc(256, 256, 212, 0, Math.PI * 2);
-    ctx.stroke();
-
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '900 175px Arial, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.shadowColor = '#00e5ff';
-    ctx.shadowBlur = 28;
-    ctx.fillText('QP', 256, 262);
-
-    const tex = new THREE.CanvasTexture(c);
-    tex.colorSpace = THREE.SRGBColorSpace;
-    return tex;
-  }
-
-  function createSparkTexture() {
-    const c = document.createElement('canvas');
-    c.width = 64;
-    c.height = 64;
-    const ctx = c.getContext('2d');
-    const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-    g.addColorStop(0, '#ffffff');
-    g.addColorStop(0.3, '#00e5ff');
-    g.addColorStop(0.7, 'rgba(32, 220, 197, 0.45)');
-    g.addColorStop(1, 'rgba(0, 229, 255, 0)');
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, 64, 64);
-    return new THREE.CanvasTexture(c);
-  }
-
-  function updateCameraFraming() {
-    if (!camera) return;
-    const w = window.innerWidth || 1;
-    const h = window.innerHeight || 1;
-    const aspect = w / h;
-    camera.aspect = aspect;
-
-    if (aspect < 0.72) {
-      camera.position.set(0, 0.45, 9.6);
-    } else if (aspect < 1.1) {
-      camera.position.set(0, 0.35, 8.2);
-    } else {
-      camera.position.set(0, 0.25, 7.2);
-    }
-    camera.updateProjectionMatrix();
-  }
-
-  function initThree() {
-    scene = new THREE.Scene();
-
-    camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-    updateCameraFraming();
-
-    const isMobile = window.innerWidth < 768;
-    renderer = new THREE.WebGLRenderer({
-      canvas: canvas,
-      antialias: !isMobile,
-      alpha: true,
-      powerPreference: 'high-performance'
-    });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.75 : 2));
-    renderer.setSize(window.innerWidth, window.innerHeight, false);
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.12;
-
-    const pmrem = new THREE.PMREMGenerator(renderer);
-    const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-    scene.environment = envTex;
-    scene.environmentIntensity = 1.05;
-
-    // Balanced ambient & rim lighting without harsh top spotlight beam
-    const amb = new THREE.AmbientLight(0x164e63, 1.05);
-    scene.add(amb);
-
-    const frontLight = new THREE.DirectionalLight(0xe0f7ff, 1.85);
-    frontLight.position.set(2.5, 1.5, 6.5);
-    scene.add(frontLight);
-
-    const cyanRim = new THREE.PointLight(0x00e5ff, 5.2, 16, 1.5);
-    cyanRim.position.set(-2.6, 0.8, 3.0);
-    scene.add(cyanRim);
-
-    const tealRim = new THREE.PointLight(0x20dcc5, 4.4, 15, 1.5);
-    tealRim.position.set(2.6, -1.0, 2.8);
-    scene.add(tealRim);
-
-    reactorGroup = new THREE.Group();
-    reactorGroup.position.set(0, 0.72, 0);
-    reactorGroup.scale.setScalar(0.35);
-    scene.add(reactorGroup);
-
-    // Metallic 3D engineering gear
-    gearGroup = new THREE.Group();
-    const gearShape = buildGearShape(1.38, 1.72, 14);
-    const gearGeo = new THREE.ExtrudeGeometry(gearShape, {
-      depth: 0.34,
-      bevelEnabled: true,
-      bevelSegments: 3,
-      steps: 1,
-      bevelSize: 0.04,
-      bevelThickness: 0.04
-    });
-    gearGeo.center();
-
-    const metalMat = new THREE.MeshStandardMaterial({
-      color: 0x9fb8c8,
-      metalness: 0.9,
-      roughness: 0.22,
-      emissive: 0x052836,
-      emissiveIntensity: 0.45
-    });
-    const gearMesh = new THREE.Mesh(gearGeo, metalMat);
-    gearGroup.add(gearMesh);
-
-    const bezelGeo = new THREE.TorusGeometry(0.95, 0.045, 20, 64);
-    const bezelMat = new THREE.MeshStandardMaterial({
-      color: 0x00e5ff,
-      emissive: 0x00e5ff,
-      emissiveIntensity: 1.55,
-      metalness: 0.4,
-      roughness: 0.2
-    });
-    const bezelMesh = new THREE.Mesh(bezelGeo, bezelMat);
-    bezelMesh.position.z = 0.2;
-    gearGroup.add(bezelMesh);
-
-    reactorGroup.add(gearGroup);
-
-    // QP emblem disc inside gear
-    qpEmblemGroup = new THREE.Group();
-    const discGeo = new THREE.CylinderGeometry(0.9, 0.9, 0.14, 48);
-    discGeo.rotateX(Math.PI / 2);
-    const discMat = new THREE.MeshStandardMaterial({
-      color: 0x092434,
-      metalness: 0.75,
-      roughness: 0.25
-    });
-    qpEmblemGroup.add(new THREE.Mesh(discGeo, discMat));
-
-    const qpTex = createQpTexture();
-    const qpPlaneGeo = new THREE.CircleGeometry(0.88, 48);
-    const qpPlaneMat = new THREE.MeshBasicMaterial({
-      map: qpTex,
-      transparent: true
-    });
-    const qpFront = new THREE.Mesh(qpPlaneGeo, qpPlaneMat);
-    qpFront.position.z = 0.08;
-    qpEmblemGroup.add(qpFront);
-
-    const qpBack = new THREE.Mesh(qpPlaneGeo, qpPlaneMat);
-    qpBack.position.z = -0.08;
-    qpBack.rotation.y = Math.PI;
-    qpEmblemGroup.add(qpBack);
-
-    reactorGroup.add(qpEmblemGroup);
-
-    // Multiple 3D orbital rings with orbiting energy nodes
-    const ringConfigs = [
-      { r: 2.08, tube: 0.026, color: 0x00e5ff, rotX: 1.12, rotY: 0.25, speedX: 0.45, speedY: 0.75, speedZ: 0.35, hasNode: true },
-      { r: 2.38, tube: 0.02,  color: 0x20dcc5, rotX: -1.08, rotY: 0.45, speedX: -0.35, speedY: -0.6, speedZ: -0.45, hasNode: true },
-      { r: 2.68, tube: 0.016, color: 0x67f5ff, rotX: 0.65, rotY: -0.55, speedX: 0.25, speedY: 0.4, speedZ: -0.55, hasNode: true },
-      { r: 1.92, tube: 0.015, color: 0x14b8a6, rotX: 1.35, rotY: -0.2, speedX: -0.5, speedY: 0.3, speedZ: 0.65, hasNode: false }
-    ];
-
-    const nodeGeo = new THREE.SphereGeometry(0.075, 16, 16);
-    const nodeMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-
-    rings = ringConfigs.map((cfg) => {
-      const group = new THREE.Group();
-      group.rotation.set(cfg.rotX, cfg.rotY, 0);
-
-      const tGeo = new THREE.TorusGeometry(cfg.r, cfg.tube, 18, 96);
-      const tMat = new THREE.MeshStandardMaterial({
-        color: cfg.color,
-        emissive: cfg.color,
-        emissiveIntensity: 1.2,
-        metalness: 0.5,
-        roughness: 0.2
-      });
-      group.add(new THREE.Mesh(tGeo, tMat));
-
-      let node = null;
-      if (cfg.hasNode) {
-        node = new THREE.Mesh(nodeGeo, nodeMat);
-        node.position.set(cfg.r, 0, 0);
-        group.add(node);
-      }
-
-      reactorGroup.add(group);
-      return { group, ...cfg };
-    });
-
-    // Electric sparks & floating particles
-    const sparkTex = createSparkTexture();
-    const sparkCount = isMobile ? 65 : 110;
-    const sparkPos = new Float32Array(sparkCount * 3);
-    sparkSpeeds = new Float32Array(sparkCount * 3);
-
-    for (let i = 0; i < sparkCount; i++) {
-      const i3 = i * 3;
-      sparkPos[i3] = (Math.random() - 0.5) * 6.5;
-      sparkPos[i3 + 1] = (Math.random() - 0.5) * 5.5;
-      sparkPos[i3 + 2] = (Math.random() - 0.5) * 4.5;
-
-      sparkSpeeds[i3] = (Math.random() - 0.5) * 0.9;
-      sparkSpeeds[i3 + 1] = 0.35 + Math.random() * 1.1;
-      sparkSpeeds[i3 + 2] = (Math.random() - 0.5) * 0.7;
-    }
-
-    const sparkGeo = new THREE.BufferGeometry();
-    sparkGeo.setAttribute('position', new THREE.BufferAttribute(sparkPos, 3));
-    const sparkMat = new THREE.PointsMaterial({
-      size: isMobile ? 0.14 : 0.17,
-      map: sparkTex,
-      transparent: true,
-      opacity: 0.95,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending
-    });
-    sparksPoints = new THREE.Points(sparkGeo, sparkMat);
-    scene.add(sparksPoints);
-
-    const dustCount = isMobile ? 90 : 160;
-    const dustPos = new Float32Array(dustCount * 3);
-    dustSpeeds = new Float32Array(dustCount * 3);
-
-    for (let i = 0; i < dustCount; i++) {
-      const i3 = i * 3;
-      dustPos[i3] = (Math.random() - 0.5) * 11;
-      dustPos[i3 + 1] = (Math.random() - 0.5) * 8;
-      dustPos[i3 + 2] = (Math.random() - 0.5) * 7 - 1.5;
-
-      dustSpeeds[i3] = (Math.random() - 0.5) * 0.32;
-      dustSpeeds[i3 + 1] = (Math.random() - 0.5) * 0.28;
-      dustSpeeds[i3 + 2] = (Math.random() - 0.5) * 0.22;
-    }
-
-    const dustGeo = new THREE.BufferGeometry();
-    dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
-    const dustMat = new THREE.PointsMaterial({
-      size: 0.065,
-      color: 0x20dcc5,
-      transparent: true,
-      opacity: 0.65,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending
-    });
-    dustPoints = new THREE.Points(dustGeo, dustMat);
-    scene.add(dustPoints);
-
-    composer = new EffectComposer(renderer);
-    composer.addPass(new RenderPass(scene, camera));
-    const bloom = new UnrealBloomPass(
-      new THREE.Vector2(window.innerWidth, window.innerHeight),
-      isMobile ? 0.6 : 0.78,
-      0.5,
-      0.26
-    );
-    composer.addPass(bloom);
-  }
-
-  function animate(now) {
-    rafId = requestAnimationFrame(animate);
-    const elapsed = (now - started) * 0.001;
-
-    if (reactorGroup) {
-      const revealT = Math.min(1, elapsed / 1.35);
-      const easeOut = 1 - Math.pow(1 - revealT, 3);
-      const scaleVal = 0.35 + easeOut * 0.65;
-      reactorGroup.scale.setScalar(scaleVal);
-
-      if (!prefersReduced) {
-        reactorGroup.position.y = 0.72 + Math.sin(elapsed * 1.8) * 0.07;
-        reactorGroup.rotation.y = Math.sin(elapsed * 0.7) * 0.16;
-      }
-    }
-
-    if (gearGroup && !prefersReduced) {
-      gearGroup.rotation.z = -elapsed * 0.42;
-      gearGroup.rotation.x = Math.sin(elapsed * 0.9) * 0.08;
-    }
-
-    if (qpEmblemGroup && !prefersReduced) {
-      qpEmblemGroup.rotation.y = Math.sin(elapsed * 1.1) * 0.22;
-    }
-
-    if (!prefersReduced) {
-      for (let i = 0; i < rings.length; i++) {
-        const r = rings[i];
-        r.group.rotation.x += r.speedX * 0.012;
-        r.group.rotation.y += r.speedY * 0.012;
-        r.group.rotation.z += r.speedZ * 0.012;
-      }
-    }
-
-    if (sparksPoints && !prefersReduced) {
-      const arr = sparksPoints.geometry.attributes.position.array;
-      for (let i = 0; i < arr.length; i += 3) {
-        arr[i] += sparkSpeeds[i] * 0.016;
-        arr[i + 1] += sparkSpeeds[i + 1] * 0.016;
-        arr[i + 2] += sparkSpeeds[i + 2] * 0.016;
-
-        if (arr[i + 1] > 2.8) {
-          arr[i + 1] = -2.4;
-          arr[i] = (Math.random() - 0.5) * 5.5;
-        }
-        if (Math.abs(arr[i]) > 3.6) arr[i] *= -0.85;
-      }
-      sparksPoints.geometry.attributes.position.needsUpdate = true;
-    }
-
-    if (dustPoints && !prefersReduced) {
-      const dArr = dustPoints.geometry.attributes.position.array;
-      for (let i = 0; i < dArr.length; i += 3) {
-        dArr[i] += dustSpeeds[i] * 0.016;
-        dArr[i + 1] += dustSpeeds[i + 1] * 0.016;
-        dArr[i + 2] += dustSpeeds[i + 2] * 0.016;
-
-        if (Math.abs(dArr[i]) > 6) dArr[i] *= -0.9;
-        if (Math.abs(dArr[i + 1]) > 4.5) dArr[i + 1] *= -0.9;
-      }
-      dustPoints.geometry.attributes.position.needsUpdate = true;
-    }
-
-    if (composer) {
-      composer.render();
-    } else if (renderer && scene && camera) {
-      renderer.render(scene, camera);
-    }
-  }
-
-  function handleResize() {
-    if (!renderer || !composer) return;
-    const w = window.innerWidth || 1;
-    const h = window.innerHeight || 1;
-    updateCameraFraming();
-    renderer.setSize(w, h, false);
-    composer.setSize(w, h);
-  }
-
-  function cleanupWebGL() {
-    cancelAnimationFrame(rafId);
-    window.removeEventListener('resize', handleResize);
-    if (scene) {
-      scene.traverse(function (obj) {
-        if (obj.geometry) obj.geometry.dispose();
-        if (obj.material) {
-          if (Array.isArray(obj.material)) obj.material.forEach(function (m) { m.dispose(); });
-          else obj.material.dispose();
-        }
-      });
-    }
-    if (composer) composer.dispose();
-    if (renderer) renderer.dispose();
-  }
-
-  function finishIntro() {
-    if (finished) return;
-    finished = true;
-
-    const elapsed = performance.now() - started;
-    const waitTime = Math.max(0, minIntroTime - elapsed);
-
+    var remaining = Math.max(0, minDuration - (Date.now() - started));
     setTimeout(function () {
-      intro.classList.add('qp-hide');
+      splash.classList.add('qp-hide');
       setTimeout(function () {
-        cleanupWebGL();
-        intro.remove();
-      }, 780);
-    }, waitTime);
-  }
-
-  try {
-    initThree();
-    window.addEventListener('resize', handleResize);
-    rafId = requestAnimationFrame(animate);
-  } catch (err) {
-    canvas.style.display = 'none';
+        splash.remove();
+      }, 680);
+    }, remaining);
   }
 
   if (document.readyState === 'complete') {
-    finishIntro();
+    hideSplash();
   } else {
-    window.addEventListener('load', finishIntro, { once: true });
+    window.addEventListener('load', hideSplash, { once: true });
   }
 })();
-</script>
 
-<script>
 var sh = 7.5;
 var bName = "QualityPilot AI";
 var cImg = "";
