@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>QualityPilot AI — VISHWASH</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0F766E">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
 <style>
 :root{--bg:#f3f4f6;--card:#fff;--text:#1f2937;--sub:#64748b;--border:#e2e8f0;--inp:#f9fafb;--brand:#0F766E}
 body.dark{--bg:#090d16;--card:#111827;--text:#f1f5f9;--sub:#94a3b8;--border:#1f2937;--inp:#0f172a}
@@ -2319,6 +2322,10 @@ document.addEventListener("DOMContentLoaded", function() {
   if (typeof window.qpCalcRPN === 'function') window.qpCalcRPN();
   if (typeof window.qpRenderFmeaTable === 'function') window.qpRenderFmeaTable();
   if (typeof window.qpUpdateSPC === 'function') window.qpUpdateSPC();
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').catch(function() {});
+  }
 });
 </script>
 </body>
