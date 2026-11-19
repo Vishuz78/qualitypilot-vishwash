@@ -287,8 +287,20 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 .qp-rpn-low{background:#16a34a}
 .qp-status-select{padding:4px 6px;margin:0;font-size:11.5px;border-radius:6px}
 
+/* Feature #2: Dynamic SPC & Capability Styles */
+.qp-spc-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0 12px}
+.qp-spc-kpi{background:var(--inp);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center}
+.qp-spc-kpi small{display:block;font-size:11px;color:var(--sub)}
+.qp-spc-kpi b{font-size:15px;color:var(--text)}
+.qp-spc-controls{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
+.qp-spc-controls>div{flex:1;min-width:140px}
+.qp-spc-btn-sm{padding:9px 12px;background:#0F766E;color:#fff;border:none;border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;margin-bottom:12px;white-space:nowrap}
+.qp-spc-btn-sm:hover{background:#0d9488}
+.qp-spc-btn-sec{background:#334155}
+.qp-spc-btn-sec:hover{background:#475569}
+
 @media print{.side,.cards,#inputBox,.no-print,#splash,.box>h3{display:none!important}.main,.grid{display:block!important;padding:0!important;width:100%!important}}
-@media(max-width:900px){body{flex-direction:column}.side{width:100%}.cards{grid-template-columns:1fr 1fr}.grid,.row3,.qp-grr-metrics{grid-template-columns:1fr}}
+@media(max-width:900px){body{flex-direction:column}.side{width:100%}.cards,.qp-spc-kpi-grid{grid-template-columns:1fr 1fr}.grid,.row3,.qp-grr-metrics{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -427,8 +439,8 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
           <input id="custTxt" placeholder="e.g. Hydraulic Oil Leakage" oninput="calc(false)">
         </div>
         <div class="row3">
-          <div><label>Target Spec</label><input type="number" id="tv" value="50.00" step="0.01" oninput="calc(false)"></div>
-          <div><label>Tolerance (±)</label><input type="number" id="tl" value="0.05" step="0.01" oninput="calc(false)"></div>
+          <div><label>Target Spec</label><input type="number" id="tv" value="50.00" step="0.01" oninput="calc(false);qpUpdateSPC()"></div>
+          <div><label>Tolerance (±)</label><input type="number" id="tl" value="0.05" step="0.01" oninput="calc(false);qpUpdateSPC()"></div>
           <div><label>Measured</label><input type="number" id="av" value="50.16" step="0.01" oninput="calc(false)"></div>
         </div>
         <label>Observed Pattern</label>
@@ -469,23 +481,34 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
         <div class="bar"><div class="fill" style="width:74%;background:#f59e0b">74% Tool Wear</div></div>
       </div>
     </div>
+
     <div class="box" style="margin-top:16px">
-      <h3>📈 Statistical Process Control (SPC) — X-Bar Trend Chart</h3>
-      <p style="font-size:12.5px;color:var(--sub);margin-bottom:10px">Real-time batch measurement deviation tracking against Upper & Lower Control Limits (UCL / LCL).</p>
-      <div style="background:var(--inp);padding:15px;border-radius:10px;border:1px solid var(--border);text-align:center">
-        <svg width="100%" height="180" viewBox="0 0 600 180" style="overflow:visible">
-          <line x1="40" y1="30" x2="580" y2="30" stroke="#dc2626" stroke-dasharray="4" stroke-width="1.5"/>
-          <text x="585" y="34" fill="#dc2626" font-size="10">UCL (+0.05)</text>
-          <line x1="40" y1="90" x2="580" y2="90" stroke="#16a34a" stroke-dasharray="2" stroke-width="1"/>
-          <text x="585" y="94" fill="#16a34a" font-size="10">Target (0.00)</text>
-          <line x1="40" y1="150" x2="580" y2="150" stroke="#dc2626" stroke-dasharray="4" stroke-width="1.5"/>
-          <text x="585" y="154" fill="#dc2626" font-size="10">LCL (-0.05)</text>
-          <polyline fill="none" stroke="#0F766E" stroke-width="2.5" points="60,95 140,80 220,105 300,70 380,85 460,60 540,110"/>
-          <circle cx="60" cy="95" r="4" fill="#0F766E"/><circle cx="140" cy="80" r="4" fill="#0F766E"/>
-          <circle cx="220" cy="105" r="4" fill="#0F766E"/><circle cx="300" cy="70" r="4" fill="#0F766E"/>
-          <circle cx="380" cy="85" r="4" fill="#0F766E"/><circle cx="460" cy="60" r="4" fill="#0F766E"/>
-          <circle cx="540" cy="110" r="4" fill="#dc2626"/>
-        </svg>
+      <h3>📈 Statistical Process Control (SPC) & Process Capability (Cp / Cpk)</h3>
+      <p style="font-size:12.5px;color:var(--sub);margin-bottom:10px">
+        Dynamic X-Bar trend and process capability calculated against Target Spec &amp; Tolerance (±) from Co-Pilot.
+      </p>
+
+      <div class="qp-spc-controls">
+        <div>
+          <label>New Sample Measurement</label>
+          <input type="number" id="qpSpcInput" value="50.02" step="0.005">
+        </div>
+        <button type="button" class="qp-spc-btn-sm" onclick="qpAddSpcSample()">➕ Add Sample</button>
+        <button type="button" class="qp-spc-btn-sm" onclick="qpPullCoPilotMeasurement()">⚡ Pull Co-Pilot Value</button>
+        <button type="button" class="qp-spc-btn-sm qp-spc-btn-sec" onclick="qpResetSpcSamples()">↻ Reset Default</button>
+      </div>
+
+      <div id="qpSpcCapabilityBanner"></div>
+
+      <div class="qp-spc-kpi-grid">
+        <div class="qp-spc-kpi"><small>Cp (Potential)</small><b id="qpSpcCp">—</b></div>
+        <div class="qp-spc-kpi"><small>Cpk (Actual)</small><b id="qpSpcCpk">—</b></div>
+        <div class="qp-spc-kpi"><small>Sample Mean (X̄)</small><b id="qpSpcMean">—</b></div>
+        <div class="qp-spc-kpi"><small>Std Dev (σ)</small><b id="qpSpcSigma">—</b></div>
+      </div>
+
+      <div style="background:var(--inp);padding:15px;border-radius:10px;border:1px solid var(--border);text-align:center;overflow-x:auto">
+        <svg id="qpSpcChartSvg" width="100%" height="200" viewBox="0 0 640 200" style="min-width:480px;overflow:visible"></svg>
       </div>
     </div>
   </div>
@@ -806,6 +829,9 @@ window.calc = function(saveLog) {
       toast.style.display = 'block';
       setTimeout(function() { toast.style.display = 'none'; }, 2500);
     }
+    if (typeof window.qpPushSpcMeasurement === 'function') {
+      window.qpPushSpcMeasurement(a);
+    }
   }
 
   if (pass) {
@@ -982,7 +1008,8 @@ window.exportToCSV = function() {
       csv.push('"' + tm + '","' + pName + '","' + dType + '","' + status + '"');
     }
   });
-  var blob = new Blob me= URL.createObjectURL(blob);
+  var blob = new Blob([csv.join("\n")], { type: 'text/csv;charset=utf-8;' });
+  var url = URL.createObjectURL(blob);
   var a = document.createElement('a');
   a.href = url;
   a.download = 'QualityPilot_Audit_Logs.csv';
@@ -1320,6 +1347,171 @@ window.qpUpdateFmeaStatus = function(idx, newStatus) {
   }
 };
 
+/* =====================================
+ FEATURE #2: DYNAMIC SPC & CAPABILITY MODULE
+===================================== */
+var qpDefaultSpcSamples = [50.01, 50.02, 49.99, 50.03, 50.01, 50.04, 49.98, 50.02];
+var qpSpcSamples = (function() {
+  try {
+    var saved = localStorage.getItem('qp_spc_samples');
+    if (saved) {
+      var parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length >= 2) return parsed;
+    }
+  } catch (e) {}
+  return qpDefaultSpcSamples.slice();
+})();
+
+function qpSaveSpcSamples() {
+  try {
+    localStorage.setItem('qp_spc_samples', JSON.stringify(qpSpcSamples));
+  } catch (e) {}
+}
+
+window.qpPushSpcMeasurement = function(val) {
+  var num = parseFloat(val);
+  if (isNaN(num)) return;
+  qpSpcSamples.push(num);
+  if (qpSpcSamples.length > 20) qpSpcSamples.shift();
+  qpSaveSpcSamples();
+  window.qpUpdateSPC();
+};
+
+window.qpAddSpcSample = function() {
+  var inp = document.getElementById('qpSpcInput');
+  if (!inp) return;
+  var num = parseFloat(inp.value);
+  if (isNaN(num)) {
+    alert("Please enter a valid numeric sample measurement.");
+    return;
+  }
+  qpSpcSamples.push(num);
+  if (qpSpcSamples.length > 20) qpSpcSamples.shift();
+  qpSaveSpcSamples();
+  window.qpUpdateSPC();
+};
+
+window.qpPullCoPilotMeasurement = function() {
+  var avEl = document.getElementById('av');
+  var inpEl = document.getElementById('qpSpcInput');
+  if (avEl && inpEl) {
+    inpEl.value = avEl.value;
+    window.qpAddSpcSample();
+  }
+};
+
+window.qpResetSpcSamples = function() {
+  qpSpcSamples = qpDefaultSpcSamples.slice();
+  qpSaveSpcSamples();
+  window.qpUpdateSPC();
+};
+
+window.qpUpdateSPC = function() {
+  var svg = document.getElementById('qpSpcChartSvg');
+  if (!svg || !qpSpcSamples.length) return;
+
+  var target = parseFloat(document.getElementById('tv') ? document.getElementById('tv').value : 50.00) || 50;
+  var tol = Math.abs(parseFloat(document.getElementById('tl') ? document.getElementById('tl').value : 0.05) || 0.05);
+  var usl = target + tol;
+  var lsl = target - tol;
+
+  var n = qpSpcSamples.length;
+  var mean = qpSpcSamples.reduce(function(acc, v) { return acc + v; }, 0) / n;
+
+  var variance = n > 1
+    ? qpSpcSamples.reduce(function(acc, v) { return acc + Math.pow(v - mean, 2); }, 0) / (n - 1)
+    : 0;
+  var sigma = Math.sqrt(variance);
+
+  var cpText = "N/A";
+  var cpkText = "N/A";
+  var cpVal = null;
+  var cpkVal = null;
+
+  if (sigma > 0 && tol > 0) {
+    cpVal = (usl - lsl) / (6 * sigma);
+    var cpu = (usl - mean) / (3 * sigma);
+    var cpl = (mean - lsl) / (3 * sigma);
+    cpkVal = Math.min(cpu, cpl);
+    cpText = cpVal.toFixed(2);
+    cpkText = cpkVal.toFixed(2);
+  }
+
+  var cpEl = document.getElementById('qpSpcCp');
+  var cpkEl = document.getElementById('qpSpcCpk');
+  var meanEl = document.getElementById('qpSpcMean');
+  var sigEl = document.getElementById('qpSpcSigma');
+
+  if (cpEl) cpEl.innerText = cpText;
+  if (cpkEl) cpkEl.innerText = cpkText;
+  if (meanEl) meanEl.innerText = mean.toFixed(3);
+  if (sigEl) sigEl.innerText = sigma.toFixed(4);
+
+  var bannerEl = document.getElementById('qpSpcCapabilityBanner');
+  if (bannerEl) {
+    if (cpkVal === null) {
+      bannerEl.innerHTML = "<div class='qp-grr-warn'>ℹ️ Add more varied samples to compute Cp and Cpk capability indices.</div>";
+    } else if (cpkVal >= 1.33) {
+      bannerEl.innerHTML = "<div class='pass'>✅ CAPABLE PROCESS (Cpk = " + cpkText + " ≥ 1.33 | USL: " + usl.toFixed(2) + ", LSL: " + lsl.toFixed(2) + ")</div>";
+    } else if (cpkVal >= 1.0) {
+      bannerEl.innerHTML = "<div class='qp-grr-warn'>⚠️ MARGINALLY CAPABLE (1.00 ≤ Cpk = " + cpkText + " &lt; 1.33 — Monitor &amp; Tighten Variation)</div>";
+    } else {
+      bannerEl.innerHTML = "<div class='fail'>🚨 INCAPABLE PROCESS (Cpk = " + cpkText + " &lt; 1.00 — Process Centring / Variation Action Required)</div>";
+    }
+  }
+
+  var allVals = qpSpcSamples.concat([usl, lsl, target]);
+  var minV = Math.min.apply(null, allVals);
+  var maxV = Math.max.apply(null, allVals);
+  var pad = (maxV - minV) * 0.15 || 0.02;
+  var yMin = minV - pad;
+  var yMax = maxV + pad;
+
+  var xLeft = 48;
+  var xRight = 565;
+  var yTop = 24;
+  var yBot = 172;
+
+  function toX(idx) {
+    if (n === 1) return (xLeft + xRight) / 2;
+    return xLeft + (idx / (n - 1)) * (xRight - xLeft);
+  }
+
+  function toY(val) {
+    return yBot - ((val - yMin) / (yMax - yMin)) * (yBot - yTop);
+  }
+
+  var yUsl = toY(usl);
+  var yTarget = toY(target);
+  var yLsl = toY(lsl);
+
+  var svgHtml = "";
+  svgHtml += "<line x1='" + xLeft + "' y1='" + yUsl.toFixed(1) + "' x2='" + xRight + "' y2='" + yUsl.toFixed(1) + "' stroke='#dc2626' stroke-dasharray='4' stroke-width='1.5'/>";
+  svgHtml += "<text x='" + (xRight + 6) + "' y='" + (yUsl + 3).toFixed(1) + "' fill='#dc2626' font-size='10'>USL (" + usl.toFixed(2) + ")</text>";
+
+  svgHtml += "<line x1='" + xLeft + "' y1='" + yTarget.toFixed(1) + "' x2='" + xRight + "' y2='" + yTarget.toFixed(1) + "' stroke='#16a34a' stroke-dasharray='3' stroke-width='1.2'/>";
+  svgHtml += "<text x='" + (xRight + 6) + "' y='" + (yTarget + 3).toFixed(1) + "' fill='#16a34a' font-size='10'>Target (" + target.toFixed(2) + ")</text>";
+
+  svgHtml += "<line x1='" + xLeft + "' y1='" + yLsl.toFixed(1) + "' x2='" + xRight + "' y2='" + yLsl.toFixed(1) + "' stroke='#dc2626' stroke-dasharray='4' stroke-width='1.5'/>";
+  svgHtml += "<text x='" + (xRight + 6) + "' y='" + (yLsl + 3).toFixed(1) + "' fill='#dc2626' font-size='10'>LSL (" + lsl.toFixed(2) + ")</text>";
+
+  var polyPts = qpSpcSamples.map(function(v, i) {
+    return toX(i).toFixed(1) + "," + toY(v).toFixed(1);
+  }).join(" ");
+
+  svgHtml += "<polyline fill='none' stroke='#0F766E' stroke-width='2.5' points='" + polyPts + "'/>";
+
+  qpSpcSamples.forEach(function(v, i) {
+    var cx = toX(i).toFixed(1);
+    var cy = toY(v).toFixed(1);
+    var outSpec = (v > usl || v < lsl);
+    var dotCol = outSpec ? "#dc2626" : "#0F766E";
+    svgHtml += "<circle cx='" + cx + "' cy='" + cy + "' r='4.2' fill='" + dotCol + "'><title>#" + (i + 1) + ": " + v + "</title></circle>";
+  });
+
+  svg.innerHTML = svgHtml;
+};
+
 document.addEventListener("DOMContentLoaded", function() {
   var dmBtn = document.getElementById('dmBtn');
   if (dmBtn) {
@@ -1388,6 +1580,7 @@ document.addEventListener("DOMContentLoaded", function() {
   if (typeof window.qpFishboneRender === 'function') window.qpFishboneRender();
   if (typeof window.qpCalcRPN === 'function') window.qpCalcRPN();
   if (typeof window.qpRenderFmeaTable === 'function') window.qpRenderFmeaTable();
+  if (typeof window.qpUpdateSPC === 'function') window.qpUpdateSPC();
 });
 </script>
 </body>
