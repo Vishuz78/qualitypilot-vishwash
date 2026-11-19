@@ -299,6 +299,11 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 .qp-spc-btn-sec{background:#334155}
 .qp-spc-btn-sec:hover{background:#475569}
 
+/* Feature #1: Real-Time Gemini 8D & Vision Badges */
+.qp-ai-meta{display:inline-block;background:#ecfdf5;color:#0f766e;border:1px solid #99f6e4;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:700;margin-bottom:8px}
+.qp-ai-note{background:#fefce8;color:#854d0e;border:1px solid #fde68a;padding:8px 12px;border-radius:8px;font-size:12px;margin-bottom:10px}
+.qp-ai-pre{white-space:pre-wrap;font-family:inherit;font-size:13px;line-height:1.6;color:#1f2937}
+
 @media print{.side,.cards,#inputBox,.no-print,#splash,.box>h3{display:none!important}.main,.grid{display:block!important;padding:0!important;width:100%!important}}
 @media(max-width:900px){body{flex-direction:column}.side{width:100%}.cards,.qp-spc-kpi-grid{grid-template-columns:1fr 1fr}.grid,.row3,.qp-grr-metrics{grid-template-columns:1fr}}
 </style>
@@ -451,7 +456,7 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
         </select>
         <label>Damaged Part Photo (AI Vision Evidence)</label>
         <input type="file" id="partFile" accept="image/*" capture="environment">
-        <button type="button" class="ai-btn" onclick="askGemini()">✨ Generate Full 8D & 5-Why Investigation Report</button>
+        <button type="button" class="ai-btn" id="qpGeminiBtn" onclick="askGemini()">✨ Generate Full 8D & 5-Why Investigation Report</button>
         <button type="button" class="run" onclick="calc(true)">✅ Log Entry & Save to Audit Table</button>
       </div>
       <div class="box">
@@ -955,9 +960,38 @@ window.sendContact = function() {
   document.getElementById('cMsg').value = "";
 };
 
+/* =====================================
+ FEATURE #1: REAL-TIME GEMINI 8D & VISION
+===================================== */
+function qpBuildFallback8DHtml(repId, today, logoPrintHtml, p, dt, ct, tv, tl, av, diff, noteMsg) {
+  var noteBanner = noteMsg ? "<div class='qp-ai-note'>" + qpEscXml(noteMsg) + "</div>" : "";
+  return noteBanner +
+    "<div class='rep-sheet'>" +
+    "<div class='rep-head'><div><h4>" + logoPrintHtml + qpEscXml(bName.toUpperCase()) + " — IATF 16949 8D AUDIT CERTIFICATE</h4><small>CO-POWERED BY VISHWASH</small></div>" +
+    "<div style='text-align:right;font-size:11.5px'><b>ID: " + repId + "</b><br>Date: " + today + "</div></div>" +
+    "<div class='rep-body'>" +
+    "<div class='rep-sec'><b>D1 — Cross-Functional Team (CFT)</b>Lead: Senior QA Engineer (" + qpEscXml(bName) + ") | Process Owner: Shift Supervisor</div>" +
+    "<div class='rep-sec'><b>D2 — Problem Description (5W2H)</b>Part: " + qpEscXml(p) + " | Defect: " + qpEscXml(dt) + " " + qpEscXml(ct) + " | Spec: " + qpEscXml(tv) + " (±" + qpEscXml(tl) + ") | Measured: " + qpEscXml(av) + " (Dev: " + qpEscXml(diff) + ")</div>" +
+    "<div class='rep-sec'><b>D3 — Containment Actions</b>Immediate 100% sorting of batch " + qpEscXml(p) + " &amp; quarantining non-conforming stock.</div>" +
+    "<div class='rep-sec'><b>D4 — Root Cause Analysis (5-Why)</b>1. Why deviation? Dimension drifted by " + qpEscXml(diff) + "mm.<br>2. Why drifted? Progressive tool wear.<br>3. Why not caught? SPC chart frequency was delayed.</div>" +
+    "<div class='rep-sec'><b>D5 &amp; D6 — Permanent Corrective Actions &amp; Validation</b>Tool offset updated, automated part probing enabled, zero defects verified across 10 consecutive runs.</div>" +
+    "<div class='rep-sec'><b>D7 — Preventive Actions</b>FMEA updated &amp; gauge R&amp;R scheduled for next maintenance cycle.</div>" +
+    "</div>" +
+    "<div class='rep-sign'><div><b>Approved By:</b> Plant Quality Head</div><div style='text-align:right'><b>Sign-off:</b> ___________________</div></div>" +
+    "</div>";
+}
+
+function qpParseInlineImage(dataUrl) {
+  if (!dataUrl || typeof dataUrl !== "string") return null;
+  var match = dataUrl.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/);
+  if (!match) return null;
+  return { mimeType: match[1], data: match[2] };
+}
+
 window.askGemini = async function() {
   window.calc(true);
   var gOut = document.getElementById('geminiOut');
+  var btn = document.getElementById('qpGeminiBtn');
   var dtEl = document.getElementById('dt');
   var p = document.getElementById('pn').value;
   var dt = dtEl.options.item(dtEl.selectedIndex).text;
@@ -965,25 +999,89 @@ window.askGemini = async function() {
   var tv = document.getElementById('tv').value;
   var tl = document.getElementById('tl').value;
   var av = document.getElementById('av').value;
+  var pt = document.getElementById('pt').value;
   var diff = (parseFloat(av) - parseFloat(tv)).toFixed(3);
   var today = new Date().toLocaleDateString('en-GB');
   var repId = "8D-" + Math.floor(1000 + Math.random() * 9000);
   var logoPrintHtml = cImg ? "<img src='" + cImg + "' style='width:24px;height:24px;vertical-align:middle;border-radius:4px;margin-right:6px'>" : "";
 
-  var cardHtml = "<div class='rep-sheet'>" +
-    "<div class='rep-head'><div><h4>" + logoPrintHtml + bName.toUpperCase() + " — IATF 16949 8D AUDIT CERTIFICATE</h4><small>CO-POWERED BY VISHWASH</small></div>" +
-    "<div style='text-align:right;font-size:11.5px'><b>ID: " + repId + "</b><br>Date: " + today + "</div></div>" +
-    "<div class='rep-body'>" +
-    "<div class='rep-sec'><b>D1 — Cross-Functional Team (CFT)</b>Lead: Senior QA Engineer (" + bName + ") | Process Owner: Shift Supervisor</div>" +
-    "<div class='rep-sec'><b>D2 — Problem Description (5W2H)</b>Part: " + p + " | Defect: " + dt + " " + ct + " | Spec: " + tv + " (±" + tl + ") | Measured: " + av + " (Dev: " + diff + ")</div>" +
-    "<div class='rep-sec'><b>D3 — Containment Actions</b>Immediate 100% sorting of batch " + p + " & quarantining non-conforming stock.</div>" +
-    "<div class='rep-sec'><b>D4 — Root Cause Analysis (5-Why)</b>1. Why deviation? Dimension drifted by " + diff + "mm.<br>2. Why drifted? Progressive tool wear.<br>3. Why not caught? SPC chart frequency was delayed.</div>" +
-    "<div class='rep-sec'><b>D5 & D6 — Permanent Corrective Actions & Validation</b>Tool offset updated, automated part probing enabled, zero defects verified across 10 consecutive runs.</div>" +
-    "<div class='rep-sec'><b>D7 — Preventive Actions</b>FMEA updated & gauge R&R scheduled for next maintenance cycle.</div>" +
-    "</div>" +
-    "<div class='rep-sign'><div><b>Approved By:</b> Plant Quality Head</div><div style='text-align:right'><b>Sign-off:</b> ___________________</div></div>" +
-    "</div>";
-  gOut.innerHTML = cardHtml;
+  var keyInput = document.getElementById('gKey');
+  var apiKey = ((keyInput && keyInput.value.trim()) || localStorage.getItem('qp_gkey') || "").trim();
+
+  if (!apiKey) {
+    gOut.innerHTML = qpBuildFallback8DHtml(
+      repId, today, logoPrintHtml, p, dt, ct, tv, tl, av, diff,
+      "Tip: Paste a Gemini API key in the sidebar to run live AI 8D & visual defect analysis."
+    );
+    return;
+  }
+
+  if (btn) {
+    btn.disabled = true;
+    btn.innerText = "⏳ Analyzing with Gemini AI...";
+  }
+  gOut.innerHTML = "<div class='qp-ai-note'>🔄 Running real-time 8D, 5-Why &amp; visual inspection analysis...</div>";
+
+  var promptText =
+    "You are a Senior Quality & IATF 16949 Auditor for " + bName + " (Co-powered by VISHWASH).\n" +
+    "Create a structured, concise 8D & 5-Why Investigation Report (D1 through D7) plus Visual Defect Observations (if an image is attached).\n" +
+    "Part & Batch: " + p + "\n" +
+    "Defect Category: " + dt + (ct ? " (" + ct + ")" : "") + "\n" +
+    "Target Spec: " + tv + " | Tolerance: ±" + tl + " | Measured: " + av + " | Deviation: " + diff + "\n" +
+    "Observed Pattern: " + pt;
+
+  var parts = [{ text: promptText }];
+  var inlineImg = qpParseInlineImage(partImg);
+  if (inlineImg) {
+    parts.push({ inline_data: { mime_type: inlineImg.mimeType, data: inlineImg.data } });
+  }
+
+  try {
+    var resp = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": apiKey
+      },
+      body: JSON.stringify({
+        contents: [{ role: "user", parts: parts }]
+      })
+    });
+
+    var data = await resp.json();
+    if (!resp.ok) {
+      var errMsg = (data && data.error && data.error.message) ? data.error.message : ("HTTP " + resp.status);
+      throw new Error(errMsg);
+    }
+
+    var candidate = data && data.candidates && data.candidates[0];
+    var outParts = (candidate && candidate.content && candidate.content.parts) || [];
+    var aiText = outParts.map(function(ptItem) { return ptItem.text || ""; }).join("\n").trim();
+    if (!aiText) throw new Error("Empty model response");
+
+    gOut.innerHTML =
+      "<div class='rep-sheet'>" +
+      "<div class='rep-head'><div><h4>" + logoPrintHtml + qpEscXml(bName.toUpperCase()) + " — LIVE GEMINI 8D &amp; VISION REPORT</h4><small>CO-POWERED BY VISHWASH</small></div>" +
+      "<div style='text-align:right;font-size:11.5px'><b>ID: " + repId + "</b><br>Date: " + today + "</div></div>" +
+      "<div class='rep-body'>" +
+      "<div class='rep-sec'>" +
+      "<span class='qp-ai-meta'>✨ Gemini Live Analysis" + (inlineImg ? " + Vision Image" : "") + "</span>" +
+      "<div class='qp-ai-pre'>" + qpEscXml(aiText) + "</div>" +
+      "</div>" +
+      "</div>" +
+      "<div class='rep-sign'><div><b>Approved By:</b> Plant Quality Head</div><div style='text-align:right'><b>Sign-off:</b> ___________________</div></div>" +
+      "</div>";
+  } catch (err) {
+    gOut.innerHTML = qpBuildFallback8DHtml(
+      repId, today, logoPrintHtml, p, dt, ct, tv, tl, av, diff,
+      "Live Gemini call fallback (" + (err && err.message ? err.message : "Request failed") + ") — showing structured 8D template."
+    );
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerText = "✨ Generate Full 8D & 5-Why Investigation Report";
+    }
+  }
 };
 
 window.printFull = function() {
