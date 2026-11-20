@@ -191,6 +191,7 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
 .brand-top{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #1f2937}
 .logo-icon{width:36px;height:36px;border-radius:9px;background:#0F766E;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;overflow:hidden;flex-shrink:0}
 .logo-icon img,.p-badge img{width:100%;height:100%;object-fit:cover}
+.qp-mobile-tabs-scroller{display:block;width:100%}
 .nav,.dm-btn{display:block;width:100%;text-align:left;padding:11px 13px;margin-bottom:6px;background:transparent;color:#94a3b8;border:none;border-radius:8px;cursor:pointer;font-size:13.5px;transition:background 0.2s;position:relative}
 .nav:hover{background:#1f2937;color:#fff}
 .dm-btn{background:#1f2937;color:#e2e8f0;text-align:center;margin-bottom:14px}
@@ -329,7 +330,7 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 .qp-audit-clear-btn:hover{background:#475569}
 
 /* =====================================
-   DESKTOP VS MOBILE COMPACT RESPONSIVE
+   DESKTOP VS MOBILE PREMIUM APP UI
 ===================================== */
 @media (min-width: 901px) {
   .side {
@@ -349,62 +350,124 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
     flex-direction: column;
   }
   .side {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     width: 100%;
-    padding: 10px 12px;
+    padding: 10px 12px 9px;
+    background: rgba(11, 17, 32, 0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border-right: none;
-    border-bottom: 1px solid #1f2937;
+    border-bottom: 1px solid rgba(20, 184, 166, 0.28);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
   }
   .side > div:first-child {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
     align-items: center;
-  }
-  .brand-top {
-    width: 60%;
-    margin-bottom: 4px;
-    padding-bottom: 0;
-    border-bottom: none;
+    justify-content: space-between;
     gap: 8px;
   }
+  .brand-top {
+    width: auto;
+    flex: 1;
+    margin: 0;
+    padding: 0;
+    border: none;
+    gap: 9px;
+  }
   .brand-top h2 {
-    font-size: 15.5px;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -0.2px;
     white-space: nowrap;
   }
   .logo-icon {
-    width: 30px;
-    height: 30px;
-    font-size: 12.5px;
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    font-size: 13px;
+    box-shadow: 0 0 12px rgba(20, 184, 166, 0.45);
   }
   .dm-btn {
-    width: 37%;
-    margin-bottom: 4px;
-    padding: 7px 6px;
-    font-size: 11px;
+    width: auto;
+    margin: 0;
+    padding: 7px 11px;
+    font-size: 11.5px;
+    font-weight: 600;
+    border-radius: 999px;
+    background: rgba(30, 41, 59, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.25);
     white-space: nowrap;
+  }
+
+  /* Single-Row Native Mobile App Tab Strip */
+  .qp-mobile-tabs-scroller {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    gap: 7px;
+    padding: 4px 1px 2px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .qp-mobile-tabs-scroller::-webkit-scrollbar {
+    display: none;
   }
   .nav {
     width: auto;
     flex: 0 0 auto;
-    padding: 7px 10px;
-    margin-bottom: 0;
-    font-size: 11.5px;
-    border-radius: 20px;
-    background: #1f2937;
+    margin: 0;
+    padding: 8px 13px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 10px;
+    background: rgba(30, 41, 59, 0.72);
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    color: #cbd5e1;
     white-space: nowrap;
+    transition: all 0.2s ease;
   }
   .nav.on {
-    background: #0F766E;
+    background: linear-gradient(135deg, #0F766E, #0d9488);
+    border-color: #2dd4bf;
+    color: #ffffff;
+    box-shadow: 0 3px 12px rgba(20, 184, 166, 0.38);
   }
   .alert-badge {
     position: static;
     transform: none;
-    margin-left: 4px;
+    margin-left: 5px;
   }
+
+  /* Sleek Compact API Key Bar */
   .api-box {
     width: 100%;
-    padding: 8px 10px;
-    margin-top: 6px;
+    margin-top: 2px;
+    padding: 7px 9px;
+    border-radius: 9px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(20, 184, 166, 0.25);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .api-box small {
+    margin: 0;
+    font-size: 10.5px;
+    white-space: nowrap;
+  }
+  .api-row {
+    flex: 1;
+  }
+  .api-row input {
+    padding: 5px 8px;
+    font-size: 11.5px;
+  }
+  .eye-btn {
+    padding: 4px 7px;
+    font-size: 11.5px;
   }
   .qp-api-hint,
   .security-badge,
@@ -412,44 +475,49 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
     display: none;
   }
 
-  /* Compact Phone Workspace & KPI Cards */
+  /* Premium Mobile Workspace & Cards */
   .main {
-    padding: 10px;
+    padding: 12px;
     width: 100%;
   }
   .cards {
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 10px;
+    gap: 9px;
+    margin-bottom: 12px;
   }
   .card {
-    padding: 10px 11px;
-    border-radius: 10px;
+    padding: 11px 12px;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   }
   .card-head small {
-    font-size: 10.5px;
+    font-size: 11px;
+    font-weight: 600;
   }
   .qp-demo-tag {
     font-size: 8.5px;
-    padding: 1px 4px;
+    padding: 1.5px 5px;
   }
   .card-metric-row h3 {
-    font-size: 16.5px;
+    font-size: 17.5px;
+    font-weight: 800;
   }
   .qp-spark {
-    width: 52px;
-    height: 20px;
+    width: 56px;
+    height: 22px;
   }
 
   .box {
-    padding: 12px;
-    border-radius: 10px;
-    margin-bottom: 10px;
+    padding: 14px 13px;
+    border-radius: 13px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
   }
   .box h3 {
-    font-size: 14px;
-    margin-bottom: 10px;
-    padding-bottom: 6px;
+    font-size: 14.5px;
+    font-weight: 700;
+    margin-bottom: 11px;
+    padding-bottom: 8px;
   }
   .grid,
   .row2,
@@ -464,26 +532,30 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
     gap: 8px;
   }
   label {
-    font-size: 11px;
+    font-size: 11.5px;
+    font-weight: 600;
   }
   input,
   select,
   textarea {
-    padding: 8px 9px;
-    font-size: 13px;
-    margin-bottom: 8px;
+    padding: 9px 10px;
+    font-size: 13.5px;
+    border-radius: 9px;
+    margin-bottom: 9px;
   }
   .run,
   .ai-btn {
-    padding: 10px;
-    font-size: 13px;
+    padding: 11px;
+    font-size: 13.5px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(15, 118, 110, 0.25);
   }
   table {
-    font-size: 11.5px;
+    font-size: 12px;
   }
   th,
   td {
-    padding: 6px 7px;
+    padding: 7px 8px;
   }
 }
 
@@ -563,16 +635,18 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
   <div>
     <div class="brand-top"><div class="logo-icon" id="sideIcon">QP</div><h2 id="sideTitle">QualityPilot AI</h2></div>
     <button type="button" class="dm-btn" id="dmBtn">🌙 Dark Mode</button>
-    <button type="button" class="nav on">⚡ 8D Co-Pilot (Gemini)</button>
-    <button type="button" class="nav">📊 Time & OEE Graphs <span id="alarmBadge" class="alert-badge">0</span></button>
-    <button type="button" class="nav">📋 Live Logs & Audit</button>
-    <button type="button" class="nav">📏 Gage R&R & Calibration</button>
-    <button type="button" class="nav">🎨 Logo & Brand Studio</button>
-    <button type="button" class="nav">📞 Contact & Support</button>
-    <button type="button" class="nav">🐟 6M Fishbone (Ishikawa)</button>
-    <button type="button" class="nav">🛡️ CAPA & FMEA Risk</button>
+    <div class="qp-mobile-tabs-scroller">
+      <button type="button" class="nav on">⚡ 8D Co-Pilot (Gemini)</button>
+      <button type="button" class="nav">📊 Time & OEE Graphs <span id="alarmBadge" class="alert-badge">0</span></button>
+      <button type="button" class="nav">📋 Live Logs & Audit</button>
+      <button type="button" class="nav">📏 Gage R&R & Calibration</button>
+      <button type="button" class="nav">🎨 Logo & Brand Studio</button>
+      <button type="button" class="nav">📞 Contact & Support</button>
+      <button type="button" class="nav">🐟 6M Fishbone (Ishikawa)</button>
+      <button type="button" class="nav">🛡️ CAPA & FMEA Risk</button>
+    </div>
     <div class="api-box">
-      <small>✨ Google Gemini API Key (Optional)</small>
+      <small>✨ Gemini API Key</small>
       <div class="api-row">
         <input type="password" id="gKey" placeholder="Paste AIzaSy... Key" oninput="qpSaveApiKey(this.value)" onchange="qpSaveApiKey(this.value)">
         <button type="button" class="eye-btn" id="eyeBtn" title="Show/Hide Key">👁️</button>
@@ -1892,7 +1966,7 @@ window.qpFmeaAiSuggest = async function() {
     document.getElementById('qpFmeaD').value = sugD;
     document.getElementById('qpFmeaAction').value = sugAct;
     window.qpCalcRPN();
-    alert("Engineering rule-based S/O/D & CAPA suggested! (Add Gemini API key in sidebar for live AI suggestions.)");
+    alert("Engineering rule-based S/O/D & CAPA suggested! (Add Gemini API key for live AI suggestions.)");
     return;
   }
 
@@ -2363,6 +2437,7 @@ document.addEventListener("DOMContentLoaded", function() {
       var target = document.getElementById(tabIds[idx]);
       if (target) target.classList.add('on');
       btn.classList.add('on');
+      btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     };
   });
 
