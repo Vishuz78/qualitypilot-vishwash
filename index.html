@@ -52,7 +52,6 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
   text-align: center;
 }
 
-/* Curved Top Text + Animated C-Shaped Arc Line */
 .qp-arc-header {
   width: 100%;
   max-width: 380px;
@@ -88,7 +87,6 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
   animation: qpFadeInUp 0.8s ease-out 0.35s forwards;
 }
 
-/* Dual Interlocking Rotating Gears (Closer to C Arc) */
 .qp-gear-stage {
   position: relative;
   width: clamp(132px, 33vw, 160px);
@@ -121,7 +119,6 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
   animation: qpGearSpinCCW 6.75s linear infinite;
 }
 
-/* QualityPilot AI Title Closer Below Gears */
 .qp-brand-title {
   margin-top: 10px;
   font-size: clamp(24px, 6.2vw, 32px);
@@ -139,7 +136,6 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
   text-shadow: 0 0 18px rgba(0, 229, 255, 0.75);
 }
 
-/* Brand Text Directly Below QualityPilot AI */
 .qp-brand-sub {
   margin-top: 6px;
   font-size: clamp(10.5px, 2.6vw, 12.5px);
@@ -154,39 +150,24 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
 }
 
 @keyframes qpDrawArc {
-  to {
-    stroke-dashoffset: 0;
-  }
+  to { stroke-dashoffset: 0; }
 }
 
 @keyframes qpFadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes qpGearReveal {
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  to { opacity: 1; transform: scale(1); }
 }
 
 @keyframes qpGearSpinCW {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 @keyframes qpGearSpinCCW {
-  to {
-    transform: rotate(-360deg);
-  }
+  to { transform: rotate(-360deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -196,9 +177,7 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .qp-c-line {
-    stroke-dashoffset: 0;
-  }
+  .qp-c-line { stroke-dashoffset: 0; }
   .qp-curved-text,
   .qp-gear-stage,
   .qp-brand-title,
@@ -210,7 +189,7 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
 
 .side{width:260px;background:#111827;color:#fff;padding:18px 15px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #1f2937}
 .brand-top{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #1f2937}
-.logo-icon{width:36px;height:36px;border-radius:9px;background:#0F766E;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;overflow:hidden}
+.logo-icon{width:36px;height:36px;border-radius:9px;background:#0F766E;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;overflow:hidden;flex-shrink:0}
 .logo-icon img,.p-badge img{width:100%;height:100%;object-fit:cover}
 .nav,.dm-btn{display:block;width:100%;text-align:left;padding:11px 13px;margin-bottom:6px;background:transparent;color:#94a3b8;border:none;border-radius:8px;cursor:pointer;font-size:13.5px;transition:background 0.2s;position:relative}
 .nav:hover{background:#1f2937;color:#fff}
@@ -349,24 +328,177 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 .qp-audit-clear-btn{padding:9px 12px;background:#334155;color:#fff;border:none;border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap}
 .qp-audit-clear-btn:hover{background:#475569}
 
+/* =====================================
+   DESKTOP VS MOBILE COMPACT RESPONSIVE
+===================================== */
+@media (min-width: 901px) {
+  .side {
+    width: 260px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  .main {
+    padding: 22px 26px;
+  }
+}
+
+@media (max-width: 900px) {
+  body {
+    flex-direction: column;
+  }
+  .side {
+    width: 100%;
+    padding: 10px 12px;
+    border-right: none;
+    border-bottom: 1px solid #1f2937;
+  }
+  .side > div:first-child {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+  .brand-top {
+    width: 60%;
+    margin-bottom: 4px;
+    padding-bottom: 0;
+    border-bottom: none;
+    gap: 8px;
+  }
+  .brand-top h2 {
+    font-size: 15.5px;
+    white-space: nowrap;
+  }
+  .logo-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 12.5px;
+  }
+  .dm-btn {
+    width: 37%;
+    margin-bottom: 4px;
+    padding: 7px 6px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .nav {
+    width: auto;
+    flex: 0 0 auto;
+    padding: 7px 10px;
+    margin-bottom: 0;
+    font-size: 11.5px;
+    border-radius: 20px;
+    background: #1f2937;
+    white-space: nowrap;
+  }
+  .nav.on {
+    background: #0F766E;
+  }
+  .alert-badge {
+    position: static;
+    transform: none;
+    margin-left: 4px;
+  }
+  .api-box {
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 6px;
+  }
+  .qp-api-hint,
+  .security-badge,
+  .vb {
+    display: none;
+  }
+
+  /* Compact Phone Workspace & KPI Cards */
+  .main {
+    padding: 10px;
+    width: 100%;
+  }
+  .cards {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .card {
+    padding: 10px 11px;
+    border-radius: 10px;
+  }
+  .card-head small {
+    font-size: 10.5px;
+  }
+  .qp-demo-tag {
+    font-size: 8.5px;
+    padding: 1px 4px;
+  }
+  .card-metric-row h3 {
+    font-size: 16.5px;
+  }
+  .qp-spark {
+    width: 52px;
+    height: 20px;
+  }
+
+  .box {
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  .box h3 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+  }
+  .grid,
+  .row2,
+  .row3,
+  .qp-spc-kpi-grid,
+  .qp-grr-metrics,
+  .qp-fmea-summary-grid,
+  .qp-fmea-btn-row,
+  .qp-fmea-toolbar,
+  .qp-audit-toolbar {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  label {
+    font-size: 11px;
+  }
+  input,
+  select,
+  textarea {
+    padding: 8px 9px;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+  .run,
+  .ai-btn {
+    padding: 10px;
+    font-size: 13px;
+  }
+  table {
+    font-size: 11.5px;
+  }
+  th,
+  td {
+    padding: 6px 7px;
+  }
+}
+
 @media print{.side,.cards,#inputBox,.no-print,#splash,.box>h3{display:none!important}.main,.grid{display:block!important;padding:0!important;width:100%!important}}
-@media(max-width:900px){body{flex-direction:column}.side{width:100%}.cards,.qp-spc-kpi-grid,.qp-grr-metrics{grid-template-columns:1fr 1fr}.grid,.row2,.row3,.qp-fmea-summary-grid,.qp-fmea-btn-row,.qp-fmea-toolbar,.qp-audit-toolbar{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div id="splash" aria-hidden="true">
   <div class="qp-splash-wrap">
-    <!-- 1 & 2: Curved Half-Circle Text + Animated Glowing C-Shaped Arc Line -->
     <div class="qp-arc-header">
       <svg class="qp-arc-svg" viewBox="0 0 360 195">
         <defs>
           <path id="qpTextArc" d="M 48,182 A 132,132 0 0,1 312,182" />
         </defs>
-
-        <!-- Thin glowing C-shaped arc line drawn smoothly around the curve -->
         <path class="qp-c-line" d="M 32,184 A 148,148 0 0,1 328,184" />
-
-        <!-- Half-circle curved text above the gears -->
         <text class="qp-curved-text">
           <textPath href="#qpTextArc" startOffset="50%" text-anchor="middle">
             Welcome to More Precise Engineering
@@ -375,7 +507,6 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
       </svg>
     </div>
 
-    <!-- 3: Two Interlocking Rotating Gears (Closer under the C-arc) -->
     <div class="qp-gear-stage">
       <svg class="qp-dual-gear-svg" viewBox="0 0 185 135" fill="none">
         <defs>
@@ -391,7 +522,6 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
           </linearGradient>
         </defs>
 
-        <!-- Primary Left Gear (Rotates Clockwise) -->
         <g class="qp-gear-main">
           <path stroke="url(#qpMetalGrad1)" stroke-width="2.6" stroke-linejoin="round" fill="rgba(10, 32, 52, 0.65)" d="
             M54 8 L66 8 L68 18.5 A42 42 0 0 1 77.2 22.3 L86 16.5 L94.5 25 L88.7 33.8
@@ -406,7 +536,6 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
           <circle cx="64" cy="65" r="11" stroke="#00E5FF" stroke-width="2" fill="rgba(0, 229, 255, 0.12)"/>
         </g>
 
-        <!-- Secondary Interlocking Right Gear (Rotates Counter-Clockwise) -->
         <g class="qp-gear-sub">
           <g transform="translate(97, 36) scale(0.74)">
             <path stroke="url(#qpMetalGrad2)" stroke-width="3.2" stroke-linejoin="round" fill="rgba(10, 32, 52, 0.65)" d="
@@ -425,7 +554,6 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
       </svg>
     </div>
 
-    <!-- 4: QualityPilot AI Above CO-POWERED BY VISHWASH -->
     <div class="qp-brand-title">QualityPilot <span>AI</span></div>
     <div class="qp-brand-sub">CO-POWERED BY VISHWASH</div>
   </div>
@@ -434,7 +562,7 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 <div class="side">
   <div>
     <div class="brand-top"><div class="logo-icon" id="sideIcon">QP</div><h2 id="sideTitle">QualityPilot AI</h2></div>
-    <button type="button" class="dm-btn" id="dmBtn">🌙 Switch to Dark Mode</button>
+    <button type="button" class="dm-btn" id="dmBtn">🌙 Dark Mode</button>
     <button type="button" class="nav on">⚡ 8D Co-Pilot (Gemini)</button>
     <button type="button" class="nav">📊 Time & OEE Graphs <span id="alarmBadge" class="alert-badge">0</span></button>
     <button type="button" class="nav">📋 Live Logs & Audit</button>
@@ -640,7 +768,6 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
     </div>
   </div>
 
-  <!-- Feature #6: Gage R&R & Calibration Tracker Tab -->
   <div id="t6" class="tab">
     <div class="grid">
       <div class="box">
@@ -746,7 +873,6 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
     </div>
   </div>
 
-  <!-- Feature #5: Interactive Ishikawa (6M Fishbone) Tab -->
   <div id="t7" class="tab">
     <div class="grid">
       <div class="box">
@@ -799,7 +925,6 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
     </div>
   </div>
 
-  <!-- Feature #4: CAPA & FMEA Risk Tracker Tab (Upgraded) -->
   <div id="t8" class="tab">
     <div class="grid">
       <div class="box">
@@ -925,9 +1050,6 @@ var cImg = "";
 var partImg = "";
 var rejectCount = 0;
 
-/* =====================================
- PHASE 1 & 3: SESSION KEY, SANITIZER & THUMBNAIL HELPER
-===================================== */
 function qpEscXml(str) {
   return String(str || "")
     .replace(/&/g, "&amp;")
@@ -1026,9 +1148,6 @@ function playAlarmSound() {
   } catch(e) {}
 }
 
-/* =====================================
- FEATURE #3 & DAT-02: PERSISTENT AUDIT DATABASE
-===================================== */
 var qpDefaultAuditLogs = [
   { time: "05:00 PM", part: "Steel Flange #CAB-805", defect: "Dimension", photo: "", status: "PASS" }
 ];
@@ -1271,9 +1390,6 @@ window.sendContact = function() {
   document.getElementById('cMsg').value = "";
 };
 
-/* =====================================
- FEATURE #1 & IND-02: 8D WORKSHEET (DRAFT / PENDING VERIFICATION)
-===================================== */
 function qpBuildFallback8DHtml(repId, today, logoPrintHtml, p, dt, ct, tv, tl, av, diff, noteMsg) {
   var noteBanner = noteMsg ? "<div class='qp-ai-note'>" + qpEscXml(noteMsg) + "</div>" : "";
   return noteBanner +
@@ -1430,9 +1546,6 @@ window.exportToCSV = function() {
   URL.revokeObjectURL(url);
 };
 
-/* =====================================
- FEATURE #6 & IND-03: GAGE R&R (%TV & %TOLERANCE) & CALIBRATION
-===================================== */
 var qpCalRecords = (function() {
   try {
     var saved = localStorage.getItem('qp_cal_records');
@@ -1546,9 +1659,6 @@ window.qpRenewCal = function(index) {
   window.qpRenderCalTable();
 };
 
-/* =====================================
- FEATURE #5 & PHASE 4: ISHIKAWA (6M FISHBONE) BLUEPRINT DIAGRAM
-===================================== */
 var qpSelectedRootKey = "machine";
 
 window.qpSelectFishboneRoot = function(key) {
@@ -1668,9 +1778,6 @@ window.qpFishboneRender = function() {
   }
 };
 
-/* =====================================
- FEATURE #4 UPGRADED: CAPA & AIAG-VDA FMEA RISK TRACKER MODULE
-===================================== */
 var qpFmeaRecords = (function() {
   try {
     var saved = localStorage.getItem('qp_fmea_records');
@@ -2051,9 +2158,6 @@ window.qpExportFmeaCSV = function() {
   URL.revokeObjectURL(url);
 };
 
-/* =====================================
- FEATURE #2, IND-01 & PHASE 4: DYNAMIC SPC WITH ZONE SHADING
-===================================== */
 var qpDefaultSpcSamples = [50.01, 50.02, 49.99, 50.03, 50.01, 50.04, 49.98, 50.02];
 var qpSpcSamples = (function() {
   try {
@@ -2246,7 +2350,7 @@ document.addEventListener("DOMContentLoaded", function() {
   if (dmBtn) {
     dmBtn.onclick = function() {
       document.body.classList.toggle('dark');
-      dmBtn.innerText = document.body.classList.contains('dark') ? "☀️ Switch to Light Mode" : "🌙 Switch to Dark Mode";
+      dmBtn.innerText = document.body.classList.contains('dark') ? "☀️ Light Mode" : "🌙 Dark Mode";
     };
   }
 
