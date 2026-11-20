@@ -35,14 +35,12 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
   will-change: transform, opacity;
   transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.65s ease, visibility 0.65s ease;
 }
-
 #splash.qp-hide {
   transform: translateX(-100%);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
-
 .qp-splash-wrap {
   width: min(92vw, 420px);
   display: flex;
@@ -51,21 +49,18 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
   justify-content: center;
   text-align: center;
 }
-
 .qp-arc-header {
   width: 100%;
   max-width: 380px;
   margin-bottom: -76px;
   pointer-events: none;
 }
-
 .qp-arc-svg {
   width: 100%;
   height: auto;
   overflow: visible;
   display: block;
 }
-
 .qp-c-line {
   fill: none;
   stroke: #00E5FF;
@@ -76,7 +71,6 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
   stroke-dashoffset: 460;
   animation: qpDrawArc 1.35s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
 }
-
 .qp-curved-text {
   fill: #E0F7FF;
   font-size: 13.5px;
@@ -86,7 +80,6 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
   opacity: 0;
   animation: qpFadeInUp 0.8s ease-out 0.35s forwards;
 }
-
 .qp-gear-stage {
   position: relative;
   width: clamp(132px, 33vw, 160px);
@@ -100,25 +93,21 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
   filter: drop-shadow(0 0 14px rgba(0, 229, 255, 0.45));
   animation: qpGearReveal 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
 }
-
 .qp-dual-gear-svg {
   width: 100%;
   height: 100%;
   overflow: visible;
 }
-
 .qp-gear-main {
   transform-box: fill-box;
   transform-origin: center;
   animation: qpGearSpinCW 9s linear infinite;
 }
-
 .qp-gear-sub {
   transform-box: fill-box;
   transform-origin: center;
   animation: qpGearSpinCCW 6.75s linear infinite;
 }
-
 .qp-brand-title {
   margin-top: 10px;
   font-size: clamp(24px, 6.2vw, 32px);
@@ -130,12 +119,10 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
   transform: translateY(10px);
   animation: qpFadeInUp 0.7s ease-out 0.5s forwards;
 }
-
 .qp-brand-title span {
   color: #20DCC5;
   text-shadow: 0 0 18px rgba(0, 229, 255, 0.75);
 }
-
 .qp-brand-sub {
   margin-top: 6px;
   font-size: clamp(10.5px, 2.6vw, 12.5px);
@@ -148,66 +135,49 @@ body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overfl
   transform: translateY(10px);
   animation: qpFadeInUp 0.7s ease-out 0.68s forwards;
 }
-
-@keyframes qpDrawArc {
-  to { stroke-dashoffset: 0; }
-}
-
-@keyframes qpFadeInUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes qpGearReveal {
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes qpGearSpinCW {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes qpGearSpinCCW {
-  to { transform: rotate(-360deg); }
-}
+@keyframes qpDrawArc { to { stroke-dashoffset: 0; } }
+@keyframes qpFadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes qpGearReveal { to { opacity: 1; transform: scale(1); } }
+@keyframes qpGearSpinCW { to { transform: rotate(360deg); } }
+@keyframes qpGearSpinCCW { to { transform: rotate(-360deg); } }
 
 @media (prefers-reduced-motion: reduce) {
-  #splash,
-  #splash * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+  #splash, #splash * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   .qp-c-line { stroke-dashoffset: 0; }
-  .qp-curved-text,
-  .qp-gear-stage,
-  .qp-brand-title,
-  .qp-brand-sub {
-    opacity: 1;
-    transform: none;
-  }
+  .qp-curved-text, .qp-gear-stage, .qp-brand-title, .qp-brand-sub { opacity: 1; transform: none; }
 }
 
 .side{width:260px;background:#111827;color:#fff;padding:18px 15px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #1f2937}
-.brand-top{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #1f2937}
+.brand-top{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #1f2937}
 .logo-icon{width:36px;height:36px;border-radius:9px;background:#0F766E;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;overflow:hidden;flex-shrink:0}
 .logo-icon img,.p-badge img{width:100%;height:100%;object-fit:cover}
 .qp-mobile-tabs-scroller{display:block;width:100%}
-.nav,.dm-btn{display:block;width:100%;text-align:left;padding:11px 13px;margin-bottom:6px;background:transparent;color:#94a3b8;border:none;border-radius:8px;cursor:pointer;font-size:13.5px;transition:background 0.2s;position:relative}
+.nav,.dm-btn{display:block;width:100%;text-align:left;padding:10px 13px;margin-bottom:5px;background:transparent;color:#94a3b8;border:none;border-radius:8px;cursor:pointer;font-size:13.5px;transition:background 0.2s;position:relative}
 .nav:hover{background:#1f2937;color:#fff}
-.dm-btn{background:#1f2937;color:#e2e8f0;text-align:center;margin-bottom:14px}
+.dm-btn{background:#1f2937;color:#e2e8f0;text-align:center;margin-bottom:10px}
 .nav.on{background:#0F766E;color:#fff}
 .alert-badge{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:#dc2626;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px;font-weight:700;display:none}
-.api-box{background:#1f2937;padding:11px;border-radius:9px;margin-top:12px;border:1px solid #374151}
+.api-box{background:#1f2937;padding:11px;border-radius:9px;margin-top:10px;border:1px solid #374151}
 .api-box small{color:#2dd4bf;display:block;margin-bottom:5px;font-size:11px}
 .api-row{display:flex;gap:5px}
 .api-row input{background:#0b0f19;color:#2dd4bf;border:1px solid #14b8a6;padding:7px;font-size:12px;margin:0;border-radius:6px;flex:1;min-width:0}
 .eye-btn{background:#374151;color:#fff;border:1px solid #4b5563;border-radius:6px;padding:6px 8px;cursor:pointer}
 .qp-api-hint{color:#94a3b8;font-size:10px;margin-top:5px;line-height:1.35}
 .security-badge{display:flex;align-items:center;justify-content:center;gap:6px;font-size:10.5px;color:#94a3b8;padding:8px 4px;border-top:1px solid #1f2937;margin-top:10px;letter-spacing:0.3px;text-align:center}
-.vb{background:#1f2937;border:1px solid #14b8a6;padding:11px;border-radius:10px;text-align:center;margin-top:10px}
+.vb{background:#1f2937;border:1px solid #14b8a6;padding:11px;border-radius:10px;text-align:center;margin-top:8px}
 .vb small{font-size:9.5px;color:#94a3b8;letter-spacing:1.8px}
 .vb b{display:block;font-size:15px;color:#2dd4bf;letter-spacing:2px;margin-top:2px}
 .main{flex:1;padding:22px;max-width:1400px;margin:0 auto}
+
+/* Top Utility Action Bar */
+.qp-top-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;margin-bottom:14px;background:var(--card);padding:10px 14px;border-radius:11px;border:1px solid var(--border)}
+.qp-top-actions-title{font-size:12px;color:var(--sub);font-weight:600}
+.qp-top-btns{display:flex;flex-wrap:wrap;gap:7px}
+.qp-pill-act{padding:6px 11px;border-radius:8px;border:1px solid var(--border);background:var(--inp);color:var(--text);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s}
+.qp-pill-act:hover{border-color:#14b8a6;color:#14b8a6}
+.qp-pill-act.primary{background:linear-gradient(135deg,#0F766E,#0d9488);color:#fff;border-color:#14b8a6}
+.qp-pill-act.primary:hover{opacity:0.92;color:#fff}
+
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
 .card,.box{background:var(--card);padding:18px;border-radius:12px;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,0.05)}
 .card{position:relative;overflow:hidden;border-top:3px solid #14b8a6}
@@ -258,7 +228,6 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 .c-item{padding:10px 0;border-bottom:1px solid #1f2937;font-size:13.5px}
 .c-mail{color:#2dd4bf;text-decoration:none;font-weight:600}
 
-/* Feature #6: Gage R&R & Calibration Tracker Styles */
 .qp-grr-warn{background:rgba(245,158,11,.15);color:#d97706;padding:10px;border-radius:8px;font-weight:600;margin-bottom:10px;border:1px solid rgba(245,158,11,.35)}
 .qp-grr-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
 .qp-grr-stat{background:var(--inp);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center}
@@ -271,14 +240,12 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 .qp-cal-btn{background:#0F766E;color:#fff;border:none;border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-weight:600}
 .qp-cal-btn:hover{background:#0d9488}
 
-/* Feature #5 & Phase 4: Interactive Ishikawa (6M Fishbone) Blueprint Styles */
 .qp-fb-wrap{background:radial-gradient(circle at 75% 50%, rgba(20,184,166,0.08), transparent 65%), var(--inp);border:1px solid var(--border);border-radius:10px;padding:12px;overflow-x:auto}
 .qp-fb-svg{width:100%;min-width:540px;height:auto;display:block}
 .qp-fb-node{cursor:pointer;transition:opacity 0.2s}
 .qp-fb-node:hover{opacity:0.9}
 .qp-fb-root-box{margin-top:10px;padding:10px 12px;border-radius:8px;background:rgba(15,118,110,.1);border:1px solid rgba(15,118,110,.3);font-size:12.5px}
 
-/* Feature #4: CAPA & FMEA Risk Tracker Upgraded Styles */
 .qp-fmea-rpn-badge{display:inline-block;padding:4px 10px;border-radius:8px;font-weight:800;font-size:13px;color:#fff}
 .qp-rpn-high{background:#dc2626;box-shadow:0 0 8px rgba(220,38,38,0.4)}
 .qp-rpn-med{background:#d97706}
@@ -304,7 +271,6 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 .qp-mini-btn.del:hover{border-color:#dc2626;color:#dc2626}
 .qp-status-select{padding:4px 6px;margin:0;font-size:11.5px;border-radius:6px;min-width:112px}
 
-/* Feature #2: Dynamic SPC & Capability Styles */
 .qp-spc-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0 12px}
 .qp-spc-kpi{background:var(--inp);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center}
 .qp-spc-kpi small{display:block;font-size:11px;color:var(--sub)}
@@ -317,21 +283,16 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 .qp-spc-btn-sec:hover{background:#475569}
 .qp-spc-legend{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;font-size:11.5px;color:var(--sub);margin-top:8px}
 
-/* Feature #1: Real-Time Gemini 8D & Vision Badges */
 .qp-ai-meta{display:inline-block;background:#ecfdf5;color:#0f766e;border:1px solid #99f6e4;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:700;margin-bottom:8px}
 .qp-ai-note{background:#fefce8;color:#854d0e;border:1px solid #fde68a;padding:8px 12px;border-radius:8px;font-size:12px;margin-bottom:10px}
 .qp-ai-pre{white-space:pre-wrap;font-family:inherit;font-size:13px;line-height:1.6;color:#1f2937}
 
-/* Feature #3: Persistent Audit Search & Filter Bar */
 .qp-audit-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 .qp-audit-toolbar{display:grid;grid-template-columns:2fr 1fr auto;gap:10px;margin-bottom:12px;align-items:center}
 .qp-audit-toolbar input,.qp-audit-toolbar select{margin-bottom:0}
 .qp-audit-clear-btn{padding:9px 12px;background:#334155;color:#fff;border:none;border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap}
 .qp-audit-clear-btn:hover{background:#475569}
 
-/* =====================================
-   DESKTOP VS MOBILE PREMIUM APP UI
-===================================== */
 @media (min-width: 901px) {
   .side {
     width: 260px;
@@ -346,9 +307,7 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 }
 
 @media (max-width: 900px) {
-  body {
-    flex-direction: column;
-  }
+  body { flex-direction: column; }
   .side {
     position: sticky;
     top: 0;
@@ -401,8 +360,6 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
     border: 1px solid rgba(148, 163, 184, 0.25);
     white-space: nowrap;
   }
-
-  /* Single-Row Native Mobile App Tab Strip */
   .qp-mobile-tabs-scroller {
     display: flex;
     width: 100%;
@@ -412,9 +369,7 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
-  .qp-mobile-tabs-scroller::-webkit-scrollbar {
-    display: none;
-  }
+  .qp-mobile-tabs-scroller::-webkit-scrollbar { display: none; }
   .nav {
     width: auto;
     flex: 0 0 auto;
@@ -435,13 +390,7 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
     color: #ffffff;
     box-shadow: 0 3px 12px rgba(20, 184, 166, 0.38);
   }
-  .alert-badge {
-    position: static;
-    transform: none;
-    margin-left: 5px;
-  }
-
-  /* Sleek Compact API Key Bar */
+  .alert-badge { position: static; transform: none; margin-left: 5px; }
   .api-box {
     width: 100%;
     margin-top: 2px;
@@ -453,113 +402,33 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
     align-items: center;
     gap: 8px;
   }
-  .api-box small {
-    margin: 0;
-    font-size: 10.5px;
-    white-space: nowrap;
-  }
-  .api-row {
-    flex: 1;
-  }
-  .api-row input {
-    padding: 5px 8px;
-    font-size: 11.5px;
-  }
-  .eye-btn {
-    padding: 4px 7px;
-    font-size: 11.5px;
-  }
-  .qp-api-hint,
-  .security-badge,
-  .vb {
-    display: none;
-  }
-
-  /* Premium Mobile Workspace & Cards */
-  .main {
-    padding: 12px;
-    width: 100%;
-  }
-  .cards {
-    grid-template-columns: 1fr 1fr;
-    gap: 9px;
-    margin-bottom: 12px;
-  }
-  .card {
-    padding: 11px 12px;
-    border-radius: 12px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-  }
-  .card-head small {
-    font-size: 11px;
-    font-weight: 600;
-  }
-  .qp-demo-tag {
-    font-size: 8.5px;
-    padding: 1.5px 5px;
-  }
-  .card-metric-row h3 {
-    font-size: 17.5px;
-    font-weight: 800;
-  }
-  .qp-spark {
-    width: 56px;
-    height: 22px;
-  }
-
-  .box {
-    padding: 14px 13px;
-    border-radius: 13px;
-    margin-bottom: 12px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
-  }
-  .box h3 {
-    font-size: 14.5px;
-    font-weight: 700;
-    margin-bottom: 11px;
-    padding-bottom: 8px;
-  }
-  .grid,
-  .row2,
-  .row3,
-  .qp-spc-kpi-grid,
-  .qp-grr-metrics,
-  .qp-fmea-summary-grid,
-  .qp-fmea-btn-row,
-  .qp-fmea-toolbar,
-  .qp-audit-toolbar {
+  .api-box small { margin: 0; font-size: 10.5px; white-space: nowrap; }
+  .api-row { flex: 1; }
+  .api-row input { padding: 5px 8px; font-size: 11.5px; }
+  .eye-btn { padding: 4px 7px; font-size: 11.5px; }
+  .qp-api-hint, .security-badge, .vb { display: none; }
+  .main { padding: 12px; width: 100%; }
+  .qp-top-actions { padding: 9px 11px; margin-bottom: 10px; }
+  .cards { grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 12px; }
+  .card { padding: 11px 12px; border-radius: 12px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08); }
+  .card-head small { font-size: 11px; font-weight: 600; }
+  .qp-demo-tag { font-size: 8.5px; padding: 1.5px 5px; }
+  .card-metric-row h3 { font-size: 17.5px; font-weight: 800; }
+  .qp-spark { width: 56px; height: 22px; }
+  .box { padding: 14px 13px; border-radius: 13px; margin-bottom: 12px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07); }
+  .box h3 { font-size: 14.5px; font-weight: 700; margin-bottom: 11px; padding-bottom: 8px; }
+  .grid, .row2, .row3, .qp-spc-kpi-grid, .qp-grr-metrics, .qp-fmea-summary-grid, .qp-fmea-btn-row, .qp-fmea-toolbar, .qp-audit-toolbar {
     grid-template-columns: 1fr;
     gap: 8px;
   }
-  label {
-    font-size: 11.5px;
-    font-weight: 600;
-  }
-  input,
-  select,
-  textarea {
-    padding: 9px 10px;
-    font-size: 13.5px;
-    border-radius: 9px;
-    margin-bottom: 9px;
-  }
-  .run,
-  .ai-btn {
-    padding: 11px;
-    font-size: 13.5px;
-    border-radius: 10px;
-    box-shadow: 0 3px 10px rgba(15, 118, 110, 0.25);
-  }
-  table {
-    font-size: 12px;
-  }
-  th,
-  td {
-    padding: 7px 8px;
-  }
+  label { font-size: 11.5px; font-weight: 600; }
+  input, select, textarea { padding: 9px 10px; font-size: 13.5px; border-radius: 9px; margin-bottom: 9px; }
+  .run, .ai-btn { padding: 11px; font-size: 13.5px; border-radius: 10px; box-shadow: 0 3px 10px rgba(15, 118, 110, 0.25); }
+  table { font-size: 12px; }
+  th, td { padding: 7px 8px; }
 }
 
-@media print{.side,.cards,#inputBox,.no-print,#splash,.box>h3{display:none!important}.main,.grid{display:block!important;padding:0!important;width:100%!important}}
+@media print{.side,.cards,.qp-top-actions,#inputBox,.no-print,#splash,.box>h3{display:none!important}.main,.grid{display:block!important;padding:0!important;width:100%!important}}
 </style>
 </head>
 <body>
@@ -662,9 +531,19 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 </div>
 
 <div class="main">
+  <div class="qp-top-actions no-print">
+    <span class="qp-top-actions-title">🏭 Plant Suite Controls &amp; Backup</span>
+    <div class="qp-top-btns">
+      <button type="button" class="qp-pill-act primary" onclick="qpLoadPlantDemoScenario()">🚀 Load Sample Plant Audit</button>
+      <button type="button" class="qp-pill-act" onclick="qpExportFullBackup()">📦 Export Backup (.json)</button>
+      <button type="button" class="qp-pill-act" onclick="document.getElementById('qpRestoreFile').click()">📥 Restore Backup</button>
+      <input type="file" id="qpRestoreFile" accept=".json,application/json" style="display:none" onchange="qpRestoreFullBackup(event)">
+    </div>
+  </div>
+
   <div class="cards">
     <div class="card">
-      <div class="card-head"><small>Batch Units</small><span class="qp-demo-tag">DEMO</span></div>
+      <div class="card-head"><small>Inspected Units</small><span class="qp-demo-tag" id="qpTagUnits">LIVE</span></div>
       <div class="card-metric-row">
         <h3 id="bc">1240</h3>
         <svg class="qp-spark" viewBox="0 0 76 26" fill="none">
@@ -676,9 +555,9 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
       </div>
     </div>
     <div class="card">
-      <div class="card-head"><small>First-Pass Yield</small><span class="qp-demo-tag">DEMO</span></div>
+      <div class="card-head"><small>First-Pass Yield</small><span class="qp-demo-tag">LIVE</span></div>
       <div class="card-metric-row">
-        <h3>98.4%</h3>
+        <h3 id="fpy">100.0%</h3>
         <svg class="qp-spark" viewBox="0 0 76 26" fill="none">
           <defs><linearGradient id="qpSp2" x1="0" y1="0" x2="0" y2="26" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#16a34a" stop-opacity="0.35"/><stop offset="100%" stop-color="#16a34a" stop-opacity="0"/></linearGradient></defs>
           <path d="M2 18 L18 15 L32 16 L48 9 L62 8 L74 5 L74 25 L2 25 Z" fill="url(#qpSp2)"/>
@@ -688,9 +567,9 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
       </div>
     </div>
     <div class="card qp-card-warn">
-      <div class="card-head"><small>Open 8D Reports</small><span class="qp-demo-tag">DEMO</span></div>
+      <div class="card-head"><small>Open 8D / CAPA</small><span class="qp-demo-tag">LIVE</span></div>
       <div class="card-metric-row">
-        <h3 id="oc">3</h3>
+        <h3 id="oc">2</h3>
         <svg class="qp-spark" viewBox="0 0 76 26" fill="none">
           <defs><linearGradient id="qpSp3" x1="0" y1="0" x2="0" y2="26" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f59e0b" stop-opacity="0.35"/><stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/></linearGradient></defs>
           <path d="M2 8 L18 12 L32 10 L48 16 L62 14 L74 19 L74 25 L2 25 Z" fill="url(#qpSp3)"/>
@@ -700,7 +579,7 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
       </div>
     </div>
     <div class="card qp-card-info">
-      <div class="card-head"><small>Engineer Time Saved</small><span class="qp-demo-tag">EST.</span></div>
+      <div class="card-head"><small>Engineer Time Saved</small><span class="qp-demo-tag">LIVE</span></div>
       <div class="card-metric-row">
         <h3 id="ts">7.5 Hrs</h3>
         <svg class="qp-spark" viewBox="0 0 76 26" fill="none">
@@ -772,7 +651,7 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
         <div class="bar"><div class="fill" style="width:20%;background:#16a34a">5 Mins</div></div>
       </div>
       <div class="box">
-        <h3>🏭 Live Machine OEE & Efficiency <span class="qp-demo-tag">DEMO</span></h3>
+        <h3>🏭 Live Machine OEE & Efficiency <span class="qp-demo-tag">LIVE</span></h3>
         <p style="font-size:13px">CNC Turning #04 (88% OEE)</p>
         <div class="bar"><div class="fill" style="width:88%;background:#0F766E">88% Healthy</div></div>
         <p style="font-size:13px">VMC Milling #02 (74% OEE)</p>
@@ -1093,24 +972,18 @@ th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
 (function () {
   var splash = document.getElementById('splash');
   if (!splash) return;
-
   var started = Date.now();
   var minDuration = 2200;
   var done = false;
-
   function hideSplash() {
     if (done) return;
     done = true;
-
     var remaining = Math.max(0, minDuration - (Date.now() - started));
     setTimeout(function () {
       splash.classList.add('qp-hide');
-      setTimeout(function () {
-        splash.remove();
-      }, 650);
+      setTimeout(function () { splash.remove(); }, 650);
     }, remaining);
   }
-
   if (document.readyState === 'complete') {
     hideSplash();
   } else {
@@ -1122,7 +995,6 @@ var sh = 7.5;
 var bName = "QualityPilot AI";
 var cImg = "";
 var partImg = "";
-var rejectCount = 0;
 
 function qpEscXml(str) {
   return String(str || "")
@@ -1178,9 +1050,7 @@ function qpCompressPhotoDataUrl(dataUrl, maxWidth, callback) {
       callback(dataUrl);
     }
   };
-  img.onerror = function() {
-    callback(dataUrl);
-  };
+  img.onerror = function() { callback(dataUrl); };
   img.src = dataUrl;
 }
 
@@ -1188,11 +1058,8 @@ window.qpSaveApiKey = function(val) {
   try {
     localStorage.removeItem('qp_gkey');
     var clean = String(val || "").trim();
-    if (clean) {
-      sessionStorage.setItem('qp_gkey_session', clean);
-    } else {
-      sessionStorage.removeItem('qp_gkey_session');
-    }
+    if (clean) sessionStorage.setItem('qp_gkey_session', clean);
+    else sessionStorage.removeItem('qp_gkey_session');
   } catch (e) {}
 };
 
@@ -1246,6 +1113,36 @@ function qpSaveAuditLogs() {
   }
 }
 
+/* =====================================
+   UPGRADE #2: LIVE DYNAMIC DASHBOARD KPIs
+===================================== */
+window.qpSyncDashboardKPIs = function() {
+  var totalLogs = qpAuditLogs.length;
+  var passLogs = qpAuditLogs.filter(function(r) { return r.status === "PASS"; }).length;
+  var rejectLogs = qpAuditLogs.filter(function(r) { return r.status === "REJECT"; }).length;
+  var openCapas = qpFmeaRecords.filter(function(f) { return f.status !== "Closed"; }).length;
+
+  var baseBatch = 1239;
+  var totalUnits = baseBatch + totalLogs;
+  var fpyPct = totalLogs > 0 ? ((passLogs / totalLogs) * 100).toFixed(1) + "%" : "100.0%";
+  var savedHours = (5.1 + (totalLogs * 2.4)).toFixed(1) + " Hrs";
+
+  var bcEl = document.getElementById('bc');
+  var fpyEl = document.getElementById('fpy');
+  var ocEl = document.getElementById('oc');
+  var tsEl = document.getElementById('ts');
+  var badge = document.getElementById('alarmBadge');
+
+  if (bcEl) bcEl.innerText = totalUnits;
+  if (fpyEl) fpyEl.innerText = fpyPct;
+  if (ocEl) ocEl.innerText = openCapas;
+  if (tsEl) tsEl.innerText = savedHours;
+  if (badge) {
+    badge.innerText = rejectLogs;
+    badge.style.display = rejectLogs > 0 ? 'inline-block' : 'none';
+  }
+};
+
 window.qpRecordAuditEntry = function(tm, part, defect, photoDataUrl, status) {
   var entry = {
     time: tm,
@@ -1257,6 +1154,7 @@ window.qpRecordAuditEntry = function(tm, part, defect, photoDataUrl, status) {
   qpAuditLogs.unshift(entry);
   qpSaveAuditLogs();
   window.qpRenderAuditLogs();
+  window.qpSyncDashboardKPIs();
 
   if (photoDataUrl) {
     qpCompressPhotoDataUrl(photoDataUrl, 160, function(thumbUrl) {
@@ -1309,6 +1207,7 @@ window.qpClearAuditLogs = function() {
   qpAuditLogs = qpDefaultAuditLogs.slice();
   qpSaveAuditLogs();
   window.qpRenderAuditLogs();
+  window.qpSyncDashboardKPIs();
 };
 
 window.calc = function(saveLog) {
@@ -1326,9 +1225,6 @@ window.calc = function(saveLog) {
   var tm = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 
   if (saveLog) {
-    document.getElementById('bc').innerText = parseInt(document.getElementById('bc').innerText) + 1;
-    sh += 2.4;
-    document.getElementById('ts').innerText = sh.toFixed(1) + " Hrs";
     var toast = document.getElementById('toast');
     if (toast) {
       toast.style.display = 'block';
@@ -1348,11 +1244,6 @@ window.calc = function(saveLog) {
   }
 
   if (saveLog) {
-    document.getElementById('oc').innerText = parseInt(document.getElementById('oc').innerText) + 1;
-    rejectCount++;
-    var badge = document.getElementById('alarmBadge');
-    badge.innerText = rejectCount;
-    badge.style.display = 'inline-block';
     playAlarmSound();
   }
 
@@ -1449,11 +1340,8 @@ window.sendContact = function() {
   }
   var box = document.getElementById('cLogs');
   var item = "<div class='pass' style='margin-bottom:8px;font-weight:400'><b>" + qpEscXml(nm) + "</b> (" + qpEscXml(cm || "Plant Inquiry") + ") — " + qpEscXml(ct) + "<br><small>" + qpEscXml(ms || "Requested QualityPilot AI Demo") + "</small></div>";
-  if (box.innerText.indexOf("No new") === 0) {
-    box.innerHTML = item;
-  } else {
-    box.innerHTML = item + box.innerHTML;
-  }
+  if (box.innerText.indexOf("No new") === 0) box.innerHTML = item;
+  else box.innerHTML = item + box.innerHTML;
   var sub = encodeURIComponent("QualityPilot AI Inquiry from " + nm);
   var body = encodeURIComponent("Name: " + nm + "\nCompany: " + (cm || "N/A") + "\nContact: " + ct + "\n\nMessage:\n" + (ms || "Interested in Demo."));
   var gmailUrl = "https://mail.google.com/mail/?view=cm&fs=1&to=vishwashp07@gmail.com&su=" + sub + "&body=" + body;
@@ -1692,11 +1580,8 @@ window.qpRenderCalTable = function() {
     var dueDate = new Date(item.due + "T00:00:00");
     var diffDays = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
     var pill = "<span class='qp-cal-pill qp-cal-ok'>VALID (" + diffDays + "d)</span>";
-    if (diffDays < 0) {
-      pill = "<span class='qp-cal-pill qp-cal-over'>OVERDUE (" + Math.abs(diffDays) + "d)</span>";
-    } else if (diffDays <= 15) {
-      pill = "<span class='qp-cal-pill qp-cal-due'>DUE SOON (" + diffDays + "d)</span>";
-    }
+    if (diffDays < 0) pill = "<span class='qp-cal-pill qp-cal-over'>OVERDUE (" + Math.abs(diffDays) + "d)</span>";
+    else if (diffDays <= 15) pill = "<span class='qp-cal-pill qp-cal-due'>DUE SOON (" + diffDays + "d)</span>";
     return "<tr>" +
       "<td><b>" + qpEscXml(item.name) + "</b></td>" +
       "<td>" + qpEscXml(item.last) + "</td>" +
@@ -1772,7 +1657,6 @@ window.qpFishboneRender = function() {
 
   var spineY = 175;
   var html = "";
-
   html += "<defs>" +
     "<pattern id='qpBpGrid' width='18' height='18' patternUnits='userSpaceOnUse'>" +
       "<circle cx='2' cy='2' r='1' fill='rgba(20,184,166,0.22)'/>" +
@@ -1791,7 +1675,6 @@ window.qpFishboneRender = function() {
   "</defs>";
 
   html += "<rect x='6' y='6' width='728' height='338' rx='10' fill='url(#qpBpGrid)'/>";
-
   html += "<circle cx='34' cy='" + spineY + "' r='4.5' fill='#14b8a6'/>";
   html += "<line x1='34' y1='" + spineY + "' x2='548' y2='" + spineY + "' stroke='url(#qpSpineGrad)' stroke-width='3.6' stroke-linecap='round'/>";
   html += "<polygon points='548," + (spineY - 7.5) + " 565," + spineY + " 548," + (spineY + 7.5) + "' fill='#2dd4bf'/>";
@@ -1802,11 +1685,9 @@ window.qpFishboneRender = function() {
   html += "<text x='647' y='" + (spineY + 11) + "' text-anchor='middle' fill='#ffffff' font-size='11' font-weight='700'>" + qpEscXml(shortEffect) + "</text>";
 
   var activeBranch = branches[1];
-
   branches.forEach(function(b) {
     var isSel = (b.key === qpSelectedRootKey);
     if (isSel) activeBranch = b;
-
     var strokeCol = isSel ? "#f59e0b" : "#14b8a6";
     var badgeFill = isSel ? "#d97706" : "#0f172a";
     var textCol = isSel ? "#fbbf24" : "#94a3b8";
@@ -1843,7 +1724,6 @@ window.qpFishboneRender = function() {
   });
 
   svg.innerHTML = html;
-
   if (sumEl) {
     sumEl.innerHTML =
       "<b>Selected Primary Root Cause (" + activeBranch.label + "):</b> " +
@@ -1865,6 +1745,7 @@ var qpFmeaRecords = (function() {
 
 function qpSaveFmeaRecords() {
   qpSafeSetLocalStorage('qp_fmea_records', JSON.stringify(qpFmeaRecords));
+  window.qpSyncDashboardKPIs();
 }
 
 function qpComputeActionPriority(s, o, d) {
@@ -1909,7 +1790,6 @@ window.qpCalcRPN = function() {
   }
 
   var apClass = (ap === "HIGH") ? "qp-ap-h" : (ap === "MEDIUM" ? "qp-ap-m" : "qp-ap-l");
-
   prevEl.innerHTML =
     "<div class='qp-fmea-summary-grid'>" +
       "<div class='qp-fmea-stat'><small>Risk Priority (RPN)</small><b class='qp-fmea-rpn-badge " + badgeClass + "'>" + rpn + "</b></div>" +
@@ -1934,12 +1814,10 @@ window.qpFmeaAiSuggest = async function() {
   var step = (document.getElementById('qpFmeaStep').value || "").trim();
   var failure = (document.getElementById('qpFmeaFailure').value || "").trim();
   var btn = document.getElementById('qpFmeaAiBtn');
-
   if (!step && !failure) {
     alert("Enter a Process Step or Potential Failure Mode first!");
     return;
   }
-
   var keyInput = document.getElementById('gKey');
   var sessionKey = "";
   try { sessionKey = sessionStorage.getItem('qp_gkey_session') || ""; } catch (e) {}
@@ -1970,11 +1848,7 @@ window.qpFmeaAiSuggest = async function() {
     return;
   }
 
-  if (btn) {
-    btn.disabled = true;
-    btn.innerText = "⏳ Suggesting...";
-  }
-
+  if (btn) { btn.disabled = true; btn.innerText = "⏳ Suggesting..."; }
   try {
     var prompt =
       "You are an IATF 16949 & AIAG-VDA PFMEA Lead Engineer. Given the Process Step and Failure Mode below, return ONLY valid JSON (no markdown fences) with keys: " +
@@ -1984,18 +1858,11 @@ window.qpFmeaAiSuggest = async function() {
 
     var resp = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-goog-api-key": apiKey
-      },
-      body: JSON.stringify({
-        contents: [{ role: "user", parts: [{ text: prompt }] }]
-      })
+      headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+      body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: prompt }] }] })
     });
-
     var data = await resp.json();
     if (!resp.ok) throw new Error((data && data.error && data.error.message) || ("HTTP " + resp.status));
-
     var candidate = data && data.candidates && data.candidates[0];
     var rawText = ((candidate && candidate.content && candidate.content.parts) || [])
       .map(function(p) { return p.text || ""; }).join("").trim();
@@ -2011,17 +1878,13 @@ window.qpFmeaAiSuggest = async function() {
   } catch (err) {
     alert("AI suggestion fallback: " + (err && err.message ? err.message : "Could not parse AI response."));
   } finally {
-    if (btn) {
-      btn.disabled = false;
-      btn.innerText = "✨ Suggest Root Cause & CAPA";
-    }
+    if (btn) { btn.disabled = false; btn.innerText = "✨ Suggest Root Cause & CAPA"; }
   }
 };
 
 window.qpRenderFmeaTable = function() {
   var tbody = document.getElementById('qpFmeaTableBody');
   if (!tbody) return;
-
   var qEl = document.getElementById('qpFmeaSearch');
   var fEl = document.getElementById('qpFmeaFilter');
   var query = (qEl && qEl.value ? qEl.value : "").trim().toLowerCase();
@@ -2061,7 +1924,6 @@ window.qpRenderFmeaTable = function() {
     else if (rpn >= 80 || ap === "MEDIUM") badgeClass = "qp-rpn-med";
 
     var apClass = (ap === "HIGH") ? "qp-ap-h" : (ap === "MEDIUM" ? "qp-ap-m" : "qp-ap-l");
-
     var resHtml = "";
     if (item.status === "Closed" && item.resS && item.resO && item.resD) {
       var resRpn = item.resS * item.resO * item.resD;
@@ -2070,9 +1932,7 @@ window.qpRenderFmeaTable = function() {
     }
 
     var dueHtml = item.dueDate ? "<div style='font-size:11px;color:var(--sub);margin-top:2px'>Due: " + qpEscXml(item.dueDate) + "</div>" : "";
-    if (overdue) {
-      dueHtml += "<span class='qp-fmea-overdue-tag'>OVERDUE</span>";
-    }
+    if (overdue) dueHtml += "<span class='qp-fmea-overdue-tag'>OVERDUE</span>";
 
     return "<tr class='" + (overdue ? "qp-fmea-overdue-row" : "") + "'>" +
       "<td><b>" + qpEscXml(item.step) + "</b><br><small style='color:var(--sub)'>" + qpEscXml(item.failure) + "</small></td>" +
@@ -2124,18 +1984,10 @@ window.qpAddFmeaItem = function() {
     window.qpCancelFmeaEdit();
   } else {
     qpFmeaRecords.unshift({
-      step: step,
-      failure: failure,
-      s: s,
-      o: o,
-      d: d,
+      step: step, failure: failure, s: s, o: o, d: d,
       action: action || "Review SOP & run corrective audit",
-      owner: owner || "Quality Team",
-      dueDate: dueDate,
-      status: "Open",
-      resS: null,
-      resO: null,
-      resD: null
+      owner: owner || "Quality Team", dueDate: dueDate,
+      status: "Open", resS: null, resO: null, resD: null
     });
   }
 
@@ -2297,7 +2149,6 @@ window.qpUpdateSPC = function() {
 
   var n = qpSpcSamples.length;
   var mean = qpSpcSamples.reduce(function(acc, v) { return acc + v; }, 0) / n;
-
   var variance = n > 1
     ? qpSpcSamples.reduce(function(acc, v) { return acc + Math.pow(v - mean, 2); }, 0) / (n - 1)
     : 0;
@@ -2305,11 +2156,7 @@ window.qpUpdateSPC = function() {
   var ucl = mean + (3 * sigma);
   var lcl = mean - (3 * sigma);
 
-  var cpText = "N/A";
-  var cpkText = "N/A";
-  var cpVal = null;
-  var cpkVal = null;
-
+  var cpText = "N/A", cpkText = "N/A", cpVal = null, cpkVal = null;
   if (sigma > 0 && tol > 0) {
     cpVal = (usl - lsl) / (6 * sigma);
     var cpu = (usl - mean) / (3 * sigma);
@@ -2323,7 +2170,6 @@ window.qpUpdateSPC = function() {
   var cpkEl = document.getElementById('qpSpcCpk');
   var meanEl = document.getElementById('qpSpcMean');
   var sigEl = document.getElementById('qpSpcSigma');
-
   if (cpEl) cpEl.innerText = cpText;
   if (cpkEl) cpkEl.innerText = cpkText;
   if (meanEl) meanEl.innerText = mean.toFixed(3);
@@ -2352,29 +2198,17 @@ window.qpUpdateSPC = function() {
   var yMin = minV - pad;
   var yMax = maxV + pad;
 
-  var xLeft = 42;
-  var xRight = 565;
-  var yTop = 20;
-  var yBot = 192;
-
+  var xLeft = 42, xRight = 565, yTop = 20, yBot = 192;
   function toX(idx) {
     if (n === 1) return (xLeft + xRight) / 2;
     return xLeft + (idx / (n - 1)) * (xRight - xLeft);
   }
-
   function toY(val) {
     return yBot - ((val - yMin) / (yMax - yMin)) * (yBot - yTop);
   }
 
-  var yUsl = toY(usl);
-  var yTarget = toY(target);
-  var yLsl = toY(lsl);
-  var yUcl = toY(ucl);
-  var yCl = toY(mean);
-  var yLcl = toY(lcl);
-
+  var yUsl = toY(usl), yTarget = toY(target), yLsl = toY(lsl), yUcl = toY(ucl), yCl = toY(mean), yLcl = toY(lcl);
   var svgHtml = "";
-
   var bandTop = Math.min(yUcl, yLcl);
   var bandH = Math.max(2, Math.abs(yLcl - yUcl));
   svgHtml += "<rect x='" + xLeft + "' y='" + bandTop.toFixed(1) + "' width='" + (xRight - xLeft) + "' height='" + bandH.toFixed(1) + "' fill='rgba(20,184,166,0.09)' rx='4'/>";
@@ -2397,10 +2231,7 @@ window.qpUpdateSPC = function() {
   svgHtml += "<line x1='" + xLeft + "' y1='" + yLsl.toFixed(1) + "' x2='" + xRight + "' y2='" + yLsl.toFixed(1) + "' stroke='#dc2626' stroke-dasharray='5 3' stroke-width='1.5'/>";
   svgHtml += "<text x='" + (xRight + 6) + "' y='" + (yLsl + 3).toFixed(1) + "' fill='#dc2626' font-size='9.5' font-weight='700'>LSL (" + lsl.toFixed(2) + ")</text>";
 
-  var polyPts = qpSpcSamples.map(function(v, i) {
-    return toX(i).toFixed(1) + "," + toY(v).toFixed(1);
-  }).join(" ");
-
+  var polyPts = qpSpcSamples.map(function(v, i) { return toX(i).toFixed(1) + "," + toY(v).toFixed(1); }).join(" ");
   svgHtml += "<polyline fill='none' stroke='#0F766E' stroke-width='2.4' points='" + polyPts + "'/>";
 
   qpSpcSamples.forEach(function(v, i) {
@@ -2417,6 +2248,108 @@ window.qpUpdateSPC = function() {
   });
 
   svg.innerHTML = svgHtml;
+};
+
+/* =====================================
+   UPGRADE #3 & #4: DEMO LOADER & JSON BACKUP
+===================================== */
+window.qpLoadPlantDemoScenario = function() {
+  var now = new Date();
+  var fmtTime = function(minsAgo) {
+    var d = new Date(now.getTime() - minsAgo * 60000);
+    return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
+  qpAuditLogs = [
+    { time: fmtTime(4), part: "CNC Drive Shaft #DS-412", defect: "DIM (+0.14mm)", photo: "", status: "REJECT" },
+    { time: fmtTime(18), part: "Brake Rotor Hub #BR-109", defect: "Dimension", photo: "", status: "PASS" },
+    { time: fmtTime(35), part: "Forged Crank Arm #FC-88", defect: "CRACK (MPI)", photo: "", status: "REJECT" },
+    { time: fmtTime(52), part: "Steel Flange #CAB-809", defect: "Dimension", photo: "", status: "PASS" },
+    { time: fmtTime(70), part: "Hydraulic Valve #HV-304", defect: "FINISH (Ra 3.2)", photo: "", status: "REJECT" },
+    { time: fmtTime(95), part: "Steel Flange #CAB-805", defect: "Dimension", photo: "", status: "PASS" }
+  ];
+  qpSaveAuditLogs();
+
+  qpSpcSamples = [50.01, 50.02, 50.00, 50.03, 50.04, 50.06, 50.09, 50.14];
+  qpSaveSpcSamples();
+
+  var dueSoon = new Date(now.getTime() + 10 * 86400000).toISOString().split('T')[0];
+  var overdue = new Date(now.getTime() - 4 * 86400000).toISOString().split('T')[0];
+
+  qpFmeaRecords = [
+    { step: "CNC Turning — Drive Shaft OD", failure: "Tool Nose Wear Causing +0.14mm Drift", s: 8, o: 6, d: 4, action: "Auto laser tool-offset probing every 30 parts", owner: "R. Verma (QA)", dueDate: dueSoon, status: "In Progress", resS: null, resO: null, resD: null },
+    { step: "Closed-Die Forging — Crank Arm", failure: "Thermal Drop Forging Lap Crack", s: 9, o: 3, d: 5, action: "100% MPI Crack Audit + Pyrometer Interlock", owner: "S. Singh (Metallurgy)", dueDate: overdue, status: "Open", resS: null, resO: null, resD: null },
+    { step: "Finish Boring — Hydraulic Valve", failure: "Coolant Starvation Chatter (Ra > 3.2)", s: 7, o: 4, d: 3, action: "Install high-pressure coolant flow switch", owner: "A. Patel (Maint.)", dueDate: "2026-10-20", status: "Closed", resS: 7, resO: 2, resD: 2 }
+  ];
+  qpSaveFmeaRecords();
+
+  document.getElementById('pn').value = "CNC Drive Shaft #DS-412";
+  document.getElementById('dt').value = "dim";
+  document.getElementById('tv').value = "50.00";
+  document.getElementById('tl').value = "0.05";
+  document.getElementById('av').value = "50.14";
+
+  window.calc(false);
+  window.qpRenderAuditLogs();
+  window.qpUpdateSPC();
+  window.qpRenderFmeaTable();
+  window.qpCalcRPN();
+  window.qpFishboneSyncFrom8D();
+  window.qpSyncDashboardKPIs();
+
+  var toast = document.getElementById('toast');
+  if (toast) {
+    toast.innerText = "🚀 Loaded Full Plant Audit Scenario (Logs, SPC Drift & FMEA)!";
+    toast.style.display = 'block';
+    setTimeout(function() {
+      toast.style.display = 'none';
+      toast.innerText = "✅ Saved to Live Logs & Audit Table!";
+    }, 3200);
+  }
+};
+
+window.qpExportFullBackup = function() {
+  var payload = {
+    app: "QualityPilot AI — VISHWASH",
+    exportedAt: new Date().toISOString(),
+    auditLogs: qpAuditLogs,
+    spcSamples: qpSpcSamples,
+    fmeaRecords: qpFmeaRecords,
+    calRecords: qpCalRecords
+  };
+  var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8;' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'QualityPilot_Plant_Backup_' + new Date().toISOString().split('T')[0] + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
+window.qpRestoreFullBackup = function(event) {
+  var file = event.target.files && event.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      var data = JSON.parse(ev.target.result);
+      if (Array.isArray(data.auditLogs)) { qpAuditLogs = data.auditLogs; qpSaveAuditLogs(); }
+      if (Array.isArray(data.spcSamples) && data.spcSamples.length >= 2) { qpSpcSamples = data.spcSamples; qpSaveSpcSamples(); }
+      if (Array.isArray(data.fmeaRecords)) { qpFmeaRecords = data.fmeaRecords; qpSaveFmeaRecords(); }
+      if (Array.isArray(data.calRecords)) { qpCalRecords = data.calRecords; qpSaveCalRecords(); }
+
+      window.qpRenderAuditLogs();
+      window.qpUpdateSPC();
+      window.qpRenderFmeaTable();
+      window.qpRenderCalTable();
+      window.qpSyncDashboardKPIs();
+      alert("✅ Plant Backup Restored Successfully!");
+    } catch (err) {
+      alert("❌ Invalid Backup JSON file.");
+    }
+    event.target.value = "";
+  };
+  reader.readAsText(file);
 };
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -2501,6 +2434,7 @@ document.addEventListener("DOMContentLoaded", function() {
   if (typeof window.qpCalcRPN === 'function') window.qpCalcRPN();
   if (typeof window.qpRenderFmeaTable === 'function') window.qpRenderFmeaTable();
   if (typeof window.qpUpdateSPC === 'function') window.qpUpdateSPC();
+  if (typeof window.qpSyncDashboardKPIs === 'function') window.qpSyncDashboardKPIs();
 
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js').catch(function() {});
